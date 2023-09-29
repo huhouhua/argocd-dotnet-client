@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ArgoCD.Client\ArgoCD.Client.csproj" />
+    <ProjectReference Include="..\..\src\ArgoCD.Client\ArgoCD.Client.csproj" />
   </ItemGroup>
 
 </Project>

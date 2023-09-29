@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.ps1 = build.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgoCD.Client.Test", "src\ArgoCD.Client.Test\ArgoCD.Client.Test.csproj", "{7E9C4A09-A1BD-4DB0-B924-8E6850F325C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgoCD.Client.Test", "test\ArgoCD.Client.Test\ArgoCD.Client.Test.csproj", "{7E9C4A09-A1BD-4DB0-B924-8E6850F325C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
