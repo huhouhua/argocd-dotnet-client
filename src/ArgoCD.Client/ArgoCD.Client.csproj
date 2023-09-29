@@ -9,14 +9,14 @@
     <PackageProjectUrl>https://github.com/huhouhua/argocd-dotnet-client</PackageProjectUrl>
     <RepositoryUrl>https://github.com/huhouhua/argocd-dotnet-client</RepositoryUrl>
     <PackageTags>ArgoCD REST API CI Client</PackageTags>
-    <PackageId>Argocd-DotNet-Client</PackageId>
+    <PackageId>ArgoCD-DotNet-Client</PackageId>
     <PackageLicenseExpression>Apache</PackageLicenseExpression>
     <Company>huhouhua</Company>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <UseFullSemVerForNuGet>true</UseFullSemVerForNuGet>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    
+    <LangVersion>preview</LangVersion>
     <!--<ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>-->
   </PropertyGroup>
