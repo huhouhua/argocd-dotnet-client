@@ -12,7 +12,7 @@ namespace ArgoCD.Client.Internal.Http
 {
     internal sealed class ArgoCDHttpFacade
     {
-        private readonly HttpClient _httpClient;
+        private readonly Func<HttpClient> _httpClientFunc;
         private ArgoCDApiRequestor _requestor;
 
         public ArgoCDHttpFacade(string hostUrl,
@@ -20,9 +20,15 @@ namespace ArgoCD.Client.Internal.Http
               HttpMessageHandler httpMessageHandler,
             TimeSpan? clientTimeout = null)
         {
-            _httpClient = new HttpClient(httpMessageHandler ?? new HttpClientHandler()) { BaseAddress = new Uri(hostUrl) };
-            if (clientTimeout.HasValue)
-                _httpClient.Timeout = clientTimeout.Value;
+            _httpClientFunc = () =>
+            {
+                var client = new HttpClient(httpMessageHandler ?? new HttpClientHandler()) { BaseAddress = new Uri(hostUrl) };
+                if (clientTimeout.HasValue)
+                {
+                    client.Timeout = clientTimeout.Value;
+                }
+                return client;
+            };
 
             Setup(jsonSerializer);
         }
@@ -30,14 +36,22 @@ namespace ArgoCD.Client.Internal.Http
         public ArgoCDHttpFacade(IHttpClientFactory clientFactory, RequestsJsonSerializer jsonSerializer)
         {
             Guard.NotNull(clientFactory, nameof(clientFactory));
-            _httpClient = clientFactory.CreateClient();
+            _httpClientFunc = () => clientFactory.CreateClient();
+            Setup(jsonSerializer);
+        }
+
+        public ArgoCDHttpFacade(IHttpClientFactory clientFactory, string clientName, RequestsJsonSerializer jsonSerializer)
+        {
+            Guard.NotNull(clientFactory, nameof(clientFactory));
+            Guard.NotNullOrDefault(clientName, nameof(clientName));
+            _httpClientFunc = () => clientFactory.CreateClient(clientName);
             Setup(jsonSerializer);
         }
 
         public ArgoCDHttpFacade(HttpClient client, RequestsJsonSerializer jsonSerializer)
         {
             Guard.NotNull(client, nameof(client));
-            _httpClient = client;
+            _httpClientFunc = ()=> client;
             Setup(jsonSerializer);
         }
 
@@ -45,11 +59,11 @@ namespace ArgoCD.Client.Internal.Http
         {
             if (clientFactoryFunc is null)
             {
-                _httpClient = new HttpClient();
+                _httpClientFunc = () => new HttpClient();
             }
             else
             {
-                _httpClient = clientFactoryFunc();
+                _httpClientFunc = clientFactoryFunc;
             }
             Setup(jsonSerializer);
         }
@@ -78,7 +92,7 @@ namespace ArgoCD.Client.Internal.Http
             // allow tls 1.1 and 1.2
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             // ReSharper disable once InconsistentlySynchronizedField
-            _requestor = new ArgoCDApiRequestor(_httpClient, jsonSerializer);
+            _requestor = new ArgoCDApiRequestor(_httpClientFunc, jsonSerializer);
         }
     }
 }

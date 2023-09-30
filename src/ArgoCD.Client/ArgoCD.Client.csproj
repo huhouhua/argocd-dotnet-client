@@ -6,8 +6,8 @@
     <Copyright />
     <Description>argocd-dotnet-client is a .NET rest client for ArgoCD API v1.</Description>
     <Authors>huhouhua</Authors>
-    <PackageProjectUrl>https://github.com/huhouhua/argocd-client-dotnet</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/huhouhua/argocd-client-dotnet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/huhouhua/argocd-dotnet-client</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/huhouhua/argocd-dotnet-client</RepositoryUrl>
     <PackageTags>ArgoCD REST API Client</PackageTags>
     <PackageId>ArgoCD-DotNet-Client</PackageId>
     <PackageLicenseExpression>Apache</PackageLicenseExpression>

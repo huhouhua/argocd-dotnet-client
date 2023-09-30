@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,20 +12,22 @@ namespace ArgoCD.Client.Internal.Http
 {
     internal class ArgoCDApiRequestor
     {
-        private readonly HttpClient _client;
+        
+        private readonly Func<HttpClient> _clientFunc;
         private readonly RequestsJsonSerializer _jsonSerializer;
 
 
-        public ArgoCDApiRequestor(HttpClient client, RequestsJsonSerializer jsonSerializer)
+        public ArgoCDApiRequestor(Func<HttpClient> clientFunc, RequestsJsonSerializer jsonSerializer)
         {
-            _client = client;
+            _clientFunc = clientFunc;
             _jsonSerializer = jsonSerializer;
         }
 
 
         public async Task<T> GetAsync<T>(string url,CancellationToken cancellationToken = default)
         {
-            using var responseMessage = await _client.GetAsync(url,cancellationToken);
+            using HttpClient client = _clientFunc();
+            using var responseMessage = await client.GetAsync(url,cancellationToken);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return await ReadResponseAsync<T>(responseMessage);
         }
@@ -32,7 +35,8 @@ namespace ArgoCD.Client.Internal.Http
         public async Task<T> PostAsync<T>(string url, object data = null, CancellationToken cancellationToken = default)
         {
             using StringContent content = SerializeToString(data);
-            using var responseMessage = await _client.PostAsync(url, content,cancellationToken);
+            using HttpClient client = _clientFunc();
+            using var responseMessage = await client.PostAsync(url, content,cancellationToken);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return await ReadResponseAsync<T>(responseMessage);
         }
@@ -40,44 +44,50 @@ namespace ArgoCD.Client.Internal.Http
 
         public async Task PostAsync(string url, object data = null, CancellationToken cancellationToken = default)
         {
+            using HttpClient client = _clientFunc();
             using StringContent content = SerializeToString(data);
-            using var responseMessage = await _client.PostAsync(url, content,cancellationToken);
+            using var responseMessage = await client.PostAsync(url, content,cancellationToken);
             await EnsureSuccessStatusCodeAsync(responseMessage);
         }
 
         public async Task<T> PutAsync<T>(string url, object data, CancellationToken cancellationToken = default)
         {
+            using HttpClient client = _clientFunc();
             using StringContent content = SerializeToString(data);
-            using var responseMessage = await _client.PutAsync(url, content,cancellationToken);
+            using var responseMessage = await client.PutAsync(url, content,cancellationToken);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return await ReadResponseAsync<T>(responseMessage);
         }
 
         public async Task PutAsync(string url, object data, CancellationToken cancellationToken = default)
         {
-           using StringContent content = SerializeToString(data);
-           using var responseMessage = await _client.PutAsync(url, content,cancellationToken);
+            using HttpClient client = _clientFunc();
+            using StringContent content = SerializeToString(data);
+           using var responseMessage = await client.PutAsync(url, content,cancellationToken);
            await EnsureSuccessStatusCodeAsync(responseMessage);
         }
 
         public async Task DeleteAsync(string url, CancellationToken cancellationToken = default)
         {
-           using var responseMessage = await _client.DeleteAsync(url,cancellationToken);
+            using HttpClient client = _clientFunc();
+            using var responseMessage = await client.DeleteAsync(url,cancellationToken);
             await EnsureSuccessStatusCodeAsync(responseMessage);
         }
         public async Task DeleteAsync(string url, object data, CancellationToken cancellationToken = default)
         {
-           using var request = new HttpRequestMessage(HttpMethod.Delete, url)
+            using HttpClient client = _clientFunc();
+            using var request = new HttpRequestMessage(HttpMethod.Delete, url)
             {
                 Content = SerializeToString(data)
             };
-            var responseMessage = await _client.SendAsync(request,cancellationToken);
+            var responseMessage = await client.SendAsync(request,cancellationToken);
             await EnsureSuccessStatusCodeAsync(responseMessage);
         }
 
         public async Task<Tuple<T, HttpResponseHeaders>> GetWithHeadersAsync<T>(string url, CancellationToken cancellationToken = default)
         {
-            using var responseMessage = await _client.GetAsync(url,cancellationToken);
+            using HttpClient client = _clientFunc();
+            using var responseMessage = await client.GetAsync(url,cancellationToken);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return Tuple.Create(await ReadResponseAsync<T>(responseMessage), responseMessage.Headers);
         }
@@ -110,6 +120,5 @@ namespace ArgoCD.Client.Internal.Http
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return content;
         }
-
     }
 }
