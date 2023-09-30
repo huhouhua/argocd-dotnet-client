@@ -53,6 +53,22 @@ namespace ArgoCD.Client
         /// </summary>
         IRepoCredsClient RepoCreds { get; }
 
+        /// <summary>
+        ///  Access ArgoCD's Repository API.
+        /// </summary>
+        public IRepositoryClient Repository { get;  }
+
+        /// <summary>
+        ///  Access ArgoCD's Application API.
+        /// </summary>
+        public IApplicationClient Application { get;  }
+
+
+        /// <summary>
+        ///  Access ArgoCD's Project API.
+        /// </summary>
+        public IProjectClient ProjectClient { get;  }
+
 
         string HostUrl { get; }
     }

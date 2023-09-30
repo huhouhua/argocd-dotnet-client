@@ -138,6 +138,21 @@ namespace ArgoCD.Client.Impl
         /// </summary>
         public IRepoCredsClient RepoCreds { get; private set; }
 
+        /// <summary>
+        ///  Access ArgoCD's Repository API.
+        /// </summary>
+        public IRepositoryClient Repository { get; private set; }
+
+        /// <summary>
+        ///  Access ArgoCD's Application API.
+        /// </summary>
+        public IApplicationClient Application { get; private set; }
+
+
+        /// <summary>
+        ///  Access ArgoCD's Project API.
+        /// </summary>
+        public IProjectClient ProjectClient { get; private set; }
 
         public string HostUrl { get; }
 
