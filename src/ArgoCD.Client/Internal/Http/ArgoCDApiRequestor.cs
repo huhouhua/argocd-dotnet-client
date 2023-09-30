@@ -73,6 +73,14 @@ namespace ArgoCD.Client.Internal.Http
             using var responseMessage = await client.DeleteAsync(url,cancellationToken);
             await EnsureSuccessStatusCodeAsync(responseMessage);
         }
+        public async Task<T> DeleteAsync<T>(string url, CancellationToken cancellationToken = default)
+        {
+            using HttpClient client = _clientFunc();
+            using var responseMessage = await client.DeleteAsync(url, cancellationToken);
+            await EnsureSuccessStatusCodeAsync(responseMessage);
+            return await ReadResponseAsync<T>(responseMessage);
+        }
+
         public async Task DeleteAsync(string url, object data, CancellationToken cancellationToken = default)
         {
             using HttpClient client = _clientFunc();

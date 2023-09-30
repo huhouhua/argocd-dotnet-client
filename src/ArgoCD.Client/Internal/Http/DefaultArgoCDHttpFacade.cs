@@ -10,54 +10,14 @@ using ArgoCD.Client.Internal.Utilities;
 
 namespace ArgoCD.Client.Internal.Http
 {
-    internal sealed class ArgoCDHttpFacade
+    internal sealed class DefaultArgoCDHttpFacade: IArgoCDHttpFacade
     {
         private readonly Func<HttpClient> _httpClientFunc;
         private ArgoCDApiRequestor _requestor;
 
-        public ArgoCDHttpFacade(string hostUrl,
-            RequestsJsonSerializer jsonSerializer,
-              HttpMessageHandler httpMessageHandler,
-            TimeSpan? clientTimeout = null)
+        public DefaultArgoCDHttpFacade(Func<HttpClient> clientFactoryFunc, RequestsJsonSerializer jsonSerializer)
         {
-            _httpClientFunc = () =>
-            {
-                var client = new HttpClient(httpMessageHandler ?? new HttpClientHandler()) { BaseAddress = new Uri(hostUrl) };
-                if (clientTimeout.HasValue)
-                {
-                    client.Timeout = clientTimeout.Value;
-                }
-                return client;
-            };
-
-            Setup(jsonSerializer);
-        }
-
-        public ArgoCDHttpFacade(IHttpClientFactory clientFactory, RequestsJsonSerializer jsonSerializer)
-        {
-            Guard.NotNull(clientFactory, nameof(clientFactory));
-            _httpClientFunc = () => clientFactory.CreateClient();
-            Setup(jsonSerializer);
-        }
-
-        public ArgoCDHttpFacade(IHttpClientFactory clientFactory, string clientName, RequestsJsonSerializer jsonSerializer)
-        {
-            Guard.NotNull(clientFactory, nameof(clientFactory));
-            Guard.NotNullOrDefault(clientName, nameof(clientName));
-            _httpClientFunc = () => clientFactory.CreateClient(clientName);
-            Setup(jsonSerializer);
-        }
-
-        public ArgoCDHttpFacade(HttpClient client, RequestsJsonSerializer jsonSerializer)
-        {
-            Guard.NotNull(client, nameof(client));
-            _httpClientFunc = ()=> client;
-            Setup(jsonSerializer);
-        }
-
-        public ArgoCDHttpFacade(Func<HttpClient> clientFactoryFunc, RequestsJsonSerializer jsonSerializer)
-        {
-            if (clientFactoryFunc is null)
+            if (clientFactoryFunc == null)
             {
                 _httpClientFunc = () => new HttpClient();
             }
@@ -80,12 +40,16 @@ namespace ArgoCD.Client.Internal.Http
         public Task<T> PutAsync<T>(string uri, object data, CancellationToken cancellationToken = default) =>
             _requestor.PutAsync<T>(uri, data, cancellationToken);
 
-        public Task Put(string uri, object data, CancellationToken cancellationToken = default) =>
+        public Task PutAsync(string uri, object data, CancellationToken cancellationToken = default) =>
             _requestor.PutAsync(uri, data, cancellationToken);
 
         public Task DeleteAsync(string uri, CancellationToken cancellationToken = default) =>
             _requestor.DeleteAsync(uri,cancellationToken);
-        public Task Delete(string uri, object data, CancellationToken cancellationToken = default) =>
+
+        public Task<T> DeleteAsync<T>(string uri, CancellationToken cancellationToken = default) =>
+        _requestor.DeleteAsync<T>(uri, cancellationToken);
+
+        public Task DeleteAsync(string uri, object data, CancellationToken cancellationToken = default) =>
             _requestor.DeleteAsync(uri, data, cancellationToken);
         private void Setup(RequestsJsonSerializer jsonSerializer)
         {
