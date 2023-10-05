@@ -159,14 +159,12 @@ namespace ArgoCD.Client.Impl
         private static string FixBaseUrl(string url)
         {
             url = url.TrimEnd('/');
-
-            if (!url.EndsWith("/api/v1", StringComparison.OrdinalIgnoreCase))
-                url += "/api/v1";
-
-            return url + "/";
+            string prefix = "/api/v1";
+            if (!url.EndsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                url = string.Concat(url, prefix);
+            }
+            return $"{url}/";
         }
-
-        
-
     }
 }
