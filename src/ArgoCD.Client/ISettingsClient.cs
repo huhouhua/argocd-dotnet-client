@@ -15,5 +15,13 @@ namespace ArgoCD.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         Task<ClusterSettings> GetSettingsAsync(CancellationToken cancellationToken = default);
+
+
+        /// <summary>
+        /// Get returns Argo CD plugins
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        Task<ClusterSettingsPlugins> GetPluginsAsync(CancellationToken cancellationToken = default);
     }
 }
