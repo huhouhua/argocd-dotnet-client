@@ -12,15 +12,15 @@ namespace ArgoCD.Client.Impl
     public class CertificateClient : ICertificateClient
     {
         private readonly IArgoCDHttpFacade _httpFacade;
-        private readonly CertificateCreateQueryBuilder _certificateCreateQueryBuilder;
+        private readonly CertificateCreateBuilder _certificateCreateBuilder;
         private readonly CertificateQueryBuilder _certificateQueryBuilder;
 
         internal CertificateClient(IArgoCDHttpFacade httpFacade,
-            CertificateCreateQueryBuilder certificateCreateQueryBuilder,
+            CertificateCreateBuilder certificateCreateBuilder,
             CertificateQueryBuilder certificateQueryBuilder)
         {
             _httpFacade = httpFacade;
-            _certificateCreateQueryBuilder = certificateCreateQueryBuilder;
+            _certificateCreateBuilder = certificateCreateBuilder;
             _certificateQueryBuilder = certificateQueryBuilder;
         }
 
@@ -37,7 +37,7 @@ namespace ArgoCD.Client.Impl
             var queryOptions = new CreateCertificateOptions();
             options?.Invoke(queryOptions);
 
-            string url = _certificateCreateQueryBuilder.Build("certificates", queryOptions);
+            string url = _certificateCreateBuilder.Build("certificates", queryOptions);
             return await _httpFacade.PostAsync<RepositoryCertificateList>(url, request, cancellationToken).ConfigureAwait(false);
 
         }

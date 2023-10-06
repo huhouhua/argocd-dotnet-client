@@ -8,7 +8,7 @@ using ArgoCD.Client.Models.Certificate.Requests;
 namespace ArgoCD.Client.Internal.Queries
 {
 
-    internal class CertificateCreateQueryBuilder : QueryBuilder<CreateCertificateOptions>
+    internal class CertificateCreateBuilder : QueryBuilder<CreateCertificateOptions>
     {
         protected override void BuildCore(Query query, CreateCertificateOptions options)
         {

@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ArgoCD.Client.Internal.Utilities;
-using ArgoCD.Client.Models.GPKKey.Requests;
+using ArgoCD.Client.Models.RepoCreds.Requests;
 
 namespace ArgoCD.Client.Internal.Queries
 {
-    internal class GPKKeyCreateQueryBuilder : QueryBuilder<CreateGPKKeyOptions>
+    internal sealed class RepoCredsCreateBuilder : QueryBuilder<CreateRepoCredsOptions>
     {
-        protected override void BuildCore(Query query, CreateGPKKeyOptions options)
+        protected override void BuildCore(Query query, CreateRepoCredsOptions options)
         {
             query.Add("upsert", options.Upsert.ToLowerCaseString());
         }

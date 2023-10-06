@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using ArgoCD.Client.Models.Notification;
+using ArgoCD.Client.Models.Notification.Responses;
 
 namespace ArgoCD.Client
 {

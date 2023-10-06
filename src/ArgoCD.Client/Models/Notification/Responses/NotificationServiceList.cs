@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ArgoCD.Client.Models.Notification
+namespace ArgoCD.Client.Models.Notification.Responses
 {
-    public sealed class NotificationServiceList
+    public  class NotificationServiceList
     {
         public NotificationServiceList() { }
 

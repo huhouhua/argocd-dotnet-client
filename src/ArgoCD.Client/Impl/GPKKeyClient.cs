@@ -12,16 +12,16 @@ namespace ArgoCD.Client.Impl
     public class GPKKeyClient : IGPKKeyClient
     {
         private readonly IArgoCDHttpFacade _httpFacade;
-        private readonly GPKKeyCreateQueryBuilder _gPKKeyCreateQueryBuilder;
-        private readonly GPKKeyDeleteQueryBuilder _gPKKeyDeleteQueryBuilder;
+        private readonly GPKKeyCreateBuilder _gPKKeyCreateBuilder;
+        private readonly GPKKeyDeleteBuilder _gPKKeyDeleteBuilder;
 
         internal GPKKeyClient(IArgoCDHttpFacade httpFacade,
-            GPKKeyCreateQueryBuilder gPKKeyCreateQueryBuilder,
-            GPKKeyDeleteQueryBuilder gPKKeyDeleteQueryBuilder)
+            GPKKeyCreateBuilder gPKKeyCreateBuilder,
+            GPKKeyDeleteBuilder gPKKeyDeleteBuilder)
         {
             _httpFacade = httpFacade;
-            _gPKKeyCreateQueryBuilder = gPKKeyCreateQueryBuilder;
-            _gPKKeyDeleteQueryBuilder = gPKKeyDeleteQueryBuilder;
+            _gPKKeyCreateBuilder = gPKKeyCreateBuilder;
+            _gPKKeyDeleteBuilder = gPKKeyDeleteBuilder;
         }
 
 
@@ -55,7 +55,7 @@ namespace ArgoCD.Client.Impl
             var queryOptions = new CreateGPKKeyOptions();
             options?.Invoke(queryOptions);
 
-            string url = _gPKKeyCreateQueryBuilder.Build("gpgkeys", queryOptions);
+            string url = _gPKKeyCreateBuilder.Build("gpgkeys", queryOptions);
             return await _httpFacade.PostAsync<GnuPGPublicKey>(url, request, cancellationToken).ConfigureAwait(false);
         }
 
@@ -70,7 +70,7 @@ namespace ArgoCD.Client.Impl
             var queryOptions = new DeleteGPGKeyOptions();
             options?.Invoke(queryOptions);
 
-            string url = _gPKKeyDeleteQueryBuilder.Build("gpgkeys", queryOptions);
+            string url = _gPKKeyDeleteBuilder.Build("gpgkeys", queryOptions);
             await _httpFacade.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
 
         }

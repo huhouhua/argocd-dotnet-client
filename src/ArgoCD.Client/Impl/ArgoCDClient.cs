@@ -75,10 +75,12 @@ namespace ArgoCD.Client.Impl
               },
               jsonSerializer);
 
-            var certificateCreateQueryBuilder = new CertificateCreateQueryBuilder();
+            var certificateCreateBuilder = new CertificateCreateBuilder();
             var certificateQueryBuilder = new CertificateQueryBuilder();
-            var gPKKeyCreateQueryBuilder = new GPKKeyCreateQueryBuilder();
-            var gPKKeyDeleteQueryBuilder = new GPKKeyDeleteQueryBuilder();
+            var gPKKeyCreateBuilder = new GPKKeyCreateBuilder();
+            var gPKKeyDeleteBuilder = new GPKKeyDeleteBuilder();
+            var repoCredsListQueryBuilder = new RepoCredsListQueryBuilder();
+            var repoCredsCreateBuilder = new RepoCredsCreateBuilder();
 
 
             Version = new VersionClient(_httpFacadeFromApp);
@@ -86,9 +88,9 @@ namespace ArgoCD.Client.Impl
             Notification = new NotificationClient(_httpFacade);
             Session = new SessionClient(_httpFacade);
             Account = new AccountClient(_httpFacade);
-            Certificate = new CertificateClient(_httpFacade,certificateCreateQueryBuilder,certificateQueryBuilder);
-            GPKKey = new GPKKeyClient(_httpFacade, gPKKeyCreateQueryBuilder, gPKKeyDeleteQueryBuilder);
-
+            Certificate = new CertificateClient(_httpFacade,certificateCreateBuilder,certificateQueryBuilder);
+            GPKKey = new GPKKeyClient(_httpFacade, gPKKeyCreateBuilder, gPKKeyDeleteBuilder);
+            RepoCreds = new RepoCredsClient(_httpFacade, repoCredsListQueryBuilder,repoCredsCreateBuilder);
         }
 
 

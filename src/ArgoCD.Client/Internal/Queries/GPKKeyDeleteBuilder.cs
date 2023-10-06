@@ -7,7 +7,7 @@ using ArgoCD.Client.Models.GPKKey.Requests;
 
 namespace ArgoCD.Client.Internal.Queries
 {
-    internal class GPKKeyDeleteQueryBuilder : QueryBuilder<DeleteGPGKeyOptions>
+    internal class GPKKeyDeleteBuilder : QueryBuilder<DeleteGPGKeyOptions>
     {
         protected override void BuildCore(Query query, DeleteGPGKeyOptions options)
         {
