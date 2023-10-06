@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ArgoCD.Client.Models.Cluster.Responses
+namespace ArgoCD.Client.Models
 {
     public class V1alpha1ConnectionState
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace ArgoCD.Client.Models.Cluster.Responses
+namespace ArgoCD.Client.Models
 {
-    public  class V1Time
+    public class V1Time
     {
         /// <summary>
         /// Non-negative fractions of a second at nanosecond resolution. Negative

@@ -1,0 +1,110 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace ArgoCD.Client.Models.Repository.Requests
+{
+    public sealed class ValidateAccessOptions
+    {
+        public ValidateAccessOptions() { }
+
+        /// <summary>
+        /// Username for authenticating at the repo server
+        /// </summary>
+        public string Username { get; set; }
+
+
+        /// <summary>
+        ///  Password for authenticating at the repo server
+        /// </summary>
+        public string Password { get; set; }
+
+
+
+        /// <summary>
+        /// SSHPrivateKey contains the private key data for authenticating at the repo server using SSH (only Git repos)
+        /// </summary>
+        public string SshPrivateKey { get; set; }
+
+
+        /// <summary>
+        /// Insecure specifies whether the connection to the repository ignores any errors when verifying TLS certificates or SSH host keys
+        /// </summary>
+        public bool Insecure { get; set; }
+
+
+
+        /// <summary>
+        // /TLSClientCertData specifies the TLS client cert data for authenticating at the repo server
+        /// </summary>
+        public string TlsClientCertData { get; set; }
+
+        /// <summary>
+        ///  TLSClientCertKey specifies the TLS client cert key for authenticating at the repo server
+        /// </summary>
+        public string TlsClientCertKey { get; set; }
+
+
+        /// <summary>
+        /// Type specifies the type of the repoCreds. Can be either "git" or "helm. "git" is assumed if empty or absent.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        ///  Name specifies a name to be used for this repo. Only used with Helm repos
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// EnableOCI specifies whether helm-oci support should be enabled for this repo
+        /// </summary>
+        public bool EnableOCI { get; set; }
+
+        /// <summary>
+        /// GithubAppPrivateKey specifies the private key PEM data for authentication via GitHub app
+        /// </summary>
+        public string GithubAppPrivateKey { get; set; }
+
+
+        /// <summary>
+        /// GithubAppId specifies the Github App ID of the app used to access the repo for GitHub app authentication
+        /// </summary>
+        public string GithubAppID { get; set; }
+
+        /// <summary>
+        /// GithubAppInstallationId specifies the ID of the installed GitHub App for GitHub app authentication
+        /// </summary>
+        public string GithubAppInstallationID { get; set; }
+
+
+        /// <summary>
+        /// GithubAppEnterpriseBaseURL specifies the GitHub API URL for GitHub app authentication. If empty will default to https://api.github.com
+        /// </summary>
+        public string GithubAppEnterpriseBaseUrl { get; set; }
+
+        /// <summary>
+        /// Proxy specifies the HTTP/HTTPS proxy used to access repos at the repo server
+        /// </summary>
+        public string Proxy { get; set; }
+
+
+        /// <summary>
+        ///  Reference between project and repository that allow you automatically to be added as item inside SourceRepos project entity
+        /// </summary>
+        public string Project { get; set; }
+
+
+
+        /// <summary>
+        /// GCPServiceAccountKey specifies the service account key in JSON format to be used for getting credentials to Google Cloud Source repos
+        /// </summary>
+        public string GcpServiceAccountKey { get; set; }
+
+        /// <summary>
+        /// ForceHttpBasicAuth specifies whether Argo CD should attempt to force basic auth for HTTP connections
+        /// </summary>
+        public bool ForceHttpBasicAuth { get; set; }
+
+
+    }
+}
