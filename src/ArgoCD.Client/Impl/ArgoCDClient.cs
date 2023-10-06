@@ -81,6 +81,9 @@ namespace ArgoCD.Client.Impl
             var gPKKeyDeleteBuilder = new GPKKeyDeleteBuilder();
             var repoCredsListQueryBuilder = new RepoCredsListQueryBuilder();
             var repoCredsCreateBuilder = new RepoCredsCreateBuilder();
+            var clusterQueryBuilder = new ClusterQueryBuilder();
+            var clusterUpdateBuilder = new ClusterUpdateBuilder();
+            var clusterCreateBuilder = new ClusterCreateBuilder();
 
 
             Version = new VersionClient(_httpFacadeFromApp);
@@ -91,6 +94,7 @@ namespace ArgoCD.Client.Impl
             Certificate = new CertificateClient(_httpFacade,certificateCreateBuilder,certificateQueryBuilder);
             GPKKey = new GPKKeyClient(_httpFacade, gPKKeyCreateBuilder, gPKKeyDeleteBuilder);
             RepoCreds = new RepoCredsClient(_httpFacade, repoCredsListQueryBuilder,repoCredsCreateBuilder);
+            Cluster = new ClusterClient(_httpFacade,clusterQueryBuilder,clusterUpdateBuilder,clusterCreateBuilder);
         }
 
 
