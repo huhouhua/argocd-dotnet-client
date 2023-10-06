@@ -83,6 +83,7 @@ namespace ArgoCD.Client.Impl
 
             Version = new VersionClient(_httpFacadeFromApp);
             Settings = new SettingsClient(_httpFacade);
+            Notification = new NotificationClient(_httpFacade);
             Session = new SessionClient(_httpFacade);
             Account = new AccountClient(_httpFacade);
             Certificate = new CertificateClient(_httpFacade,certificateCreateQueryBuilder,certificateQueryBuilder);
@@ -102,6 +103,11 @@ namespace ArgoCD.Client.Impl
         /// </summary>
         public ISettingsClient Settings { get; private set; }
 
+
+        /// <summary>
+        ///  Access ArgoCD's Notification API.
+        /// </summary>
+        public  INotificationClient Notification { get; private set; }
 
         /// <summary>
         ///  Access ArgoCD's Account API.

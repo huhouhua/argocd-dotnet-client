@@ -17,11 +17,16 @@ namespace ArgoCD.Client
         /// </summary>
         ISettingsClient Settings { get; }
 
+        /// <summary>
+        ///  Access ArgoCD's Notification API.
+        /// </summary>
+        INotificationClient Notification { get; }
+
 
         /// <summary>
         ///  Access ArgoCD's Account API.
         /// </summary>
-         IAccountClient Account { get; }
+        IAccountClient Account { get; }
 
 
         /// <summary>
