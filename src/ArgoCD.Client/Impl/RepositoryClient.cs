@@ -16,7 +16,7 @@ namespace ArgoCD.Client.Impl
         private readonly RepositoryQueryBuilder _repositoryQueryBuilder;
         private readonly CreateRepositoryBuilder _createRepositoryBuilder;
         private readonly RepositoryRefreshBuilder _repositoryRefreshBuilder;
-        private readonly RepositoryQueryAppBuilder _repositoryQueryAppOptions;
+        private readonly RepositoryQueryAppBuilder  _repositoryQueryAppBuilder;
         private readonly ValidateAccessBuilder _validateAccessBuilder;
 
         internal RepositoryClient(IArgoCDHttpFacade httpFacade,
@@ -30,7 +30,7 @@ namespace ArgoCD.Client.Impl
             _repositoryQueryBuilder = repositoryQueryBuilder;
             _createRepositoryBuilder = createRepositoryBuilder;
             _repositoryRefreshBuilder = repositoryRefreshBuilder;
-            _repositoryQueryAppOptions = repositoryQueryAppBuilder;
+            _repositoryQueryAppBuilder = repositoryQueryAppBuilder;
             _validateAccessBuilder = validateAccessBuilder; 
         }
 
@@ -128,7 +128,7 @@ namespace ArgoCD.Client.Impl
             var queryOptions = new RepositoryQueryAppOptions();
             options?.Invoke(queryOptions);
 
-            string url = _repositoryQueryAppOptions.Build($"repositories/{repo}/apps", queryOptions);
+            string url = _repositoryQueryAppBuilder.Build($"repositories/{repo}/apps", queryOptions);
            return  await _httpFacade.GetAsync<RepositoryRepoApps>(url, cancellationToken).ConfigureAwait(false);
         }
 
