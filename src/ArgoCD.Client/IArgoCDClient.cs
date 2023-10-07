@@ -69,6 +69,12 @@ namespace ArgoCD.Client
          IApplicationClient Application { get;  }
 
 
+
+        /// <summary>
+        ///  Access ArgoCD's ApplicationSet API.
+        /// </summary>
+        IApplicationSetClient ApplicationSet { get; }
+
         /// <summary>
         ///  Access ArgoCD's Project API.
         /// </summary>

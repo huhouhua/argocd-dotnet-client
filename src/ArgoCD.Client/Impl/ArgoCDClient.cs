@@ -169,6 +169,11 @@ namespace ArgoCD.Client.Impl
         /// </summary>
         public IApplicationClient Application { get; private set; }
 
+        /// <summary>
+        ///  Access ArgoCD's ApplicationSet API.
+        /// </summary>
+        public IApplicationSetClient ApplicationSet { get; private set; }
+
 
         /// <summary>
         ///  Access ArgoCD's Project API.
