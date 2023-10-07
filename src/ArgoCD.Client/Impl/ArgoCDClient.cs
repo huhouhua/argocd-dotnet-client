@@ -89,7 +89,8 @@ namespace ArgoCD.Client.Impl
             var repositoryRefreshBuilder = new RepositoryRefreshBuilder();
             var repositoryQueryAppBuilder = new RepositoryQueryAppBuilder();
             var validateAccessBuilder = new ValidateAccessBuilder();
-
+            var appProjectQueryBuilder = new AppProjectQueryBuilder();
+            var projectTokenDeleteBuilder = new ProjectTokenDeleteBuilder();
 
             Version = new VersionClient(_httpFacadeFromApp);
             Settings = new SettingsClient(_httpFacade);
@@ -101,6 +102,8 @@ namespace ArgoCD.Client.Impl
             RepoCreds = new RepoCredsClient(_httpFacade, repoCredsListQueryBuilder,repoCredsCreateBuilder);
             Cluster = new ClusterClient(_httpFacade,clusterQueryBuilder,clusterUpdateBuilder,clusterCreateBuilder);
             Repository = new RepositoryClient(_httpFacade,repositoryQueryBuilder,createRepositoryBuilder, repositoryRefreshBuilder, repositoryQueryAppBuilder, validateAccessBuilder);
+            Project = new ProjectClient(_httpFacade,appProjectQueryBuilder,projectTokenDeleteBuilder);
+
         }
 
 
@@ -170,7 +173,7 @@ namespace ArgoCD.Client.Impl
         /// <summary>
         ///  Access ArgoCD's Project API.
         /// </summary>
-        public IProjectClient ProjectClient { get; private set; }
+        public IProjectClient Project { get; private set; }
 
         public string HostUrl { get; }
 

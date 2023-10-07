@@ -72,7 +72,7 @@ namespace ArgoCD.Client
         /// <summary>
         ///  Access ArgoCD's Project API.
         /// </summary>
-         IProjectClient ProjectClient { get;  }
+         IProjectClient Project { get;  }
 
 
         string HostUrl { get; }
