@@ -27,5 +27,14 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// The number of times this event has occurred. +optional
         /// </summary>
         public int Count { get; set; }
+
+
+        /// <summary>
+        /// The number of times this event has occurred. +optional
+        /// </summary>
+        public V1MicroTime EventTime { get; set; }
+
+
+        public V1Time FirstTimestamp { get; set; }
     }
 }
