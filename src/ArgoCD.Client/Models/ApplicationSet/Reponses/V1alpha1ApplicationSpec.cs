@@ -36,6 +36,21 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
         /// </summary>
         public string RevisionHistoryLimit { get; set; }
 
-        public string Source { get; set; }
+        /// <summary>
+        /// ApplicationSource contains all required information about the source of an application
+        /// </summary>
+        public V1alpha1ApplicationSource Source { get; set; }
+
+
+        /// <summary>
+        /// Sources is a reference to the location of the application's manifests or chart
+        /// </summary>
+        public V1alpha1ApplicationSource[] SourceS { get; set; }
+
+        /// <summary>
+        /// SyncPolicy controls when a sync will be performed in response to updates in git
+        /// </summary>
+        public V1alpha1SyncPolicy SyncPolicy { get; set; }
+
     }
 }

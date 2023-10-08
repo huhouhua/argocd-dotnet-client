@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static ArgoCD.Client.Models.Repository.Requests.V1alpha1ApplicationSource;
+using static ArgoCD.Client.Models.ApplicationSet.Reponses.V1alpha1ApplicationSource;
 
 namespace ArgoCD.Client.Models.Repository.Requests
 {

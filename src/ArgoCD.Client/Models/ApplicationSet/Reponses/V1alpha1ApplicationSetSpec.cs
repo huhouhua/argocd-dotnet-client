@@ -18,6 +18,6 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
         /// <summary>
         /// 	ApplicationSetGenerator represents a generator at the top level of an ApplicationSet.
         /// </summary>
-        public V1alpha1ApplicationSetGenerator Generators { get; set; }
+        public V1alpha1ApplicationSetGenerator[] Generators { get; set; }
     }
 }
