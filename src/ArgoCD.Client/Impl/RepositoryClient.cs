@@ -7,6 +7,7 @@ using ArgoCD.Client.Models.Repository.Responses;
 using ArgoCD.Client.Models.Repository.Requests;
 using ArgoCD.Client.Internal.Queries;
 using Microsoft.Extensions.Options;
+using ArgoCD.Client.Internal.Http;
 
 namespace ArgoCD.Client.Impl
 {

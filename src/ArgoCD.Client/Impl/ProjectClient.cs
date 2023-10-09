@@ -7,6 +7,7 @@ using ArgoCD.Client.Models.Project.Responses;
 using ArgoCD.Client.Models.Project.Requests;
 using ArgoCD.Client.Internal.Queries;
 using System.Xml.Linq;
+using ArgoCD.Client.Internal.Http;
 
 namespace ArgoCD.Client.Impl
 {

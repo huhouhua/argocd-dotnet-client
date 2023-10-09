@@ -6,6 +6,7 @@ using System.Threading;
 using ArgoCD.Client.Models.RepoCreds.Responses;
 using ArgoCD.Client.Models.RepoCreds.Requests;
 using ArgoCD.Client.Internal.Queries;
+using ArgoCD.Client.Internal.Http;
 
 namespace ArgoCD.Client.Impl
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ArgoCD.Client.Internal.Http;
 using ArgoCD.Client.Models.Settings.Responses;
 
 namespace ArgoCD.Client.Impl
