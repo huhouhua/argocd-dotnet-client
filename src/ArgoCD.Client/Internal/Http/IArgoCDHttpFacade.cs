@@ -19,6 +19,10 @@ namespace ArgoCD.Client.Internal.Http
 
         Task PutAsync(string uri, object data, CancellationToken cancellationToken = default);
 
+        Task<T> PatchAsync<T>(string uri, object data, CancellationToken cancellationToken = default);
+
+        Task PatchAsync(string uri, object data, CancellationToken cancellationToken = default);
+
         Task DeleteAsync(string uri, CancellationToken cancellationToken = default);
 
         Task<T> DeleteAsync<T>(string uri, CancellationToken cancellationToken = default);
