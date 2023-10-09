@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using ArgoCD.Client.Models.Notification.Responses;
+using ArgoCD.Client.Internal.Http;
 
 namespace ArgoCD.Client.Impl
 {

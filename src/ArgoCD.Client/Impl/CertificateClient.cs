@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ArgoCD.Client.Internal.Http;
 using ArgoCD.Client.Internal.Queries;
 using ArgoCD.Client.Models.Certificate.Reponses;
 using ArgoCD.Client.Models.Certificate.Requests;

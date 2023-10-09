@@ -4,9 +4,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace ArgoCD.Client
+namespace ArgoCD.Client.Internal.Http
 {
-    public interface IArgoCDHttpFacade
+    internal interface IArgoCDHttpFacade
     {
 
         Task<T> GetAsync<T>(string uri, CancellationToken cancellationToken = default);

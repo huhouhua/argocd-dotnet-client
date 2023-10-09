@@ -6,6 +6,7 @@ using System.Threading;
 using ArgoCD.Client.Internal.Queries;
 using ArgoCD.Client.Models.GPKKey.Responses;
 using ArgoCD.Client.Models.GPKKey.Requests;
+using ArgoCD.Client.Internal.Http;
 
 namespace ArgoCD.Client.Impl
 {
