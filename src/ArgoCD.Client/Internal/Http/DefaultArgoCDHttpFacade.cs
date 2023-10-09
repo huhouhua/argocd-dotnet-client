@@ -51,6 +51,14 @@ namespace ArgoCD.Client.Internal.Http
 
         public Task DeleteAsync(string uri, object data, CancellationToken cancellationToken = default) =>
             _requestor.DeleteAsync(uri, data, cancellationToken);
+
+
+        public Task<T> PatchAsync<T>(string uri, object data, CancellationToken cancellationToken = default) =>
+            _requestor.PatchAsync<T>(uri, data, cancellationToken);
+
+        public Task PatchAsync(string uri, object data, CancellationToken cancellationToken = default) =>
+            _requestor.PatchAsync(uri, data, cancellationToken);
+
         private void Setup(RequestsJsonSerializer jsonSerializer)
         {
             // allow tls 1.1 and 1.2
