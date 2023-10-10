@@ -15,5 +15,11 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
         ///  ClusterGenerator defines a generator to match against clusters registered with ArgoCD
         /// </summary>
         public V1alpha1ClusterGenerator Clusters { get; set; }
+
+        public V1alpha1GitGenerator Git { get; set; }
+
+        public V1alpha1ListGenerator List { get; set; }
+
+        public int Matrix { get; set; }
     }
 }
