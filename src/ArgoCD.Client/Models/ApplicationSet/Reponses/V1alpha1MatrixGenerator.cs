@@ -4,8 +4,12 @@ using System.Text;
 
 namespace ArgoCD.Client.Models.ApplicationSet.Reponses
 {
-    public class V1alpha1GitFileGeneratorItem
+    public class V1alpha1MatrixGenerator
     {
-        public string    Path { get; set; }
+        public V1alpha1MatrixGenerator() { }
+
+        public string generators { get; set; }
+
+
     }
 }
