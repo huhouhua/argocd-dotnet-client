@@ -7,6 +7,8 @@ using ArgoCD.Client.Models.RepoCreds.Responses;
 using ArgoCD.Client.Models.RepoCreds.Requests;
 using ArgoCD.Client.Internal.Queries;
 using ArgoCD.Client.Internal.Http;
+using ArgoCD.Client.Models;
+using ArgoCD.Client.Internal.Utilities;
 
 namespace ArgoCD.Client.Impl
 {
@@ -14,17 +16,17 @@ namespace ArgoCD.Client.Impl
     {
         private readonly IArgoCDHttpFacade _httpFacade;
         private readonly RepoCredsListQueryBuilder _repoCredsListQueryBuilder;
-        private readonly RepoCredsCreateBuilder _repoCredsCreateBuilder;
+        private readonly UpsertBuilder _upsertBuilder;
 
 
 
         internal RepoCredsClient(IArgoCDHttpFacade httpFacade,
             RepoCredsListQueryBuilder repoCredsListQueryBuilder,
-            RepoCredsCreateBuilder repoCredsCreateBuilder)
+            UpsertBuilder upsertBuilder)
         {
             _httpFacade = httpFacade;
             _repoCredsListQueryBuilder = repoCredsListQueryBuilder;
-            _repoCredsCreateBuilder = repoCredsCreateBuilder;
+            _upsertBuilder = upsertBuilder;
         }
 
         /// <summary>
@@ -39,7 +41,8 @@ namespace ArgoCD.Client.Impl
             options?.Invoke(queryOptions);
 
             string url = _repoCredsListQueryBuilder.Build("repocreds", queryOptions);
-            return await _httpFacade.GetAsync<V1alpha1RepoCredsList>(url, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.GetAsync<V1alpha1RepoCredsList>(url, cancellationToken).
+                ConfigureAwait(false);
         }
 
 
@@ -47,16 +50,19 @@ namespace ArgoCD.Client.Impl
         ///  creates a new repository credential set
         /// </summary>
         /// <param name="request">Create repository credentials request</param>
-        /// <param name="options">Create options <see cref="CreateRepoCredsOptions"/></param>
+        /// <param name="options">Create options <see cref="UpsertOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<V1alpha1RepoCreds> CreateRepositoryCredentialsAsync(CreateRepoCredsRequest request, Action<CreateRepoCredsOptions> options, CancellationToken cancellationToken = default)
+        public async Task<V1alpha1RepoCreds> CreateRepositoryCredentialsAsync(CreateRepoCredsRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default)
         {
-            var createOptions = new CreateRepoCredsOptions();
+            Guard.NotNull(request, nameof(request));
+
+            var createOptions = new UpsertOptions();
             options?.Invoke(createOptions);
 
-            string url = _repoCredsCreateBuilder.Build("repocreds", createOptions);
-            return await _httpFacade.PostAsync<V1alpha1RepoCreds>(url, cancellationToken).ConfigureAwait(false);
+            string url = _upsertBuilder.Build("repocreds", createOptions);
+            return await _httpFacade.PostAsync<V1alpha1RepoCreds>(url,request, cancellationToken).
+                ConfigureAwait(false);
 
         }
 
@@ -68,8 +74,13 @@ namespace ArgoCD.Client.Impl
         /// <param name="request">Update repository credentials request</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<V1alpha1RepoCreds> UpdateRepositoryCredentialsAsync(string credsUrl, UpdateRepoCredsRequest request, CancellationToken cancellationToken = default) =>
-            await _httpFacade.PutAsync<V1alpha1RepoCreds>($"repocreds/{credsUrl}", request, cancellationToken).ConfigureAwait(false);
+        public async Task<V1alpha1RepoCreds> UpdateRepositoryCredentialsAsync(string credsUrl, UpdateRepoCredsRequest request, CancellationToken cancellationToken = default)
+        {
+            Guard.NotNull(request, nameof(request));
+
+          return  await _httpFacade.PutAsync<V1alpha1RepoCreds>($"repocreds/{credsUrl}", request, cancellationToken).
+                ConfigureAwait(false);
+        }
 
 
         /// <summary>
@@ -78,6 +89,7 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task DeleteRepositoryCredentialsAsync(string url, CancellationToken cancellationToken = default) =>
-            await _httpFacade.DeleteAsync($"repocreds/{url}", cancellationToken).ConfigureAwait(false);
+            await _httpFacade.DeleteAsync($"repocreds/{url}", cancellationToken).
+            ConfigureAwait(false);
     }
 }

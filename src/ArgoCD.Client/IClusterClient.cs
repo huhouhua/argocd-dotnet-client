@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using ArgoCD.Client.Models.Cluster.Requests;
 using ArgoCD.Client.Models.Cluster.Responses;
+using ArgoCD.Client.Models;
 
 namespace ArgoCD.Client
 {
@@ -31,10 +32,10 @@ namespace ArgoCD.Client
         /// Create creates a cluster
         /// </summary>
         /// <param name="request">Create cluster request</param>
-        /// <param name="options">Create options <see cref="CreateClusterOptions"/></param>
+        /// <param name="options">Create options <see cref="UpsertOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        Task<V1alpha1Cluster> CreateClusterAsync(V1alpha1ClusterRequest request, Action<CreateClusterOptions> options, CancellationToken cancellationToken = default);
+        Task<V1alpha1Cluster> CreateClusterAsync(V1alpha1ClusterRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default);
 
 
         /// <summary>

@@ -1,14 +1,15 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using ArgoCD.Client.Internal.Utilities;
-using ArgoCD.Client.Models.RepoCreds.Requests;
+using ArgoCD.Client.Models;
 
 namespace ArgoCD.Client.Internal.Queries
 {
-    internal sealed class RepoCredsCreateBuilder : QueryBuilder<CreateRepoCredsOptions>
+    internal class UpsertBuilder : QueryBuilder<UpsertOptions>
     {
-        protected override void BuildCore(Query query, CreateRepoCredsOptions options)
+        protected override void BuildCore(Query query, UpsertOptions options)
         {
             query.Add("upsert", options.Upsert.ToLowerCaseString());
         }
