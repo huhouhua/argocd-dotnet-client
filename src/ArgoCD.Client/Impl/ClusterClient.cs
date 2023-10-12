@@ -35,7 +35,7 @@ namespace ArgoCD.Client.Impl
         /// <summary>
         ///  List returns list of clusters
         /// </summary>
-        /// <param name="options">get options <see cref="ClusterQueryOptions"/></param>
+        /// <param name="options">Get options <see cref="ClusterQueryOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<V1alpha1ClusterList> GetListAsync(Action<ClusterQueryOptions> options, CancellationToken cancellationToken = default)
@@ -53,7 +53,7 @@ namespace ArgoCD.Client.Impl
         /// <summary>
         ///  Get returns a cluster by server address
         /// </summary>
-        /// <param name="options">get options <see cref="ClusterQueryOptions"/></param>
+        /// <param name="options">Get options <see cref="ClusterQueryOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<V1alpha1Cluster> GetAsync(Action<ClusterQueryOptions> options, CancellationToken cancellationToken = default)
