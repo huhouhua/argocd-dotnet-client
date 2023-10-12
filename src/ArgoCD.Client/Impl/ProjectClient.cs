@@ -8,6 +8,7 @@ using ArgoCD.Client.Models.Project.Requests;
 using ArgoCD.Client.Internal.Queries;
 using System.Xml.Linq;
 using ArgoCD.Client.Internal.Http;
+using ArgoCD.Client.Internal.Utilities;
 
 namespace ArgoCD.Client.Impl
 {
@@ -23,7 +24,7 @@ namespace ArgoCD.Client.Impl
         {
             _httpFacade = httpFacade;
             _appProjectQueryBuilder = appProjectQueryBuilder;
-            _projectTokenDeleteBuilder = projectTokenDeleteBuilder; 
+            _projectTokenDeleteBuilder = projectTokenDeleteBuilder;
         }
 
         /// <summary>
@@ -38,7 +39,8 @@ namespace ArgoCD.Client.Impl
             options?.Invoke(queryOptions);
 
             string url = _appProjectQueryBuilder.Build("projects", queryOptions);
-            return await _httpFacade.GetAsync<V1alpha1AppProjectList>(url, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.GetAsync<V1alpha1AppProjectList>(url, cancellationToken).
+                ConfigureAwait(false);
         }
 
 
@@ -48,8 +50,12 @@ namespace ArgoCD.Client.Impl
         ///  <param name="request"> Create project request </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<V1alpha1AppProject> CreateProjectAsync(CreateProjectRequest request, CancellationToken cancellationToken = default) =>
-             await _httpFacade.PostAsync<V1alpha1AppProject>("projects", request, cancellationToken).ConfigureAwait(false);
+        public async Task<V1alpha1AppProject> CreateProjectAsync(CreateProjectRequest request, CancellationToken cancellationToken = default)
+        {
+            Guard.NotNull(request, nameof(request));
+            return await _httpFacade.PostAsync<V1alpha1AppProject>("projects", request, cancellationToken).
+                ConfigureAwait(false);
+        }
 
 
 
@@ -60,7 +66,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<V1alpha1AppProject> GetProjectAsync(string name, CancellationToken cancellationToken = default) =>
-             await _httpFacade.GetAsync<V1alpha1AppProject>($"projects/{name}", cancellationToken).ConfigureAwait(false);
+             await _httpFacade.GetAsync<V1alpha1AppProject>($"projects/{name}", cancellationToken).
+            ConfigureAwait(false);
 
 
 
@@ -71,7 +78,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task DeleteProjectAsync(string name, CancellationToken cancellationToken = default) =>
-              await _httpFacade.DeleteAsync($"projects/{name}", cancellationToken).ConfigureAwait(false);
+              await _httpFacade.DeleteAsync($"projects/{name}", cancellationToken).
+            ConfigureAwait(false);
 
 
 
@@ -82,7 +90,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<ProjectDetailedProjects> GetProjectDetailAsync(string name, CancellationToken cancellationToken = default) =>
-             await _httpFacade.GetAsync<ProjectDetailedProjects>($"projects/{name}/detailed", cancellationToken).ConfigureAwait(false);
+             await _httpFacade.GetAsync<ProjectDetailedProjects>($"projects/{name}/detailed", cancellationToken).
+            ConfigureAwait(false);
 
 
 
@@ -94,7 +103,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<V1EventList> GetProjectEventByListAsync(string name, CancellationToken cancellationToken = default) =>
-              await _httpFacade.GetAsync<V1EventList>($"projects/{name}/events", cancellationToken).ConfigureAwait(false);
+              await _httpFacade.GetAsync<V1EventList>($"projects/{name}/events", cancellationToken).
+            ConfigureAwait(false);
 
 
 
@@ -105,7 +115,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<ProjectGlobalProjects> GetVirtualProjectAsync(string name, CancellationToken cancellationToken = default) =>
-             await _httpFacade.GetAsync<ProjectGlobalProjects>($"projects/{name}/globalprojects", cancellationToken).ConfigureAwait(false);
+             await _httpFacade.GetAsync<ProjectGlobalProjects>($"projects/{name}/globalprojects", cancellationToken).
+            ConfigureAwait(false);
 
 
         /// <summary>
@@ -115,7 +126,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<ApplicationLinks> GetProjectLinksAsync(string name, CancellationToken cancellationToken = default) =>
-            await _httpFacade.GetAsync<ApplicationLinks>($"projects/{name}/links", cancellationToken).ConfigureAwait(false);
+            await _httpFacade.GetAsync<ApplicationLinks>($"projects/{name}/links", cancellationToken).
+            ConfigureAwait(false);
 
 
         /// <summary>
@@ -125,7 +137,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<ProjectSyncWindows> GetSchedulesStateAsync(string name, CancellationToken cancellationToken = default) =>
-            await _httpFacade.GetAsync<ProjectSyncWindows>($"projects/{name}/syncwindows", cancellationToken).ConfigureAwait(false);
+            await _httpFacade.GetAsync<ProjectSyncWindows>($"projects/{name}/syncwindows", cancellationToken).
+            ConfigureAwait(false);
 
 
         /// <summary>
@@ -135,8 +148,12 @@ namespace ArgoCD.Client.Impl
         ///  <param name="request">update project request </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<V1alpha1AppProject> UpdateProjectAsync(string name, UpdateProjectRequest request, CancellationToken cancellationToken = default) =>
-             await _httpFacade.PutAsync<V1alpha1AppProject>($"projects/{name}", request, cancellationToken).ConfigureAwait(false);
+        public async Task<V1alpha1AppProject> UpdateProjectAsync(string name, UpdateProjectRequest request, CancellationToken cancellationToken = default)
+        {
+            Guard.NotNull(request, nameof(request));
+
+            return await _httpFacade.PutAsync<V1alpha1AppProject>($"projects/{name}", request, cancellationToken).ConfigureAwait(false);
+        }
 
 
 
@@ -146,8 +163,13 @@ namespace ArgoCD.Client.Impl
         ///  <param name="request">create project a token request </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<ProjectToken> CreateProjectTokenAsync(string project, string role, CreateProjectTokenRequest request, CancellationToken cancellationToken = default) =>
-              await _httpFacade.PostAsync<ProjectToken>($"projects/{project}/roles/{role}/token", request, cancellationToken).ConfigureAwait(false);
+        public async Task<ProjectToken> CreateProjectTokenAsync(string project, string role, CreateProjectTokenRequest request, CancellationToken cancellationToken = default)
+        {
+            Guard.NotNull(request, nameof(request));
+
+          return  await _httpFacade.PostAsync<ProjectToken>($"projects/{project}/roles/{role}/token", request, cancellationToken).
+                ConfigureAwait(false);
+        }
 
 
         /// <summary>
@@ -162,7 +184,8 @@ namespace ArgoCD.Client.Impl
             options?.Invoke(deleteOptions);
 
             string url = _projectTokenDeleteBuilder.Build($"projects/{project}/roles/{role}/token/{iat}", deleteOptions);
-            await _httpFacade.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
+            await _httpFacade.DeleteAsync(url, cancellationToken).
+                ConfigureAwait(false);
         }
     }
 }

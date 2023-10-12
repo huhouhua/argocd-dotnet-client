@@ -88,8 +88,10 @@ namespace ArgoCD.Client.Impl
             var validateAccessBuilder = new ValidateAccessBuilder();
             var appProjectQueryBuilder = new AppProjectQueryBuilder();
             var projectTokenDeleteBuilder = new ProjectTokenDeleteBuilder();
+            var applicationSetQueryBuilder = new ApplicationSetQueryBuilder();
+            var applicationSetListQueryBuilder = new ApplicationSetListQueryBuilder();
 
-            Version = new VersionClient(_httpFacadeFromApp);
+             Version = new VersionClient(_httpFacadeFromApp);
             Settings = new SettingsClient(_httpFacade);
             Notification = new NotificationClient(_httpFacade);
             Session = new SessionClient(_httpFacade);
@@ -100,7 +102,7 @@ namespace ArgoCD.Client.Impl
             Cluster = new ClusterClient(_httpFacade,clusterQueryBuilder,clusterUpdateBuilder, upsertBuilder);
             Repository = new RepositoryClient(_httpFacade,repositoryQueryBuilder,createRepositoryBuilder, repositoryRefreshBuilder, repositoryQueryAppBuilder, validateAccessBuilder);
             Project = new ProjectClient(_httpFacade,appProjectQueryBuilder,projectTokenDeleteBuilder);
-
+            ApplicationSet = new ApplicationSetClient(_httpFacade,upsertBuilder,applicationSetQueryBuilder,applicationSetListQueryBuilder);
         }
 
 

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ArgoCD.Client.Internal.Http;
 using ArgoCD.Client.Internal.Queries;
+using ArgoCD.Client.Internal.Utilities;
 using ArgoCD.Client.Models;
 using ArgoCD.Client.Models.Certificate.Reponses;
 using ArgoCD.Client.Models.Certificate.Requests;
@@ -36,11 +37,14 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<RepositoryCertificateList> CreateRepositoryCertificateAsync(CreateRepositoryCertificateRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotNull(request, nameof(request));
+
             var queryOptions = new UpsertOptions();
             options?.Invoke(queryOptions);
 
             string url = _upsertBuilder.Build("certificates", queryOptions);
-            return await _httpFacade.PostAsync<RepositoryCertificateList>(url, request, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.PostAsync<RepositoryCertificateList>(url, request, cancellationToken).
+                ConfigureAwait(false);
 
         }
 
@@ -56,7 +60,8 @@ namespace ArgoCD.Client.Impl
             options?.Invoke(queryOptions);
 
             string url = _certificateQueryBuilder.Build("certificates", queryOptions);
-            return await _httpFacade.DeleteAsync<RepositoryCertificateList>(url, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.DeleteAsync<RepositoryCertificateList>(url, cancellationToken).
+                ConfigureAwait(false);
         }
 
         /// <summary>
@@ -71,7 +76,8 @@ namespace ArgoCD.Client.Impl
             options?.Invoke(queryOptions);
 
             string url = _certificateQueryBuilder.Build("certificates", queryOptions);
-            return await _httpFacade.GetAsync<RepositoryCertificateList>(url, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.GetAsync<RepositoryCertificateList>(url, cancellationToken).
+                ConfigureAwait(false);
         }
     }
 }

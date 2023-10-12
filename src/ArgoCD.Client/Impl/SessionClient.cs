@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ArgoCD.Client.Internal.Http;
+using ArgoCD.Client.Internal.Utilities;
 using ArgoCD.Client.Models.Session.Requests;
 using ArgoCD.Client.Models.Session.Responses;
 
@@ -22,7 +23,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<UserInfo> GetCurrentUserInfoAsync(CancellationToken cancellationToken = default) =>
-              await _httpFacade.GetAsync<UserInfo>("session/userinfo",cancellationToken).ConfigureAwait(false);
+              await _httpFacade.GetAsync<UserInfo>("session/userinfo",cancellationToken).
+            ConfigureAwait(false);
 
 
         /// <summary>
@@ -30,8 +32,13 @@ namespace ArgoCD.Client.Impl
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-       public async Task<Session> CreateSessionAsync(CreateSessionRequest request, CancellationToken cancellationToken = default)=>
-            await  _httpFacade.PostAsync<Session>("session", request, cancellationToken).ConfigureAwait(false);
+        public async Task<Session> CreateSessionAsync(CreateSessionRequest request, CancellationToken cancellationToken = default)
+        {
+            Guard.NotNull(request, nameof(request));
+
+           return await _httpFacade.PostAsync<Session>("session", request, cancellationToken).
+                ConfigureAwait(false);
+        }
 
         /// <summary>
         /// Delete an existing JWT cookie if using HTTP
@@ -39,7 +46,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task<Session> DeleteCurrentSessionAsync(CancellationToken cancellationToken = default) =>
-             await _httpFacade.DeleteAsync<Session>("session", cancellationToken).ConfigureAwait(false);
+             await _httpFacade.DeleteAsync<Session>("session", cancellationToken).
+            ConfigureAwait(false);
 
     }
 }

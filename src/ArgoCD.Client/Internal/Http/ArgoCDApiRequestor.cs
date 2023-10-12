@@ -27,16 +27,18 @@ namespace ArgoCD.Client.Internal.Http
         public async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken = default)
         {
             using HttpClient client = _clientFunc();
-            using var responseMessage = await client.GetAsync(url, cancellationToken);
+            using var responseMessage = await client.GetAsync(url, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return await ReadResponseAsync<T>(responseMessage);
         }
 
         public async Task<T> PostAsync<T>(string url, object data = null, CancellationToken cancellationToken = default)
         {
-            using StringContent content = SerializeToString(data);
             using HttpClient client = _clientFunc();
-            using var responseMessage = await client.PostAsync(url, content, cancellationToken);
+            using StringContent content = SerializeToString(data);
+            using var responseMessage = await client.PostAsync(url, content, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return await ReadResponseAsync<T>(responseMessage);
         }
@@ -46,7 +48,8 @@ namespace ArgoCD.Client.Internal.Http
         {
             using HttpClient client = _clientFunc();
             using StringContent content = SerializeToString(data);
-            using var responseMessage = await client.PostAsync(url, content, cancellationToken);
+            using var responseMessage = await client.PostAsync(url, content, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
         }
 
@@ -54,7 +57,8 @@ namespace ArgoCD.Client.Internal.Http
         {
             using HttpClient client = _clientFunc();
             using StringContent content = SerializeToString(data);
-            using var responseMessage = await client.PutAsync(url, content, cancellationToken);
+            using var responseMessage = await client.PutAsync(url, content, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return await ReadResponseAsync<T>(responseMessage);
         }
@@ -63,7 +67,8 @@ namespace ArgoCD.Client.Internal.Http
         {
             using HttpClient client = _clientFunc();
             using StringContent content = SerializeToString(data);
-            using var responseMessage = await client.PutAsync(url, content, cancellationToken);
+            using var responseMessage = await client.PutAsync(url, content, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
         }
 
@@ -71,12 +76,16 @@ namespace ArgoCD.Client.Internal.Http
         {
             using HttpClient client = _clientFunc();
             using StringContent content = SerializeToString(data);
-            #if NET5_0 || NET6_0 || NETCOREAPP3_1
-            using var responseMessage = await client.PatchAsync(url, content, cancellationToken);
-            #else
-            var request = new HttpRequestMessage(new HttpMethod("PATCH"),url);
-            request.Content = content;
-            using var responseMessage = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+#if NET5_0 || NET6_0 || NETCOREAPP3_1
+            using var responseMessage = await client.PatchAsync(url, content, cancellationToken).
+                 ConfigureAwait(false);
+#else
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), url)
+            {
+                Content = content
+            };
+            using var responseMessage = await client.SendAsync(request, cancellationToken).
+                ConfigureAwait(false);
             #endif
 
             await EnsureSuccessStatusCodeAsync(responseMessage);
@@ -88,11 +97,15 @@ namespace ArgoCD.Client.Internal.Http
             using HttpClient client = _clientFunc();
             using StringContent content = SerializeToString(data);
 #if NET5_0 || NET6_0 || NETCOREAPP3_1
-            using var responseMessage = await client.PatchAsync(url, content, cancellationToken);
+            using var responseMessage = await client.PatchAsync(url, content, cancellationToken).
+                 ConfigureAwait(false);
 #else
-            var request = new HttpRequestMessage(new HttpMethod("PATCH"),url);
-            request.Content = content;
-            using var responseMessage = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            var request = new HttpRequestMessage(new HttpMethod("PATCH"), url)
+            {
+                Content = content
+            };
+            using var responseMessage = await client.SendAsync(request, cancellationToken).
+                ConfigureAwait(false);
 #endif
 
             await EnsureSuccessStatusCodeAsync(responseMessage);
@@ -102,13 +115,15 @@ namespace ArgoCD.Client.Internal.Http
         public async Task DeleteAsync(string url, CancellationToken cancellationToken = default)
         {
             using HttpClient client = _clientFunc();
-            using var responseMessage = await client.DeleteAsync(url, cancellationToken);
+            using var responseMessage = await client.DeleteAsync(url, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
         }
         public async Task<T> DeleteAsync<T>(string url, CancellationToken cancellationToken = default)
         {
             using HttpClient client = _clientFunc();
-            using var responseMessage = await client.DeleteAsync(url, cancellationToken);
+            using var responseMessage = await client.DeleteAsync(url, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return await ReadResponseAsync<T>(responseMessage);
         }
@@ -120,14 +135,16 @@ namespace ArgoCD.Client.Internal.Http
             {
                 Content = SerializeToString(data)
             };
-            var responseMessage = await client.SendAsync(request, cancellationToken);
+            var responseMessage = await client.SendAsync(request, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
         }
 
         public async Task<Tuple<T, HttpResponseHeaders>> GetWithHeadersAsync<T>(string url, CancellationToken cancellationToken = default)
         {
             using HttpClient client = _clientFunc();
-            using var responseMessage = await client.GetAsync(url, cancellationToken);
+            using var responseMessage = await client.GetAsync(url, cancellationToken).
+                ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return Tuple.Create(await ReadResponseAsync<T>(responseMessage), responseMessage.Headers);
         }
@@ -137,13 +154,15 @@ namespace ArgoCD.Client.Internal.Http
             if (responseMessage.IsSuccessStatusCode)
                 return;
 
-            string errorResponse = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+            string errorResponse = await responseMessage.Content.ReadAsStringAsync().
+                ConfigureAwait(false);
             throw new ArgoCDException(responseMessage.StatusCode, errorResponse ?? "");
         }
 
         private async Task<T> ReadResponseAsync<T>(HttpResponseMessage responseMessage)
         {
-            string response = await responseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
+            string response = await responseMessage.Content.ReadAsStringAsync().
+                ConfigureAwait(false);
             var result = _jsonSerializer.Deserialize<T>(response);
             return result;
         }

@@ -44,7 +44,8 @@ namespace ArgoCD.Client.Impl
             options?.Invoke(queryOptions);
 
             string url = _clusterQueryBuilder.Build("clusters", queryOptions);
-            return await _httpFacade.GetAsync<V1alpha1ClusterList>(url, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.GetAsync<V1alpha1ClusterList>(url, cancellationToken).
+                ConfigureAwait(false);
 
         }
 
@@ -62,7 +63,8 @@ namespace ArgoCD.Client.Impl
             Guard.NotNullOrDefault(queryOptions.IdValue, nameof(queryOptions.IdValue));
 
             string url = _clusterQueryBuilder.Build($"clusters/{queryOptions.IdValue}", queryOptions);
-            return await _httpFacade.GetAsync<V1alpha1Cluster>(url, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.GetAsync<V1alpha1Cluster>(url, cancellationToken).
+                ConfigureAwait(false);
         }
 
         /// <summary>
@@ -74,11 +76,14 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<V1alpha1Cluster> CreateClusterAsync(V1alpha1ClusterRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotNull(request, nameof(request));
+
             var createOptions = new UpsertOptions();
             options?.Invoke(createOptions);
 
             string url = _upsertBuilder.Build("clusters", createOptions);
-            return await _httpFacade.PostAsync<V1alpha1Cluster>(url, request, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.PostAsync<V1alpha1Cluster>(url, request, cancellationToken).
+                ConfigureAwait(false);
         }
 
 
@@ -91,12 +96,15 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<V1alpha1Cluster> UpdateClusterAsync(V1alpha1ClusterRequest request, Action<UpdateClusterOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotNull(request, nameof(request));
+
             var updateOptions = new UpdateClusterOptions();
             options?.Invoke(updateOptions);
             Guard.NotNullOrDefault(updateOptions.IdValue, nameof(updateOptions.IdValue));
 
             string url = _clusterUpdateBuilder.Build($"clusters/{updateOptions.IdValue}", updateOptions);
-            return await _httpFacade.PutAsync<V1alpha1Cluster>(url, request, cancellationToken).ConfigureAwait(false);
+            return await _httpFacade.PutAsync<V1alpha1Cluster>(url, request, cancellationToken).
+                ConfigureAwait(false);
         }
 
 
@@ -109,12 +117,15 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task DeleteClusterAsync(V1alpha1ClusterRequest request, Action<ClusterQueryOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotNull(request, nameof(request));
+
             var queryOptions = new ClusterQueryOptions();
             options?.Invoke(queryOptions);
             Guard.NotNullOrDefault(queryOptions.IdValue, nameof(queryOptions.IdValue));
 
             string url = _clusterQueryBuilder.Build($"clusters/{queryOptions.IdValue}", queryOptions);
-             await _httpFacade.DeleteAsync(url, request, cancellationToken).ConfigureAwait(false);
+             await _httpFacade.DeleteAsync(url, request, cancellationToken).
+                ConfigureAwait(false);
         }
 
 
@@ -125,7 +136,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task InvalidateCacheAsync(string idValue, CancellationToken cancellationToken = default) =>
-            await _httpFacade.PostAsync($"clusters/{idValue}/invalidate-cache",cancellationToken).ConfigureAwait(false);
+            await _httpFacade.PostAsync($"clusters/{idValue}/invalidate-cache",cancellationToken).
+            ConfigureAwait(false);
 
 
         /// <summary>
@@ -135,7 +147,8 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
         public async Task RotateAuthAsync(string idValue, CancellationToken cancellationToken = default) =>
-            await _httpFacade.PostAsync($"clusters/{idValue}/rotate-auth",cancellationToken).ConfigureAwait(false);
+            await _httpFacade.PostAsync($"clusters/{idValue}/rotate-auth",cancellationToken).
+            ConfigureAwait(false);
 
     }
 }
