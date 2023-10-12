@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ArgoCD.Client.Internal.Http;
-using ArgoCD.Client.Internal.Queries;
+using ArgoCD.Client.Internal.Builders;
 using ArgoCD.Client.Internal.Utilities;
 using ArgoCD.Client.Models;
 using ArgoCD.Client.Models.Certificate.Reponses;

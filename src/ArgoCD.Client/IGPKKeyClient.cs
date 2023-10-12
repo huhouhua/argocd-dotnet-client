@@ -7,7 +7,7 @@ using ArgoCD.Client.Models.Session.Requests;
 using ArgoCD.Client.Models.Session.Responses;
 using ArgoCD.Client.Models.GPKKey.Responses;
 using ArgoCD.Client.Models.GPKKey.Requests;
-using ArgoCD.Client.Internal.Queries;
+using ArgoCD.Client.Internal.Builders;
 using ArgoCD.Client.Models;
 
 namespace ArgoCD.Client
