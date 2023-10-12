@@ -19,7 +19,7 @@ namespace ArgoCD.Client
         Task<V1alpha1ApplicationList> GetListAsync(Action<ApplicationListQueryOptions> options = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Get returns an applicationset by name
+        ///  returns an applicationset by name
         /// </summary>
         /// <param name="name">the application's name</param>
         /// <param name="options">Get options <see cref="ApplicationQueryOptions"/></param>
@@ -82,20 +82,20 @@ namespace ArgoCD.Client
         /// returns list of managed resources
         /// </summary>
         /// <param name="name">the application's name</param>
-        /// <param name="options">Get options <see cref="ManagedResourcesQueryOptions"/></param>
+        /// <param name="options">Get options <see cref="ResourcesQueryOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        Task<ApplicationManagedResources> GetManagedResourcesAsync(string name, Action<ManagedResourcesQueryOptions> options = null, CancellationToken cancellationToken = default);
+        Task<ApplicationManagedResources> GetManagedResourcesAsync(string name, Action<ResourcesQueryOptions> options = null, CancellationToken cancellationToken = default);
 
 
         /// <summary>
         /// returns resource tree
         /// </summary>
         /// <param name="name">the application's name</param>
-        /// <param name="options">Get options <see cref="ManagedResourcesQueryOptions"/></param>
+        /// <param name="options">Get options <see cref="ResourcesQueryOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        Task<V1alpha1ApplicationTree> GetResourceTreeAsync(string name, Action<ManagedResourcesQueryOptions> options = null, CancellationToken cancellationToken = default);
+        Task<V1alpha1ApplicationTree> GetResourceTreeAsync(string name, Action<ResourcesQueryOptions> options = null, CancellationToken cancellationToken = default);
 
 
 

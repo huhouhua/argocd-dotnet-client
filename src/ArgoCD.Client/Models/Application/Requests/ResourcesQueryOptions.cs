@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ArgoCD.Client.Models.Application.Requests
 {
-    public sealed class ManagedResourcesQueryOptions
+    public sealed class ResourcesQueryOptions
     {
-        public ManagedResourcesQueryOptions() { }
+        public ResourcesQueryOptions() { }
 
 
         public string Namespace { get; set; }

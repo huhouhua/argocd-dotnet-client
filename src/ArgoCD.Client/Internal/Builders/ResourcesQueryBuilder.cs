@@ -6,9 +6,9 @@ using ArgoCD.Client.Models.Application.Requests;
 
 namespace ArgoCD.Client.Internal.Builders
 {
-    internal sealed class ResourcesQueryBuilder : QueryBuilder<ManagedResourcesQueryOptions>
+    internal sealed class ResourcesQueryBuilder : QueryBuilder<ResourcesQueryOptions>
     {
-        protected override void BuildCore(Query query, ManagedResourcesQueryOptions options)
+        protected override void BuildCore(Query query, ResourcesQueryOptions options)
         {
             if (options.Namespace.IsNotNullOrEmpty())
                 query.Add("namespace", options.Namespace);

@@ -91,6 +91,13 @@ namespace ArgoCD.Client.Impl
             var applicationSetQueryBuilder = new ApplicationSetQueryBuilder();
             var applicationSetListQueryBuilder = new ApplicationSetListQueryBuilder();
 
+            var applicationListQueryBuilder = new ApplicationListQueryBuilder();
+            var applicationQueryBuilder = new ApplicationQueryBuilder();
+            var applicationCreateOrUpdateBuilder = new ApplicationCreateOrUpdateBuilder();
+            var applicationDeleteBuilder = new ApplicationDeleteBuilder();
+            var resourcesQueryBuilder = new ResourcesQueryBuilder();
+
+
              Version = new VersionClient(_httpFacadeFromApp);
             Settings = new SettingsClient(_httpFacade);
             Notification = new NotificationClient(_httpFacade);
@@ -103,6 +110,7 @@ namespace ArgoCD.Client.Impl
             Repository = new RepositoryClient(_httpFacade,repositoryQueryBuilder,createRepositoryBuilder, repositoryRefreshBuilder, repositoryQueryAppBuilder, validateAccessBuilder);
             Project = new ProjectClient(_httpFacade,appProjectQueryBuilder,projectTokenDeleteBuilder);
             ApplicationSet = new ApplicationSetClient(_httpFacade,upsertBuilder,applicationSetQueryBuilder,applicationSetListQueryBuilder);
+            Application = new ApplicationClient(_httpFacade, applicationListQueryBuilder,applicationQueryBuilder,applicationCreateOrUpdateBuilder,applicationDeleteBuilder, resourcesQueryBuilder);
         }
 
 
