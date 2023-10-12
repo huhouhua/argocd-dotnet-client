@@ -37,6 +37,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\ApplicationSet\Reponses\" />
+  </ItemGroup>
+
   <!-- Workaround for https://github.com/GitTools/GitVersion/issues/1031 -->
   <PropertyGroup Condition=" '$(GitVersion_SemVer)' != ''">
     <GetVersion>false</GetVersion>
