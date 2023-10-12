@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ArgoCD.Client.Models.Repository.Requests;
 
-namespace ArgoCD.Client.Internal.Queries
+namespace ArgoCD.Client.Internal.Builders
 {
     internal sealed class RepositoryRefreshBuilder : QueryBuilder<RepositoryRefreshOptions>
     {

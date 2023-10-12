@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using ArgoCD.Client.Internal.Queries;
+using ArgoCD.Client.Internal.Builders;
 using ArgoCD.Client.Models.GPKKey.Responses;
 using ArgoCD.Client.Models.GPKKey.Requests;
 using ArgoCD.Client.Internal.Http;

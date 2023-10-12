@@ -4,7 +4,7 @@ using System.Text;
 using ArgoCD.Client.Internal.Utilities;
 using ArgoCD.Client.Models.Cluster.Requests;
 
-namespace ArgoCD.Client.Internal.Queries
+namespace ArgoCD.Client.Internal.Builders
 {
     internal sealed class ClusterUpdateBuilder : QueryBuilder<UpdateClusterOptions>
     {

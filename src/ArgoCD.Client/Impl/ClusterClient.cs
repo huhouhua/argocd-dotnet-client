@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using ArgoCD.Client.Models.Cluster.Responses;
 using ArgoCD.Client.Models.Cluster.Requests;
-using ArgoCD.Client.Internal.Queries;
+using ArgoCD.Client.Internal.Builders;
 using ArgoCD.Client.Internal.Utilities;
 using ArgoCD.Client.Internal.Http;
 using ArgoCD.Client.Models;

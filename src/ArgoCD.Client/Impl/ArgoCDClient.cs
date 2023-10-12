@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using ArgoCD.Client.Internal.Http;
 using ArgoCD.Client.Internal.Http.Serialization;
-using ArgoCD.Client.Internal.Queries;
+using ArgoCD.Client.Internal.Builders;
 using ArgoCD.Client.Internal.Utilities;
 
 namespace ArgoCD.Client.Impl

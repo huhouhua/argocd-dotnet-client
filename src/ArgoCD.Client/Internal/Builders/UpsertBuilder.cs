@@ -5,7 +5,7 @@ using System.Text;
 using ArgoCD.Client.Internal.Utilities;
 using ArgoCD.Client.Models;
 
-namespace ArgoCD.Client.Internal.Queries
+namespace ArgoCD.Client.Internal.Builders
 {
     internal class UpsertBuilder : QueryBuilder<UpsertOptions>
     {
