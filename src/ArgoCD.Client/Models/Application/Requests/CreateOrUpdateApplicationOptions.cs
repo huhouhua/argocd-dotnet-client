@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ArgoCD.Client.Models.Application.Requests
 {
-    public sealed class CreateApplicationOptions
+    public sealed class CreateOrUpdateApplicationOptions
     {
         public bool Upsert { get; set; }
 
