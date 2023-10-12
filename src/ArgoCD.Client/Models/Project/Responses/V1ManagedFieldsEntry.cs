@@ -13,6 +13,9 @@ using static System.Net.WebRequestMethods;
 
 namespace ArgoCD.Client.Models.Project.Responses
 {
+    /// <summary>
+    /// ManagedFieldsEntry is a workflow-id, a FieldSet and the group version of the resource that the fieldset applies to.
+    /// </summary>
     public class V1ManagedFieldsEntry
     {
         public V1ManagedFieldsEntry() { }
