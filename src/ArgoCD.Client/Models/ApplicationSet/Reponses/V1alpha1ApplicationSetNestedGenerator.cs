@@ -24,5 +24,10 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
         public V1alpha1PluginGenerator Plugin { get; set; }
 
         public V1alpha1PullRequestGenerator PullRequest { get; set; }
+
+        public V1alpha1SCMProviderGenerator ScmProvider { get; set; }
+
+        public V1LabelSelector Selector { get; set; }
+
     }
 }

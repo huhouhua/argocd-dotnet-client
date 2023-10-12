@@ -26,7 +26,7 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// queryable and should be preserved when modifying objects.
         /// More info: http://kubernetes.io/docs/user-guide/annotations +optional
         /// </summary>
-        public string[] Annotations { get; set; }
+        public List<string> Annotations { get; set; }
 
         /// <summary>
         /// The name of the cluster which the object belongs to. This is used to distinguish resources with same name
@@ -61,7 +61,7 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// Without enforced ordering finalizers are free to order amongst themselves and
         /// are not vulnerable to ordering changes in the list. +optional +patchStrategy= merge
         /// </summary>
-        public string[] Finalizers { get; set; }
+        public List<string> Finalizers { get; set; }
 
         /// <summary>
         /// GenerateName is an optional prefix, used by the server, to generate a unique
@@ -90,7 +90,7 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// (scope and select) objects.May match selectors of replication controllers and services.
         /// More info: http://kubernetes.io/docs/user-guide/labels +optional
         /// </summary>
-        public string[] Labels { get; set; }
+        public Dictionary<string, string> Labels { get; set; }
 
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// "ci-cd". The set of fields is always in the version that the
         /// workflow used when modifying the object.
         /// </summary>
-        public V1ManagedFieldsEntry[] ManagedFields { get; set; }
+        public List<V1ManagedFieldsEntry> ManagedFields { get; set; }
 
 
 
@@ -132,7 +132,7 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// then an entry in this list will point to this controller, with the controller field set to true.
         /// There cannot be more than one managing controller. +optional  +patchMergeKey= uid  + patchStrategy = merge
         /// </summary>
-        public V1OwnerReference[] OwnerReferences { get; set; }
+        public List<V1OwnerReference> OwnerReferences { get; set; }
 
 
         /// <summary>

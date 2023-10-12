@@ -11,6 +11,6 @@ namespace ArgoCD.Client.Models.Repository.Requests
         /// Raw is the underlying serialization of this object.
         /// TODO: Determine how to detect ContentType and ContentEncoding of 'Raw' data.
         /// </summary>
-        public string Raw { get; set; }
+        public byte[] Raw { get; set; }
     }
 }

@@ -6,8 +6,7 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
 {
     public class V1alpha1ManagedNamespaceMetadata
     {
-        public object Annotations { get; set; }
-
-        public object Labels { get; set; }
+        public Dictionary<string, string> Annotations { get; set; }
+        public Dictionary<string, string> Labels { get; set; }
     }
 }

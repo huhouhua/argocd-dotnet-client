@@ -4,6 +4,9 @@ using System.Text;
 
 namespace ArgoCD.Client.Models.ApplicationSet.Reponses
 {
+    /// <summary>
+    /// ApplicationSetCondition contains details about an applicationset condition, which is usally an error or warning
+    /// </summary>
     public class V1alpha1ApplicationSetCondition
     {
         public V1Time LastTransitionTime { get; set; }

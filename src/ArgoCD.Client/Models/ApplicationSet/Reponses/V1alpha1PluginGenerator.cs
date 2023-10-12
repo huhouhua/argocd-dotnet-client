@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ArgoCD.Client.Models.ApplicationSet.Reponses
 {
@@ -19,6 +21,10 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
 
         public V1alpha1ApplicationSetTemplate Template { get; set; }
 
-        public object Values { get; set; }
+
+        /// <summary>
+        /// Values contains key/value pairs which are passed directly as parameters to the template. These values will not be sent as parameters to the plugin.
+        /// </summary>
+        public Dictionary<string, string> Values { get; set; }
     }
 }

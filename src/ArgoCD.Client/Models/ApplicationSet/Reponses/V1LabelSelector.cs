@@ -20,6 +20,6 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
         /// map is equivalent to an element of matchExpressions, whose key field is "key", the
         /// operator is "In", and the values array contains only "value". The requirements are ANDed. +optional
         /// </summary>
-        public string[] MatchLabels { get; set; }
+        public Dictionary<string, string> MatchLabels { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
     {
         public V1alpha1ListGenerator() { }
 
-        public V1JSON Elements { get; set; }
+        public V1JSON[] Elements { get; set; }
 
         public string ElementsYaml { get; set; }
 

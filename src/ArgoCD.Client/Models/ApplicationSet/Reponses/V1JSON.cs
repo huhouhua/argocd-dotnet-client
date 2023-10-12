@@ -13,6 +13,6 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
     {
         public V1JSON() { }
 
-        public string Raw { get; set; }
+        public byte[] Raw { get; set; }
     }
 }

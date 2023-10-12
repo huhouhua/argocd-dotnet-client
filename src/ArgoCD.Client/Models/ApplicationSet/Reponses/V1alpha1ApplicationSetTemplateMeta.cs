@@ -1,20 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ArgoCD.Client.Models.ApplicationSet.Reponses
 {
     public class V1alpha1ApplicationSetTemplateMeta
     {
 
-        public object Annotations { get; set; }
+        public Dictionary<string, string> Annotations { get; set; }
 
-        public string[] Finalizers { get; set; }
+   
+        public List<string> Finalizers { get; set; }
 
-        public object Labels { get; set; }
+
+        public Dictionary<string, string> Labels { get; set; }
+
 
         public string Name { get; set; }
 
-        public string Namespace { get; set; }
+        public string VarNamespace { get; set; }
     }
 }

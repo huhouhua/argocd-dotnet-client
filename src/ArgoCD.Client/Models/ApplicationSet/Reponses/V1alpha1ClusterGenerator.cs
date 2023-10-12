@@ -29,6 +29,6 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
         /// <summary>
         /// Values contains key/value pairs which are passed directly as parameters to the template
         /// </summary>
-        public object Values { get; set; }
+        public Dictionary<string, string> Values { get; set; }
     }
 }

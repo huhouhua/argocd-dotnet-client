@@ -12,6 +12,6 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// <summary>
         /// Raw is the underlying serialization of this object.
         /// </summary>
-        public string Raw { get; set; }
+        public byte[] Raw { get; set; }
     }
 }
