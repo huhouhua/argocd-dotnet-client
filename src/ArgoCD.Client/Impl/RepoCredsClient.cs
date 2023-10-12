@@ -7,6 +7,7 @@ using ArgoCD.Client.Models.RepoCreds.Responses;
 using ArgoCD.Client.Models.RepoCreds.Requests;
 using ArgoCD.Client.Internal.Queries;
 using ArgoCD.Client.Internal.Http;
+using ArgoCD.Client.Models;
 
 namespace ArgoCD.Client.Impl
 {
@@ -14,17 +15,17 @@ namespace ArgoCD.Client.Impl
     {
         private readonly IArgoCDHttpFacade _httpFacade;
         private readonly RepoCredsListQueryBuilder _repoCredsListQueryBuilder;
-        private readonly RepoCredsCreateBuilder _repoCredsCreateBuilder;
+        private readonly UpsertBuilder _upsertBuilder;
 
 
 
         internal RepoCredsClient(IArgoCDHttpFacade httpFacade,
             RepoCredsListQueryBuilder repoCredsListQueryBuilder,
-            RepoCredsCreateBuilder repoCredsCreateBuilder)
+            UpsertBuilder upsertBuilder)
         {
             _httpFacade = httpFacade;
             _repoCredsListQueryBuilder = repoCredsListQueryBuilder;
-            _repoCredsCreateBuilder = repoCredsCreateBuilder;
+            _upsertBuilder = upsertBuilder;
         }
 
         /// <summary>
@@ -47,16 +48,16 @@ namespace ArgoCD.Client.Impl
         ///  creates a new repository credential set
         /// </summary>
         /// <param name="request">Create repository credentials request</param>
-        /// <param name="options">Create options <see cref="CreateRepoCredsOptions"/></param>
+        /// <param name="options">Create options <see cref="UpsertOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<V1alpha1RepoCreds> CreateRepositoryCredentialsAsync(CreateRepoCredsRequest request, Action<CreateRepoCredsOptions> options, CancellationToken cancellationToken = default)
+        public async Task<V1alpha1RepoCreds> CreateRepositoryCredentialsAsync(CreateRepoCredsRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default)
         {
-            var createOptions = new CreateRepoCredsOptions();
+            var createOptions = new UpsertOptions();
             options?.Invoke(createOptions);
 
-            string url = _repoCredsCreateBuilder.Build("repocreds", createOptions);
-            return await _httpFacade.PostAsync<V1alpha1RepoCreds>(url, cancellationToken).ConfigureAwait(false);
+            string url = _upsertBuilder.Build("repocreds", createOptions);
+            return await _httpFacade.PostAsync<V1alpha1RepoCreds>(url,request, cancellationToken).ConfigureAwait(false);
 
         }
 

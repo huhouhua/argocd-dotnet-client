@@ -75,15 +75,12 @@ namespace ArgoCD.Client.Impl
               },
               jsonSerializer);
 
-            var certificateCreateBuilder = new CertificateCreateBuilder();
+            var upsertBuilder = new UpsertBuilder();
             var certificateQueryBuilder = new CertificateQueryBuilder();
-            var gPKKeyCreateBuilder = new GPKKeyCreateBuilder();
             var gPKKeyDeleteBuilder = new GPKKeyDeleteBuilder();
             var repoCredsListQueryBuilder = new RepoCredsListQueryBuilder();
-            var repoCredsCreateBuilder = new RepoCredsCreateBuilder();
             var clusterQueryBuilder = new ClusterQueryBuilder();
             var clusterUpdateBuilder = new ClusterUpdateBuilder();
-            var clusterCreateBuilder = new ClusterCreateBuilder();
             var repositoryQueryBuilder = new RepositoryQueryBuilder();
             var createRepositoryBuilder = new CreateRepositoryBuilder();
             var repositoryRefreshBuilder = new RepositoryRefreshBuilder();
@@ -97,10 +94,10 @@ namespace ArgoCD.Client.Impl
             Notification = new NotificationClient(_httpFacade);
             Session = new SessionClient(_httpFacade);
             Account = new AccountClient(_httpFacade);
-            Certificate = new CertificateClient(_httpFacade,certificateCreateBuilder,certificateQueryBuilder);
-            GPKKey = new GPKKeyClient(_httpFacade, gPKKeyCreateBuilder, gPKKeyDeleteBuilder);
-            RepoCreds = new RepoCredsClient(_httpFacade, repoCredsListQueryBuilder,repoCredsCreateBuilder);
-            Cluster = new ClusterClient(_httpFacade,clusterQueryBuilder,clusterUpdateBuilder,clusterCreateBuilder);
+            Certificate = new CertificateClient(_httpFacade, upsertBuilder, certificateQueryBuilder);
+            GPKKey = new GPKKeyClient(_httpFacade, upsertBuilder, gPKKeyDeleteBuilder);
+            RepoCreds = new RepoCredsClient(_httpFacade, repoCredsListQueryBuilder, upsertBuilder);
+            Cluster = new ClusterClient(_httpFacade,clusterQueryBuilder,clusterUpdateBuilder, upsertBuilder);
             Repository = new RepositoryClient(_httpFacade,repositoryQueryBuilder,createRepositoryBuilder, repositoryRefreshBuilder, repositoryQueryAppBuilder, validateAccessBuilder);
             Project = new ProjectClient(_httpFacade,appProjectQueryBuilder,projectTokenDeleteBuilder);
 

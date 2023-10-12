@@ -8,6 +8,7 @@ using ArgoCD.Client.Models.Cluster.Requests;
 using ArgoCD.Client.Internal.Queries;
 using ArgoCD.Client.Internal.Utilities;
 using ArgoCD.Client.Internal.Http;
+using ArgoCD.Client.Models;
 
 namespace ArgoCD.Client.Impl
 {
@@ -16,18 +17,18 @@ namespace ArgoCD.Client.Impl
         private readonly IArgoCDHttpFacade _httpFacade;
         private readonly ClusterQueryBuilder _clusterQueryBuilder;
         private readonly ClusterUpdateBuilder _clusterUpdateBuilder;
-        private readonly ClusterCreateBuilder _clusterCreateBuilder;
+        private readonly UpsertBuilder _upsertBuilder;
 
 
         internal ClusterClient(IArgoCDHttpFacade httpFacade,
             ClusterQueryBuilder clusterQueryBuilder,
             ClusterUpdateBuilder clusterUpdateBuilder,
-            ClusterCreateBuilder clusterCreateBuilder)
+            UpsertBuilder upsertBuilder)
         {
             _httpFacade = httpFacade;
             _clusterQueryBuilder = clusterQueryBuilder;
             _clusterUpdateBuilder = clusterUpdateBuilder;
-            _clusterCreateBuilder = clusterCreateBuilder;
+            _upsertBuilder = upsertBuilder;
         }
 
 
@@ -68,15 +69,15 @@ namespace ArgoCD.Client.Impl
         /// Create creates a cluster
         /// </summary>
         /// <param name="request">Create cluster request</param>
-        /// <param name="options">Create options <see cref="CreateClusterOptions"/></param>
+        /// <param name="options">Create options <see cref="UpsertOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<V1alpha1Cluster> CreateClusterAsync(V1alpha1ClusterRequest request, Action<CreateClusterOptions> options, CancellationToken cancellationToken = default)
+        public async Task<V1alpha1Cluster> CreateClusterAsync(V1alpha1ClusterRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default)
         {
-            var createOptions = new CreateClusterOptions();
+            var createOptions = new UpsertOptions();
             options?.Invoke(createOptions);
 
-            string url = _clusterCreateBuilder.Build("clusters", createOptions);
+            string url = _upsertBuilder.Build("clusters", createOptions);
             return await _httpFacade.PostAsync<V1alpha1Cluster>(url, request, cancellationToken).ConfigureAwait(false);
         }
 
@@ -113,7 +114,7 @@ namespace ArgoCD.Client.Impl
             Guard.NotNullOrDefault(queryOptions.IdValue, nameof(queryOptions.IdValue));
 
             string url = _clusterQueryBuilder.Build($"clusters/{queryOptions.IdValue}", queryOptions);
-             await _httpFacade.DeleteAsync(url, cancellationToken).ConfigureAwait(false);
+             await _httpFacade.DeleteAsync(url, request, cancellationToken).ConfigureAwait(false);
         }
 
 

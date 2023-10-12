@@ -6,7 +6,10 @@ namespace ArgoCD.Client.Models.ApplicationSet.Requests
 {
     public sealed class ApplicationSetQueryOptions
     {
-        public ApplicationSetQueryOptions() { }
+        public ApplicationSetQueryOptions(params string[] projects)
+        {
+            Projects = projects;
+        }
 
         /// <summary>
         /// the project names to restrict returned list applicationsets.

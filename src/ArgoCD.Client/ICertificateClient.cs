@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using ArgoCD.Client.Models.Certificate.Reponses;
 using ArgoCD.Client.Models.Certificate.Requests;
+using ArgoCD.Client.Models;
 
 namespace ArgoCD.Client
 {
@@ -24,10 +25,10 @@ namespace ArgoCD.Client
         ///Creates repository certificates on the server
         /// </summary>
         /// <param name="request">Create repository certificate request</param>
-        /// <param name="options">Create options <see cref="CreateCertificateOptions"/></param>
+        /// <param name="options">Create options <see cref="UpsertOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        Task<RepositoryCertificateList> CreateRepositoryCertificateAsync(CreateRepositoryCertificateRequest request, Action<CreateCertificateOptions> options, CancellationToken cancellationToken = default);
+        Task<RepositoryCertificateList> CreateRepositoryCertificateAsync(CreateRepositoryCertificateRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete the certificates that match the RepositoryCertificateQuery

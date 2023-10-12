@@ -7,21 +7,22 @@ using ArgoCD.Client.Internal.Queries;
 using ArgoCD.Client.Models.GPKKey.Responses;
 using ArgoCD.Client.Models.GPKKey.Requests;
 using ArgoCD.Client.Internal.Http;
+using ArgoCD.Client.Models;
 
 namespace ArgoCD.Client.Impl
 {
     public class GPKKeyClient : IGPKKeyClient
     {
         private readonly IArgoCDHttpFacade _httpFacade;
-        private readonly GPKKeyCreateBuilder _gPKKeyCreateBuilder;
+        private readonly UpsertBuilder _upsertBuilder;
         private readonly GPKKeyDeleteBuilder _gPKKeyDeleteBuilder;
 
         internal GPKKeyClient(IArgoCDHttpFacade httpFacade,
-            GPKKeyCreateBuilder gPKKeyCreateBuilder,
-            GPKKeyDeleteBuilder gPKKeyDeleteBuilder)
+               UpsertBuilder upsertBuilder,
+                GPKKeyDeleteBuilder gPKKeyDeleteBuilder)
         {
             _httpFacade = httpFacade;
-            _gPKKeyCreateBuilder = gPKKeyCreateBuilder;
+            _upsertBuilder = upsertBuilder;
             _gPKKeyDeleteBuilder = gPKKeyDeleteBuilder;
         }
 
@@ -48,15 +49,15 @@ namespace ArgoCD.Client.Impl
         /// Create one or more GPG public keys in the server's configuration
         /// </summary>
         /// <param name="request">Create GPKKey request</param>
-        /// <param name="options">Create options <see cref="CreateGPKKeyOptions"/></param>
+        /// <param name="options">Create options <see cref="UpsertOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<GnuPGPublicKey> CreateGPKKeyAsync(CreateGPGKeyRequest request, Action<CreateGPKKeyOptions> options, CancellationToken cancellationToken = default)
+        public async Task<GnuPGPublicKey> CreateGPKKeyAsync(CreateGPGKeyRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default)
         {
-            var queryOptions = new CreateGPKKeyOptions();
+            var queryOptions = new UpsertOptions();
             options?.Invoke(queryOptions);
 
-            string url = _gPKKeyCreateBuilder.Build("gpgkeys", queryOptions);
+            string url = _upsertBuilder.Build("gpgkeys", queryOptions);
             return await _httpFacade.PostAsync<GnuPGPublicKey>(url, request, cancellationToken).ConfigureAwait(false);
         }
 
