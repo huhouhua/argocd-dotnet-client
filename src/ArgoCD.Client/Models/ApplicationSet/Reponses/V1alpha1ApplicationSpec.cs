@@ -45,7 +45,7 @@ namespace ArgoCD.Client.Models.ApplicationSet.Reponses
         /// <summary>
         /// Sources is a reference to the location of the application's manifests or chart
         /// </summary>
-        public V1alpha1ApplicationSource[] SourceS { get; set; }
+        public V1alpha1ApplicationSource[] Sources { get; set; }
 
         /// <summary>
         /// SyncPolicy controls when a sync will be performed in response to updates in git
