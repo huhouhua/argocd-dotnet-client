@@ -96,9 +96,16 @@ namespace ArgoCD.Client.Impl
             var applicationCreateOrUpdateBuilder = new ApplicationCreateOrUpdateBuilder();
             var applicationDeleteBuilder = new ApplicationDeleteBuilder();
             var resourcesQueryBuilder = new ResourcesQueryBuilder();
+            var applicationEventQueryBuilder = new ApplicationEventQueryBuilder();
+            var applicationLinksQueryBuilder = new ApplicationLinksQueryBuilder();
+            var applicationLogQueryBuilder = new ApplicationLogQueryBuilder();
+            var applicationManifestsQueryBuilder = new ApplicationManifestsQueryBuilder();
+            var terminateOperationBuilder = new TerminateOperationBuilder();
+            var applicationResourceQueryBuilder = new ApplicationResourceQueryBuilder();
+            var applicationResourceCreateBuilder = new ApplicationResourceCreateBuilder();
+            var applicationResourceDeleteBuilder = new ApplicationResourceDeleteBuilder();
 
-
-             Version = new VersionClient(_httpFacadeFromApp);
+            Version = new VersionClient(_httpFacadeFromApp);
             Settings = new SettingsClient(_httpFacade);
             Notification = new NotificationClient(_httpFacade);
             Session = new SessionClient(_httpFacade);
@@ -110,7 +117,13 @@ namespace ArgoCD.Client.Impl
             Repository = new RepositoryClient(_httpFacade,repositoryQueryBuilder,createRepositoryBuilder, repositoryRefreshBuilder, repositoryQueryAppBuilder, validateAccessBuilder);
             Project = new ProjectClient(_httpFacade,appProjectQueryBuilder,projectTokenDeleteBuilder);
             ApplicationSet = new ApplicationSetClient(_httpFacade,upsertBuilder,applicationSetQueryBuilder,applicationSetListQueryBuilder);
-            Application = new ApplicationClient(_httpFacade, applicationListQueryBuilder,applicationQueryBuilder,applicationCreateOrUpdateBuilder,applicationDeleteBuilder, resourcesQueryBuilder);
+            Application = new ApplicationClient(_httpFacade, applicationListQueryBuilder,
+                applicationQueryBuilder,applicationCreateOrUpdateBuilder,
+                applicationDeleteBuilder, resourcesQueryBuilder,
+                applicationEventQueryBuilder,applicationLinksQueryBuilder,
+                applicationLogQueryBuilder,applicationManifestsQueryBuilder,
+                terminateOperationBuilder,applicationResourceQueryBuilder,
+                applicationResourceCreateBuilder,applicationResourceDeleteBuilder);
         }
 
 

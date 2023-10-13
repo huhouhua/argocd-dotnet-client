@@ -9,6 +9,7 @@ using ArgoCD.Client.Internal.Builders;
 using ArgoCD.Client.Internal.Http;
 using ArgoCD.Client.Internal.Utilities;
 using System.Xml.Linq;
+using ArgoCD.Client.Models.Project.Responses;
 
 namespace ArgoCD.Client.Impl
 {
@@ -20,12 +21,29 @@ namespace ArgoCD.Client.Impl
         private readonly ApplicationCreateOrUpdateBuilder _applicationCreateOrUpdateBuilder;
         private readonly ApplicationDeleteBuilder _applicationDeleteBuilder;
         private readonly ResourcesQueryBuilder _resourcesQueryBuilder;
+        private readonly ApplicationEventQueryBuilder _applicationEventQueryBuilder;
+        private readonly ApplicationLinksQueryBuilder _applicationLinksQueryBuilder;
+        private readonly ApplicationLogQueryBuilder _applicationLogQueryBuilder;
+        private readonly ApplicationManifestsQueryBuilder _applicationManifestsQueryBuilder;
+        private readonly TerminateOperationBuilder _terminateOperationBuilder;
+        private readonly ApplicationResourceQueryBuilder _applicationResourceQueryBuilder;
+        private readonly ApplicationResourceCreateBuilder _applicationResourceCreateBuilder;
+        private readonly ApplicationResourceDeleteBuilder _applicationResourceDeleteBuilder;
+
         internal ApplicationClient(IArgoCDHttpFacade httpFacade,
             ApplicationListQueryBuilder applicationListQueryBuilder,
             ApplicationQueryBuilder applicationQueryBuilder,
             ApplicationCreateOrUpdateBuilder applicationCreateOrUpdateBuilder,
             ApplicationDeleteBuilder applicationDeleteBuilder,
-            ResourcesQueryBuilder resourcesQueryBuilder)
+            ResourcesQueryBuilder resourcesQueryBuilder,
+            ApplicationEventQueryBuilder applicationEventQueryBuilder,
+            ApplicationLinksQueryBuilder applicationLinksQueryBuilder,
+            ApplicationLogQueryBuilder applicationLogQueryBuilder,
+            ApplicationManifestsQueryBuilder applicationManifestsQueryBuilder,
+            TerminateOperationBuilder terminateOperationBuilder,
+            ApplicationResourceQueryBuilder applicationResourceQueryBuilder,
+            ApplicationResourceCreateBuilder applicationResourceCreateBuilder,
+            ApplicationResourceDeleteBuilder applicationResourceDeleteBuilder)
         {
             _httpFacade = httpFacade;
             _applicationListQueryBuilder = applicationListQueryBuilder;
@@ -33,6 +51,14 @@ namespace ArgoCD.Client.Impl
             _applicationCreateOrUpdateBuilder = applicationCreateOrUpdateBuilder;
             _applicationDeleteBuilder = applicationDeleteBuilder;
             _resourcesQueryBuilder = resourcesQueryBuilder;
+            _applicationEventQueryBuilder = applicationEventQueryBuilder;
+            _applicationLinksQueryBuilder = applicationLinksQueryBuilder;
+            _applicationLogQueryBuilder = applicationLogQueryBuilder;
+            _applicationManifestsQueryBuilder = applicationManifestsQueryBuilder;
+            _applicationResourceDeleteBuilder = applicationResourceDeleteBuilder;
+            _terminateOperationBuilder = terminateOperationBuilder;
+            _applicationResourceQueryBuilder = applicationResourceQueryBuilder;
+            _applicationResourceCreateBuilder = applicationResourceCreateBuilder;
         }
 
         /// <summary>
@@ -196,6 +222,185 @@ namespace ArgoCD.Client.Impl
 
             string url = _resourcesQueryBuilder.Build($"applications/{name}/resource-tree", queryOptions);
             return await _httpFacade.GetAsync<V1alpha1ApplicationTree>(url, cancellationToken).
+                ConfigureAwait(false);
+        }
+
+
+
+        /// <summary>
+        /// returns a list of event resources
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Get options <see cref="ApplicationEventQueryOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task<V1EventList> GetApplicationEventsAsync(string name, Action<ApplicationEventQueryOptions> options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            var queryOptions = new ApplicationEventQueryOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _applicationEventQueryBuilder.Build($"applications/{name}/events", queryOptions);
+            return await _httpFacade.GetAsync<V1EventList>(url, cancellationToken).
+                ConfigureAwait(false);
+
+        }
+
+        /// <summary>
+        ///  returns the list of all application deep links
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Get options <see cref="ApplicationLinksQueryOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task<ApplicationLinks> GetApplicationLinksAsync(string name, Action<ApplicationLinksQueryOptions> options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            var queryOptions = new ApplicationLinksQueryOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _applicationLinksQueryBuilder.Build($"applications/{name}/links", queryOptions);
+            return await _httpFacade.GetAsync<ApplicationLinks>(url, cancellationToken).
+                ConfigureAwait(false);
+        }
+
+
+        /// <summary>
+        ///  returns stream of log entries for the specified pod. Pod
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Get options <see cref="ApplicationLogQueryOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task<ApplicationLogEntryStream> GetApplicationLogsAsync(string name, Action<ApplicationLogQueryOptions> options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            var queryOptions = new ApplicationLogQueryOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _applicationLogQueryBuilder.Build($"applications/{name}/logs", queryOptions);
+            return await _httpFacade.GetAsync<ApplicationLogEntryStream>(url, cancellationToken).
+                ConfigureAwait(false);
+        }
+
+
+        /// <summary>
+        ///  returns stream of log entries for the specified pod. Pod
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Get options <see cref="ApplicationManifestsQueryOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task<RepositoryManifest> GetApplicationManifestsAsync(string name, Action<ApplicationManifestsQueryOptions> options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            var queryOptions = new ApplicationManifestsQueryOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _applicationManifestsQueryBuilder.Build($"applications/{name}/manifests", queryOptions);
+            return await _httpFacade.GetAsync<RepositoryManifest>(url, cancellationToken).
+                ConfigureAwait(false);
+        }
+
+
+        /// <summary>
+        /// terminates the currently running operation
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Terminate options <see cref="TerminateOperationOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task TerminateOperationAsync(string name, Action<TerminateOperationOptions> options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            var queryOptions = new TerminateOperationOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _terminateOperationBuilder.Build($"applications/{name}/operation", queryOptions);
+             await _httpFacade.DeleteAsync(url, cancellationToken).
+                ConfigureAwait(false);
+
+        }
+
+
+        /// <summary>
+        /// returns stream of log entries for the specified pod. Pod
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Get options <see cref="ApplicationLogQueryOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task<ApplicationLogEntryStream> GetPodLogsAsync(string name, Action<ApplicationLogQueryOptions> options, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            Guard.NotNull(options, nameof(options));
+
+            var queryOptions = new ApplicationLogQueryOptions();
+            options.Invoke(queryOptions);
+
+            Guard.NotEmpty(queryOptions.PodName, nameof(queryOptions.PodName));
+
+            string url = _applicationLogQueryBuilder.Build($"applications/{name}/pods/{queryOptions.PodName}/logs", queryOptions);
+           return await _httpFacade.GetAsync<ApplicationLogEntryStream>(url, cancellationToken).
+               ConfigureAwait(false);
+        }
+
+
+        /// <summary>
+        /// returns single application resource
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Get options <see cref="ApplicationResourceQueryOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task<ApplicationResource> GetResourceAsync(string name, Action<ApplicationResourceQueryOptions> options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            var queryOptions = new ApplicationResourceQueryOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _applicationResourceQueryBuilder.Build($"applications/{name}/resource", queryOptions);
+            return await _httpFacade.GetAsync<ApplicationResource>(url, cancellationToken).
+                ConfigureAwait(false);
+
+        }
+
+
+        /// <summary>
+        /// patch single application resource
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Create options <see cref="CreateApplicationResourceOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task<ApplicationResource> CreateResourceAsync(string name, string resourceData, Action<CreateApplicationResourceOptions> options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            Guard.NotEmpty(resourceData, nameof(resourceData));
+            var queryOptions = new CreateApplicationResourceOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _applicationResourceCreateBuilder.Build($"applications/{name}/resource", queryOptions);
+            return await _httpFacade.PostAsync<ApplicationResource>(url, resourceData, cancellationToken).
+                ConfigureAwait(false);
+        }
+
+
+        /// <summary>
+        /// deletes a single application resource
+        /// </summary>
+        /// <param name="name">the application's name</param>
+        /// <param name="options">Delete options <see cref="DeleteApplicationResourceOptions"/></param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
+        /// <returns></returns>
+        public async Task DeleteResourceAsync(string name, Action<DeleteApplicationResourceOptions> options = null, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            var queryOptions = new DeleteApplicationResourceOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _applicationResourceDeleteBuilder.Build($"applications/{name}/resource", queryOptions);
+             await _httpFacade.DeleteAsync(url, cancellationToken).
                 ConfigureAwait(false);
         }
     }
