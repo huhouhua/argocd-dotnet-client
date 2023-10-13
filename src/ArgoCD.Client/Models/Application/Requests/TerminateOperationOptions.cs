@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ArgoCD.Client.Models.Application.Requests
 {
-    public sealed class DeleteApplicationOperationOptions
+    public sealed class TerminateOperationOptions
     {
-        public DeleteApplicationOperationOptions() { }
+        public TerminateOperationOptions() { }
 
         public string AppNamespace { get; set; }
 
