@@ -4,9 +4,9 @@ using System.Text;
 
 namespace ArgoCD.Client.Models.Application.Requests
 {
-    public sealed class ApplicationEventOptions
+    public sealed class ApplicationEventQueryOptions
     {
-        public ApplicationEventOptions() { }
+        public ApplicationEventQueryOptions() { }
 
         public string ResourceNamespace { get; set; }
 
