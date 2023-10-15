@@ -43,10 +43,13 @@ namespace ArgoCD.Client.Impl
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <param name="keyID">The GPG key ID to query for </param>
         /// <returns></returns>
-        public async Task<V1alpha1GnuPGPublicKey> GetAsync(string keyID, CancellationToken cancellationToken = default) =>
-            await _httpFacade.GetAsync<V1alpha1GnuPGPublicKey>($"gpgkeys/{keyID}", cancellationToken).
+        public async Task<V1alpha1GnuPGPublicKey> GetAsync(string keyID, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(keyID, nameof(keyID));
+           return await _httpFacade.GetAsync<V1alpha1GnuPGPublicKey>($"gpgkeys/{keyID}", cancellationToken).
             ConfigureAwait(false);
-
+        }
+      
 
         /// <summary>
         /// Create one or more GPG public keys in the server's configuration

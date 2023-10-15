@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using ArgoCD.Client.Internal.Http;
 using ArgoCD.Client.Internal.Utilities;
 using ArgoCD.Client.Models.Account.Requests;
 using ArgoCD.Client.Models.Account.Responses;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ArgoCD.Client.Impl
 {
@@ -22,9 +24,15 @@ namespace ArgoCD.Client.Impl
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<AccountCanI> CheckAccountPermissionAsync(string resource, string action, string subresource, CancellationToken cancellationToken = default) =>
-             await _httpFacade.GetAsync<AccountCanI>($"account/can-i/{resource}/{action}/{subresource}",cancellationToken).
+        public async Task<AccountCanI> CheckAccountPermissionAsync(string resource, string action, string subresource, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(resource, nameof(resource));
+            Guard.NotEmpty(action, nameof(action));
+            Guard.NotEmpty(subresource, nameof(subresource));
+
+           return await _httpFacade.GetAsync<AccountCanI>($"account/can-i/{resource}/{action}/{subresource}", cancellationToken).
             ConfigureAwait(false);
+        }
 
         /// <summary>
         /// CreateToken creates a token
@@ -43,9 +51,14 @@ namespace ArgoCD.Client.Impl
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task DeleteAccountAsync(string name, string id, CancellationToken cancellationToken = default) =>
-            await _httpFacade.DeleteAsync($"account/{name}/token/{id}",cancellationToken).
+        public async Task DeleteAccountAsync(string name, string id, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            Guard.NotEmpty(id, nameof(id));
+              await _httpFacade.DeleteAsync($"account/{name}/token/{id}", cancellationToken).
             ConfigureAwait(false);
+
+        }
 
 
         /// <summary>
@@ -53,9 +66,12 @@ namespace ArgoCD.Client.Impl
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<Account> GetAccountAsync(string name, CancellationToken cancellationToken = default) =>
-            await _httpFacade.GetAsync<Account>($"account/{name}",cancellationToken).
+        public async Task<Account> GetAccountAsync(string name, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(name, nameof(name));
+            return await _httpFacade.GetAsync<Account>($"account/{name}", cancellationToken).
             ConfigureAwait(false);
+        }
 
         /// <summary>
         /// ListAccounts returns the list of accounts
