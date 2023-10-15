@@ -9,10 +9,10 @@ namespace ArgoCD.Client.Models.Application.Reponses
     public class ApplicationSyncWindows
     {
 
-        public ApplicationApplicationSyncWindow[] ActiveWindows { get; set; }
+        public ApplicationSyncWindow[] ActiveWindows { get; set; }
 
    
-        public ApplicationApplicationSyncWindow[] AssignedWindows { get; set; }
+        public ApplicationSyncWindow[] AssignedWindows { get; set; }
 
 
         public bool CanSync { get; set; }

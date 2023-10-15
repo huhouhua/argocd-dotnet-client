@@ -104,6 +104,9 @@ namespace ArgoCD.Client.Impl
             var applicationResourceQueryBuilder = new ApplicationResourceQueryBuilder();
             var applicationResourceCreateBuilder = new ApplicationResourceCreateBuilder();
             var applicationResourceDeleteBuilder = new ApplicationResourceDeleteBuilder();
+            var applicationDetailsQueryBuilder = new ApplicationDetailsQueryBuilder();
+            var applicationUpdateSpecBuilder = new ApplicationUpdateSpecBuilder();
+            var applicationWatchQueryBuilder = new ApplicationWatchQueryBuilder();
 
             Version = new VersionClient(_httpFacadeFromApp);
             Settings = new SettingsClient(_httpFacade);
@@ -123,7 +126,9 @@ namespace ArgoCD.Client.Impl
                 applicationEventQueryBuilder,applicationLinksQueryBuilder,
                 applicationLogQueryBuilder,applicationManifestsQueryBuilder,
                 terminateOperationBuilder,applicationResourceQueryBuilder,
-                applicationResourceCreateBuilder,applicationResourceDeleteBuilder);
+                applicationResourceCreateBuilder,applicationResourceDeleteBuilder,
+                applicationDetailsQueryBuilder,applicationUpdateSpecBuilder,
+                applicationWatchQueryBuilder);
         }
 
 
