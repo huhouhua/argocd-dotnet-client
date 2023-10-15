@@ -30,7 +30,7 @@ namespace ArgoCD.Client.Internal.Builders
             if (options.TailLines.IsNotNullOrEmpty())
                 query.Add("tailLines", options.TailLines);
 
-            query.Add("follow", options.Follow.ToLowerCaseString());
+            query.Add("follow", options.Follow);
 
             if (options.UntilTime.IsNotNullOrEmpty())
                 query.Add("untilTime", options.UntilTime);
@@ -47,7 +47,7 @@ namespace ArgoCD.Client.Internal.Builders
             if (options.ResourceName.IsNotNullOrEmpty())
                 query.Add("resourceName", options.ResourceName);
 
-            query.Add("previous", options.Previous.ToLowerCaseString());
+            query.Add("previous", options.Previous);
 
             if (options.AppNamespace.IsNotNullOrEmpty())
                 query.Add("appNamespace", options.AppNamespace);

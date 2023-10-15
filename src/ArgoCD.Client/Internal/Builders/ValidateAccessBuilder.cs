@@ -11,9 +11,9 @@ namespace ArgoCD.Client.Internal.Builders
     {
         protected override void BuildCore(Query query, ValidateAccessOptions options)
         {
-            query.Add("insecure", options.Insecure.ToLowerCaseString());
-            query.Add("enableOci", options.EnableOCI.ToLowerCaseString());
-            query.Add("forceHttpBasicAuth", options.ForceHttpBasicAuth.ToLowerCaseString());
+            query.Add("insecure", options.Insecure);
+            query.Add("enableOci", options.EnableOCI);
+            query.Add("forceHttpBasicAuth", options.ForceHttpBasicAuth);
 
             if (options.Username.IsNotNullOrEmpty())
                 query.Add("username",options.Username);

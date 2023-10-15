@@ -14,11 +14,7 @@ namespace ArgoCD.Client.Internal.Builders
             {
                 query.Add("id.value",options.IdValue);
             }
-
-            foreach (string item in options.UpdatedFields)
-            {
-                query.Add("updatedFields", item);
-            }
+            query.Add("updatedFields", options.UpdatedFields);
         }
     }
 }

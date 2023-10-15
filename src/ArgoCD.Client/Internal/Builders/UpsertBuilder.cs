@@ -11,7 +11,7 @@ namespace ArgoCD.Client.Internal.Builders
     {
         protected override void BuildCore(Query query, UpsertOptions options)
         {
-            query.Add("upsert", options.Upsert.ToLowerCaseString());
+            query.Add("upsert", options.Upsert);
         }
     }
 }
