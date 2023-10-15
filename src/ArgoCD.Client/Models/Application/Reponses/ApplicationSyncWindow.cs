@@ -1,6 +1,6 @@
 namespace ArgoCD.Client.Models.Application.Reponses
 {
-    public class ApplicationApplicationSyncWindow
+    public class ApplicationSyncWindow
     {
 
         public string Duration { get; set; }
