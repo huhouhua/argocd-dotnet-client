@@ -11,10 +11,12 @@ namespace ArgoCD.Client.Internal.Builders
         protected override void BuildCore(Query query, ApplicationListQueryOptions options)
         {
             if (options.Name.IsNotNullOrEmpty())
-                query.Add("name",options.Name);
+                query.Add("name", options.Name);
 
             if (options.Refresh.IsNotNullOrEmpty())
                 query.Add("refresh", options.Refresh);
+
+             query.Add("projects",options.Projects);
 
             if (options.ResourceVersion.IsNotNullOrEmpty())
                 query.Add("resourceVersion", options.ResourceVersion);
@@ -28,14 +30,7 @@ namespace ArgoCD.Client.Internal.Builders
             if (options.AppNamespace.IsNotNullOrEmpty())
                 query.Add("appNamespace", options.AppNamespace);
 
-            foreach (string item in options.Projects)
-            {
-                query.Add("projects",item);
-            }
-            foreach (string item in options.Project)
-            {
-                query.Add("project", item);
-            }
+            query.Add("project", options.Project);
         }
     }
 }

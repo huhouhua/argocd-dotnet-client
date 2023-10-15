@@ -15,7 +15,10 @@ namespace ArgoCD.Client.Internal.Builders
             private readonly NameValueCollection _nameValues = new NameValueCollection();
 
             public void Add(string name, string value)
-                => _nameValues.Add(name, value);
+            {
+               if(name.IsNotNullOrEmpty())
+                _nameValues.Add(name, value);
+            }
 
             public void Add(string name, bool value)
                 => Add(name, value.ToLowerCaseString());
@@ -28,20 +31,29 @@ namespace ArgoCD.Client.Internal.Builders
 
             public void Add(string name, IList<string> values)
             {
-                if (!values.Any())
+                if (name.IsNullOrEmpty() ||  values == null  ||   !values.Any())
                     return;
-
-                Add(name, string.Join(",", values));
+                foreach (string item in values)
+                {
+                    if(item.IsNotNullOrEmpty())
+                    Add(name, item);
+                }
             }
 
             public void Add(string name, IList<int> values)
             {
+                if (name.IsNullOrEmpty() ||  values == null)
+                    return;
+
                 foreach (int val in values)
                     Add($"{name}[]", val.ToString());
             }
 
             public void Add(IList<int> values)
             {
+                if (values == null)
+                    return;
+
                 foreach (int iid in values)
                     Add("iids[]", iid.ToString());
             }
@@ -61,7 +73,7 @@ namespace ArgoCD.Client.Internal.Builders
         {
             var query = new Query();
             BuildCore(query, options);
-            return baseUrl + query.ToQueryString();
+            return string.Concat(baseUrl, query.ToQueryString());
         }
 
         protected abstract void BuildCore(Query query, T options);

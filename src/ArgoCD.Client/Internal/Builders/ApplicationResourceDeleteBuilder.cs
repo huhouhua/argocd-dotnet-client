@@ -25,8 +25,8 @@ namespace ArgoCD.Client.Internal.Builders
             if (options.Kind.IsNotNullOrEmpty())
                 query.Add("kind", options.Kind);
 
-            query.Add("force", options.Force.ToLowerCaseString());
-            query.Add("orphan", options.Orphan.ToLowerCaseString());
+            query.Add("force", options.Force);
+            query.Add("orphan", options.Orphan);
 
             if (options.AppNamespace.IsNotNullOrEmpty())
                 query.Add("appNamespace", options.AppNamespace);

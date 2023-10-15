@@ -10,7 +10,7 @@ namespace ArgoCD.Client.Internal.Builders
     {
         protected override void BuildCore(Query query, RepositoryQueryOptions options)
         {
-            query.Add("forceRefresh", options.ForceRefresh.ToLowerCaseString());
+            query.Add("forceRefresh", options.ForceRefresh);
 
             if (options.Repo.IsNotNullOrEmpty())
                 query.Add("repo",options.Repo);

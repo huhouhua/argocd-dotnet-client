@@ -6,14 +6,18 @@ using ArgoCD.Client.Models.Application.Requests;
 
 namespace ArgoCD.Client.Internal.Builders
 {
-    internal sealed class ApplicationQueryBuilder : QueryBuilder<ApplicationQueryOptions>
+    internal sealed class ApplicationWatchQueryBuilder : QueryBuilder<ApplicationWatchQueryOptions>
     {
-
-        protected override void BuildCore(Query query, ApplicationQueryOptions options)
+        protected override void BuildCore(Query query, ApplicationWatchQueryOptions options)
         {
+            if (options.Name.IsNotNullOrEmpty())
+                query.Add("name",options.Name);
 
             if (options.Refresh.IsNotNullOrEmpty())
                 query.Add("refresh", options.Refresh);
+
+                query.Add("projects", options.Projects);
+                query.Add("project", options.Project);
 
             if (options.ResourceVersion.IsNotNullOrEmpty())
                 query.Add("resourceVersion", options.ResourceVersion);
@@ -26,9 +30,6 @@ namespace ArgoCD.Client.Internal.Builders
 
             if (options.AppNamespace.IsNotNullOrEmpty())
                 query.Add("appNamespace", options.AppNamespace);
-
-            query.Add("projects", options.Projects);
-            query.Add("project", options.Project);
         }
     }
 }

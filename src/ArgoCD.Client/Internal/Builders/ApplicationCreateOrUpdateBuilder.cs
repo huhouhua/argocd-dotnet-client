@@ -10,8 +10,8 @@ namespace ArgoCD.Client.Internal.Builders
     {
         protected override void BuildCore(Query query, CreateOrUpdateApplicationOptions options)
         {
-            query.Add("upsert",options.Upsert.ToLowerCaseString());
-            query.Add("validate",options.Validate.ToLowerCaseString());
+            query.Add("upsert",options.Upsert);
+            query.Add("validate",options.Validate);
         }
     }
 }

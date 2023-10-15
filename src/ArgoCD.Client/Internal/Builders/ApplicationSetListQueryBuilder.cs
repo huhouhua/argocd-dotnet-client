@@ -20,10 +20,7 @@ namespace ArgoCD.Client.Internal.Builders
             if (options.AppsetNamespace.IsNotNullOrEmpty())
                 query.Add("appsetNamespace", options.AppsetNamespace);
 
-            foreach (string item in options.Projects)
-            {
-                query.Add("projects",item);
-            }
+            query.Add("projects", options.Projects);
 
         }
     }

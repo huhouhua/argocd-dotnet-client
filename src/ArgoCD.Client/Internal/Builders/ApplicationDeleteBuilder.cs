@@ -10,7 +10,7 @@ namespace ArgoCD.Client.Internal.Builders
     {
         protected override void BuildCore(Query query, DeleteApplicationOptions options)
         {
-            query.Add("cascade",options.Cascade.ToLowerCaseString());
+            query.Add("cascade",options.Cascade);
 
             if (options.PropagationPolicy.IsNotNullOrEmpty())
                 query.Add("propagationPolicy",options.PropagationPolicy);
