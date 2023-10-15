@@ -65,7 +65,7 @@ namespace ArgoCD.Client.Internal.Builders
                             ?.Select(value => $"{key.UrlEncode()}={value.UrlEncode()}")
                     )
                     .ToArray();
-                return array.Any() ? "?" + string.Join("&", array) : "";
+                return array.Any() ? string.Concat("?", string.Join("&", array)) : "";
             }
         }
 
