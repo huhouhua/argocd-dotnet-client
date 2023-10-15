@@ -86,6 +86,7 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<V1alpha1Repository> UpdateRepositoryAsync(string repo, CreateRepositoryRequest request, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(repo, nameof(repo));
             Guard.NotNull(request, nameof(request));
 
            return await _httpFacade.PutAsync<V1alpha1Repository>($"repositories/{repo}", request, cancellationToken).
@@ -102,6 +103,7 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<V1alpha1Repository> GetRepositoryAsync(string repo, Action<RepositoryRefreshOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(repo, nameof(repo));
             var queryOptions = new RepositoryRefreshOptions();
             options?.Invoke(queryOptions);
 
@@ -121,6 +123,7 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task DeleteRepositoryAsync(string repo, Action<RepositoryRefreshOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(repo, nameof(repo));
             var queryOptions = new RepositoryRefreshOptions();
             options?.Invoke(queryOptions);
 
@@ -138,6 +141,7 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<RepositoryRepoApps> GetAppByListAsync(string repo, Action<RepositoryQueryAppOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(repo, nameof(repo));
             var queryOptions = new RepositoryQueryAppOptions();
             options?.Invoke(queryOptions);
 
@@ -156,6 +160,7 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<RepositoryHelmCharts> GetHelmChartByListAsync(string repo, Action<RepositoryRefreshOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(repo, nameof(repo));
             var queryOptions = new RepositoryRefreshOptions();
             options?.Invoke(queryOptions);
 
@@ -175,6 +180,7 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<RepositoryRefs> GetRepositoryRefsAsync(string repo, Action<RepositoryRefreshOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(repo, nameof(repo));
             var queryOptions = new RepositoryRefreshOptions();
             options?.Invoke(queryOptions);
 
@@ -194,6 +200,8 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task ValidateAccessAsync(string repo, string body, Action<ValidateAccessOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(repo, nameof(repo));
+            Guard.NotEmpty(body, nameof(body));
             var queryOptions = new ValidateAccessOptions();
             options?.Invoke(queryOptions);
 
@@ -213,6 +221,7 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<RepositoryRepoAppDetails> GetAppDetailsAsync(string repoURL, AppDetailsRequest request, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(repoURL, nameof(repoURL));
             Guard.NotNull(request, nameof(request));
 
            return await _httpFacade.PostAsync<RepositoryRepoAppDetails>($"repositories/{repoURL}/appdetails", request, cancellationToken).

@@ -55,6 +55,8 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<V1alpha1ApplicationSet> GetAsync(string name, Action<ApplicationSetQueryOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(name, nameof(name));
+
             var queryOptions = new ApplicationSetQueryOptions();
             options?.Invoke(queryOptions);
 
@@ -73,7 +75,8 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<V1alpha1ApplicationSet> CreateApplicationSetAsync(CreateApplicationSetRequest request, Action<UpsertOptions> options, CancellationToken cancellationToken = default)
         {
-            Guard.NotNull(request?.ApplicationSet, nameof(request));
+            Guard.NotNull(request, nameof(request));
+            Guard.NotNull(request.ApplicationSet, nameof(request.ApplicationSet));
 
             var queryOptions = new UpsertOptions();
             options?.Invoke(queryOptions);
@@ -93,6 +96,7 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task<DeleteApplicationSetResult> DeleteAsync(string name, Action<ApplicationSetQueryOptions> options, CancellationToken cancellationToken = default)
         {
+            Guard.NotEmpty(name, nameof(name));
             var queryOptions = new ApplicationSetQueryOptions();
             options?.Invoke(queryOptions);
 

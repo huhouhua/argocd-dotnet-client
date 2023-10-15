@@ -46,7 +46,6 @@ namespace ArgoCD.Client.Impl
             string url = _clusterQueryBuilder.Build("clusters", queryOptions);
             return await _httpFacade.GetAsync<V1alpha1ClusterList>(url, cancellationToken).
                 ConfigureAwait(false);
-
         }
 
 
@@ -135,9 +134,12 @@ namespace ArgoCD.Client.Impl
         /// <param name="idValue">value holds the cluster server URL or cluster name</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task InvalidateCacheAsync(string idValue, CancellationToken cancellationToken = default) =>
-            await _httpFacade.PostAsync($"clusters/{idValue}/invalidate-cache",cancellationToken).
-            ConfigureAwait(false);
+        public async Task InvalidateCacheAsync(string idValue, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(idValue,nameof(idValue));
+            await _httpFacade.PostAsync($"clusters/{idValue}/invalidate-cache", cancellationToken).
+                ConfigureAwait(false);
+        }
 
 
         /// <summary>
@@ -146,9 +148,12 @@ namespace ArgoCD.Client.Impl
         /// <param name="idValue">value holds the cluster server URL or cluster name</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task RotateAuthAsync(string idValue, CancellationToken cancellationToken = default) =>
-            await _httpFacade.PostAsync($"clusters/{idValue}/rotate-auth",cancellationToken).
+        public async Task RotateAuthAsync(string idValue, CancellationToken cancellationToken = default)
+        {
+            Guard.NotEmpty(idValue, nameof(idValue));
+            await _httpFacade.PostAsync($"clusters/{idValue}/rotate-auth", cancellationToken).
             ConfigureAwait(false);
 
+        }
     }
 }
