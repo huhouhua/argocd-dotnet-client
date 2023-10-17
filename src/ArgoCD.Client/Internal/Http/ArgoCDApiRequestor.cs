@@ -149,13 +149,17 @@ namespace ArgoCD.Client.Internal.Http
             return Tuple.Create(await ReadResponseAsync<T>(responseMessage), responseMessage.Headers);
         }
 
-        private static async Task EnsureSuccessStatusCodeAsync(HttpResponseMessage responseMessage)
+        private  async Task EnsureSuccessStatusCodeAsync(HttpResponseMessage responseMessage)
         {
             if (responseMessage.IsSuccessStatusCode)
                 return;
 
             string errorResponse = await responseMessage.Content.ReadAsStringAsync().
                 ConfigureAwait(false);
+
+            var runtimeError = _jsonSerializer.Deserialize<RuntimeError>(errorResponse);
+                
+
             throw new ArgoCDException(responseMessage.StatusCode, errorResponse ?? "");
         }
 
