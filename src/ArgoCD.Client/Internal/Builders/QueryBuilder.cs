@@ -77,18 +77,5 @@ namespace ArgoCD.Client.Internal.Builders
         }
 
         protected abstract void BuildCore(Query query, T options);
-
-        protected static string GetSortOrderQueryValue(SortOrder order)
-        {
-            switch (order)
-            {
-                case SortOrder.Ascending:
-                    return "asc";
-                case SortOrder.Descending:
-                    return "desc";
-                default:
-                    throw new NotSupportedException($"Order {order} not supported");
-            }
-        }
     }
 }
