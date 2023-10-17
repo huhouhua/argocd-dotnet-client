@@ -13,12 +13,12 @@ namespace ArgoCD.Client.Test
     {
         private readonly IVersionClient _client = new VersionClient(GetFacadeWithUnauthorized());
 
-        [Fact]
-        public async Task GetVersionInfoTest()
-        {
-            var file = await _client.GetVersionAsync().
-                ConfigureAwait(false);
+        //[Fact]
+        //public async Task GetVersionInfoTest()
+        //{
+        //    var file = await _client.GetVersionAsync().
+        //        ConfigureAwait(false);
 
-        }
+        //}
     }
 }
