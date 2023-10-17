@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using ArgoCD.Client.Models.Session.Responses;
+using ArgoCD.Client.Models.Session.Requests;
 
 namespace ArgoCD.Client.Internal.Http
 {
@@ -28,5 +30,7 @@ namespace ArgoCD.Client.Internal.Http
         Task<T> DeleteAsync<T>(string uri, CancellationToken cancellationToken = default);
 
         Task DeleteAsync(string uri, object data, CancellationToken cancellationToken = default);
+
+        Task<Session> LoginAsync(CreateSessionRequest sessionRequest);
     }
 }

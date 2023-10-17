@@ -27,8 +27,9 @@ namespace ArgoCD.Client.Impl
         {
             Guard.NotNull(clientFactory, nameof(clientFactory));
             Setup(() => clientFactory.CreateClient());
-          
         }
+
+
 
         public ArgoCDClient(IHttpClientFactory clientFactory, string clientName)
         {
@@ -65,7 +66,7 @@ namespace ArgoCD.Client.Impl
             _httpFacade = new DefaultArgoCDHttpFacade(
                  clientFunc,
                  jsonSerializer);
-
+           
             _httpFacadeFromApp = new DefaultArgoCDHttpFacade(
               () =>
               {
@@ -217,5 +218,7 @@ namespace ArgoCD.Client.Impl
             }
             return $"{url}/";
         }
+
+        
     }
 }
