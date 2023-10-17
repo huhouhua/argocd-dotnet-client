@@ -18,7 +18,7 @@ namespace ArgoCD.Client.Test
         //{
         //    var file = await _client.GetVersionAsync().
         //        ConfigureAwait(false);
-
         //}
+
     }
 }
