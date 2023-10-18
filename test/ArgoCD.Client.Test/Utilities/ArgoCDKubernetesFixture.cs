@@ -9,9 +9,12 @@ namespace ArgoCD.Client.Test.Utilities
 {
     internal class ArgoCDKubernetesFixture : IAsyncLifetime
     {
+        private const string InstallYamlPath = "/k8s/core-install.yaml";
+        private static readonly TemplateString SolutionRootFolder = "${PWD}/../../../../..";
+
         public static string Token { get; private set; }
         public static string ArgoCDHost { get; private set; }
-        private  Kubernetes kubernetes;
+        private IKubernetes kubernetes;
 
 
         public  async Task InitializeAsync()
@@ -22,7 +25,6 @@ namespace ArgoCD.Client.Test.Utilities
 
         public Task DisposeAsync()
         {
-
             kubernetes?.Dispose();
             return Task.CompletedTask;
 
@@ -31,8 +33,14 @@ namespace ArgoCD.Client.Test.Utilities
         {
             var config =  KubernetesClientConfiguration.BuildConfigFromConfigFile(Environment.GetEnvironmentVariable("KUBECONFIG"));
             kubernetes = new Kubernetes(config);
-         
-             await Task.CompletedTask;
+
+           var objects =  await KubernetesYaml.LoadAllFromFileAsync($"{SolutionRootFolder}/{InstallYamlPath}").
+                ConfigureAwait(false);
+
+            foreach (object item in objects)
+            {
+               
+            }
         }
     }
 }
