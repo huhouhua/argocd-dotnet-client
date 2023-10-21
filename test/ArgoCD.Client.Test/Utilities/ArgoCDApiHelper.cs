@@ -9,6 +9,10 @@ namespace ArgoCD.Client.Test.Utilities
     internal static class ArgoCDApiHelper
     {
         public static IArgoCDHttpFacade GetFacadeWithUnauthorized()=>
-            new DefaultArgoCDHttpFacade(() => { return new HttpClient(); }, new RequestsJsonSerializer());
+            new DefaultArgoCDHttpFacade(() => {
+                return new HttpClient()
+                {
+                    BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost),
+                }; }, new RequestsJsonSerializer());
     }
 }
