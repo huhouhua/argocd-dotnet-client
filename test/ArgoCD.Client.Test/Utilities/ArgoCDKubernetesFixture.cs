@@ -58,7 +58,11 @@ namespace ArgoCD.Client.Test.Utilities
                     @namespace = kubernetesObj.Namespace();
                     fieldSelector = $"{fieldSelector},metadata.namespace={kubernetesObj.Namespace()}";
                 }
-
+                var namespaceList = await kubernetes.CoreV1.ListNamespaceAsync(null,null,$"metadata.namespace={@namespace}");
+                if (namespaceList.Items.Any())
+                {
+                    break;
+                }
                 switch (kubernetesObj.Kind)
                 {
                     case V1CustomResourceDefinition.KubeKind:
