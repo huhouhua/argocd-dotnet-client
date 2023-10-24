@@ -287,7 +287,7 @@ namespace ArgoCD.Client.Test.Utilities
                     else
                     {
                         var oldStatefulSet = statefulSetList.Items.First();
-                        _ = await kubernetes.AppsV1.PatchNamespacedStatefulSetAsync(new V1Patch(CreatePathData(newStatefulSet, newStatefulSet), V1Patch.PatchType.JsonPatch), oldStatefulSet.Name(), oldStatefulSet.Namespace());
+                        _ = await kubernetes.AppsV1.PatchNamespacedStatefulSetAsync(new V1Patch(CreatePathData(newStatefulSet,oldStatefulSet), V1Patch.PatchType.JsonPatch), oldStatefulSet.Name(), oldStatefulSet.Namespace());
                     }
                     break;
                 case V1NetworkPolicy.KubeKind:
@@ -300,7 +300,7 @@ namespace ArgoCD.Client.Test.Utilities
                     else
                     {
                         var oldNetworkPolicy = networkPolicyList.Items.First();
-                        _ = await kubernetes.NetworkingV1.PatchNamespacedNetworkPolicyAsync(new V1Patch(CreatePathData(newNetworkPolicy, newNetworkPolicy), V1Patch.PatchType.JsonPatch), oldNetworkPolicy.Name(), oldNetworkPolicy.Namespace());
+                        _ = await kubernetes.NetworkingV1.PatchNamespacedNetworkPolicyAsync(new V1Patch(CreatePathData(newNetworkPolicy, oldNetworkPolicy), V1Patch.PatchType.JsonPatch), oldNetworkPolicy.Name(), oldNetworkPolicy.Namespace());
                     }
                     break;
                 default:
