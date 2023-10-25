@@ -109,7 +109,7 @@ namespace ArgoCD.Client.Test.Utilities
         {
             foreach (DictionaryEntry environmentVariable in Environment.GetEnvironmentVariables())
             {
-                string text = "${E_" + environmentVariable.Key?.ToString() + "}";
+                string text = string.Concat("${E_", environmentVariable.Key?.ToString(),"}");
                 if (-1 != str.IndexOf(text, StringComparison.Ordinal))
                 {
                     str = str.Replace(text, (string)environmentVariable.Value);
