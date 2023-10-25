@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ArgoCD.Client.Test.Utilities
 {
@@ -30,7 +31,8 @@ namespace ArgoCD.Client.Test.Utilities
                         string text2 = Path.GetTempPath();
                         if (text2.StartsWith("/var/") && FdOs.IsOsx())
                         {
-                            text2 = "/private/" + text2;
+
+                            text2 =string.Concat("/private/",text2);
                         }
                         return text2.Substring(0, text2.Length - 1);
                     }
@@ -42,7 +44,7 @@ namespace ArgoCD.Client.Test.Utilities
                         string text = Path.GetTempPath();
                         if (text.StartsWith("/var/") && FdOs.IsOsx())
                         {
-                            text = "/private/" + text;
+                            text =string.Concat("/private/",text);
                         }
                         return text.Substring(0, text.Length - 1);
                     }
@@ -82,22 +84,24 @@ namespace ArgoCD.Client.Test.Utilities
                 return str.Replace('/', '\\');
             }
 
-            string text = "";
+            var builder = new StringBuilder(match.Index);
             int num = 0;
             while (match.Success)
             {
-                text += str.Substring(num, match.Index - num).Replace('/', '\\');
-                text += str.Substring(match.Index, match.Length);
+                builder.Append(str.Substring(num, match.Index - num)).
+                    Append(str.Substring(match.Index, match.Length));
                 num = match.Index + match.Length;
                 match = match.NextMatch();
             }
 
-            return text + str.Substring(num).Replace('/', '\\');
+            builder.Append(str.Substring(num));
+            return builder.Replace('/', '\\').ToString();
         }
 
         private static string Render(string str)
         {
-            str = Templates.Keys.Where((string key) => -1 != str.IndexOf(key, StringComparison.Ordinal)).Aggregate(str, (string current, string key) => current.Replace(key, Templates[key]()));
+            str = Templates.Keys.Where((string key) => -1 != str.IndexOf(key, StringComparison.Ordinal)).
+                Aggregate(str, (string current, string key) => current.Replace(key, Templates[key]()));
             return RenderEnvironment(str);
         }
 
