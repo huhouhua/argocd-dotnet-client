@@ -13,6 +13,7 @@ namespace ArgoCD.Client.Test.Utilities
                 return new HttpClient()
                 {
                     BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost),
+                    
                 }; }, new RequestsJsonSerializer());
     }
 }
