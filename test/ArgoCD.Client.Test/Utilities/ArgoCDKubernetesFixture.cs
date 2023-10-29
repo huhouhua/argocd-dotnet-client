@@ -50,10 +50,10 @@ namespace ArgoCD.Client.Test.Utilities
             var (password, port, hasCreate) = await FindAsync();
             Password = password;
             ArgoCDHost = $"http://localhost:{port}/api";
-            if (hasCreate)
-            {
-                return;
-            }
+            //if (hasCreate)
+            //{
+            //    return;
+            //}
             await ApplyAsync();
         }
 
@@ -91,7 +91,7 @@ namespace ArgoCD.Client.Test.Utilities
                 var objectMeta = (IKubernetesObject<V1ObjectMeta>)item;
                 if (objectMeta.Namespace().IsNotNullOrEmpty())
                     @namespace = objectMeta.Namespace();
-                var namespaceList = await kubernetes.CoreV1.ListNamespaceAsync(null, null, $"metadata.namespace={@namespace}");
+                var namespaceList = await kubernetes.CoreV1.ListNamespaceAsync(null, null,null, $"kubernetes.io/metadata.name={@namespace}");
                 hasCreate = namespaceList.Items.Any();
                 if (objectMeta.Kind == V1Service.KubeKind)
                 {
@@ -117,7 +117,7 @@ namespace ArgoCD.Client.Test.Utilities
             }
             bool ok = adminSecret.Data.TryGetValue("password", out byte[] password);
             Assert.True(ok);
-            return Convert.ToBase64String(password);
+            return  Encoding.UTF8.GetString(password);
         }
 
         private int FindPort(object resource)
@@ -323,6 +323,14 @@ namespace ArgoCD.Client.Test.Utilities
         private static JsonPatch CreatePathData(dynamic @new, dynamic old)
         {
             JsonDocument oldDoc = JsonSerializer.SerializeToDocument(old, serializerOptions);
+            try
+            {
+                old.Data = @new.Data;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             try
             {
                 old.Spec = @new.Spec;
