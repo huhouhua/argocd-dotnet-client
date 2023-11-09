@@ -6,6 +6,4 @@ import (
 )
 
 func main() {
-	url := os.Getenv("url")
-	fmt.Println(url)
 }
