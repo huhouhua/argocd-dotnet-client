@@ -38,7 +38,5 @@ namespace ArgoCD.Client.Test
             Assert.IsAssignableFrom<ApplicationSetClient>(sut.ApplicationSet);
             Assert.IsAssignableFrom<ApplicationClient>(sut.Application);
         }
-
-
     }
 }
