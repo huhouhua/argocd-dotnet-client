@@ -104,8 +104,7 @@ Please refer to the interface definition files (`IAccountClient.cs`, `IApplicati
 
 ## TODOs
 
-- This cli tool is still in the development stage, and most of the resources are not completed. Everyone contribute is very much needed. 🙋‍♂️
-- Declarative resources are still in the design stage
+- This library is still in the development stage, and most of the resources are not completed test. Everyone contribute is very much needed. 🙋‍♂️
 
 ## Issues
 
