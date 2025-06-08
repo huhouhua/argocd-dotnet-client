@@ -110,13 +110,6 @@ Please refer to the interface definition files (`IAccountClient.cs`, `IApplicati
 
 If you have an issue: report it on the [issue tracker](https://github.com/huhouhua/argocd-dotnet-client/issues)
 
-## Author
-
-Kevin Berger (<huhouhuam@outlook.com>)
-
-## Contributing
-
-Contributions are always welcome. For more information, check out the [contributing guide](CONTRIBUTING.md)
 
 ##  License
 
