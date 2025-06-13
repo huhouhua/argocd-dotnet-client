@@ -11,7 +11,7 @@ namespace ArgoCD.Client.Test
     [Collection("ArgoCDKubernetesFixture")]
     public class VersionClientTest
     {
-        private readonly IVersionClient _client = new VersionClient(GetFacadeWithUnauthorized());
+        private readonly IVersionClient _client = new VersionClient(GetFacade());
 
         [Fact]
         public async Task GetVersionInfoTest()
