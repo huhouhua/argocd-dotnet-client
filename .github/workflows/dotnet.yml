@@ -15,12 +15,12 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
-      - name: Kubernetes KinD Cluster
+      - name: Kubernetes Kind Cluster
         id: kind
         uses: helm/kind-action@v1
         with:
           version: v1.31.0
-          kubectl_version: v0.33.1
+#          kubectl_version: v0.33.1
       - name: Validate kind is up
         run: kubectl get nodes
 
