@@ -1,6 +1,3 @@
-Get-ChildItem Env:
-Write-Host "API key is $ENV:CODECOV_TOKEN"
-
 $dockerOSType = docker info --format "{{.OSType}}"
 if ($dockerOSType -ieq 'linux') {
   & dotnet test  --verbosity normal --settings coverletArgs.runsettings --no-build   --no-restore
