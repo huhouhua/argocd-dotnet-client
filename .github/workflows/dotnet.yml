@@ -19,7 +19,7 @@ jobs:
         id: kind
         uses: helm/kind-action@v1
         with:
-          version: v0.31.0
+          version: v0.24.0
           kubectl_version: v1.30.4
       - name: Validate kind is up
         run: kubectl get nodes
