@@ -24,6 +24,8 @@ jobs:
           config: ./k8s/cluster.yaml
       - name: Validate kind is up
         run: |
+            ls ~/.kube/
+            cat ~/.kube/config
             sed -i 's/0.0.0.1/127.0.0.1/g' ~/.kube/config
             kubectl get nodes
 
