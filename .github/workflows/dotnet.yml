@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.x
+
       - name: Kubernetes Kind Cluster
         id: kind
         uses: helm/kind-action@v1
@@ -22,26 +23,19 @@ jobs:
           version: v0.24.0
           kubectl_version: v1.30.4
           config: ./k8s/cluster.yaml
+
       - name: Validate kind is up
         run: |
             sed -i 's/0.0.0.0/127.0.0.1/g' ~/.kube/config
             kubectl get nodes
 
-      - name: Deploy argocd
-        run: kubectl apply -f ./k8s/install.yaml
+      - name: build
+        run: ./build.ps1
+        shell: pwsh
 
-      - name: test port
-        run: |
-           sleep 10
-           curl -k -s https://localhost:30080/swagger.json
-
-#    - name: build
-#      run: ./build.ps1
-#      shell: pwsh
-#
-#    - name: test
-#      run: ./test.ps1
-#      shell: pwsh
+      - name: test
+        run: ./test.ps1
+        shell: pwsh
 
 
 #  windows-build:
