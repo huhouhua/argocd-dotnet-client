@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ArgoCD.Client.Models.Session.Responses
@@ -10,6 +11,7 @@ namespace ArgoCD.Client.Models.Session.Responses
     /// </summary>
     public class Session
     {
+        [JsonProperty("token")]
         public string Token { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,8 +15,6 @@ using ArgoCD.Client.Models.Session.Responses;
 using Json.Patch;
 using k8s;
 using k8s.Models;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
-using Xunit.Sdk;
 
 namespace ArgoCD.Client.Test.Utilities
 {
@@ -31,7 +30,7 @@ namespace ArgoCD.Client.Test.Utilities
         private const string NameSpace = "argocd";
 
         private static readonly TemplateString SolutionRootFolder = "${PWD}/../../../../..";
-        private const string UserName="admin";
+        private const string UserName = "admin";
         public static string Password { get; private set; }
 
         public static string Token { get; private set; }
@@ -65,10 +64,10 @@ namespace ArgoCD.Client.Test.Utilities
             resourceList = await KubernetesYaml.LoadAllFromFileAsync($"{SolutionRootFolder}/{InstallFilePath}");
             await RestartAsync();
             int port = await FindPortAsync();
-            port = 8890;
-            ArgoCDHost = $"https://localhost:{port}/api";
+            ArgoCDHost = $"https://localhost:{port}/api/v1/";
             await LoadAsync();
         }
+
         private async Task RestartAsync()
         {
             await UninstallAsync();
@@ -112,9 +111,9 @@ namespace ArgoCD.Client.Test.Utilities
             return service.Spec.Ports.First(q => q.Name == "http").NodePort ?? default;
         }
 
-            private async Task LoadAsync()
-           {
-            int maxRetries = 3;
+        private async Task LoadAsync()
+        {
+            int maxRetries = 10;
             int delay = 5000;
             var handler = new HttpClientHandler()
             {
@@ -125,52 +124,44 @@ namespace ArgoCD.Client.Test.Utilities
             {
                 try
                 {
+                    Console.WriteLine($"Waiting {delay / 1000} seconds before retry...");
+                    await Task.Delay(delay);
+
                     Password = await FindPasswordAsync();
 
                     string sessionJsonData = JsonSerializer.Serialize(new { username = UserName, password = Password });
-                    HttpContent sessionContent = new StringContent(sessionJsonData, Encoding.UTF8, "application/json");
+                    using HttpContent sessionContent = new StringContent(sessionJsonData);
+                    sessionContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                    // var sessionResponse = await client.PostAsync($"{ArgoCDHost}/v1/session", sessionContent);
-                    var request = new HttpRequestMessage(HttpMethod.Post, $"{ArgoCDHost}/v1/session");
-                    request.Headers.Add("Accept", "application/json");
-                    // var content = new StringContent("{\r\n    \"username\":\"admin\",\r\n    \"password\":\"D6KU8lmTC60-O9dw\"\r\n}", null, "application/json");
-                    // request.Content = content;
-                    request.Content=sessionContent;
-                    var sessionResponse = await client.SendAsync(request);
+                    var sessionResponse = await client.PostAsync($"{ArgoCDHost}session", sessionContent);
 
-                    if (sessionResponse.IsSuccessStatusCode)
+                    sessionResponse.EnsureSuccessStatusCode();
+                    string tokenJsonData =
+                        JsonSerializer.Serialize(new { expiresIn = 3600, id = "test", name = "test" });
+                    using HttpContent tokenContent = new StringContent(tokenJsonData);
+                    tokenContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                    var tokenResponse =
+                        await client.PostAsync($"{ArgoCDHost}account/{UserName}/token", tokenContent);
+                    tokenResponse.EnsureSuccessStatusCode();
+
+                    string tokenStr = await tokenResponse.Content.ReadAsStringAsync();
+                    var session = JsonSerializer.Deserialize<Session>(tokenStr, new JsonSerializerOptions
                     {
-                        string tokenJsonData = JsonSerializer.Serialize(new {expiresIn=3600,id="test",name="test"});
-                        HttpContent tokenContent = new StringContent(tokenJsonData, Encoding.UTF8, "application/json");
-                        var tokenResponse = await client.PostAsync($"{ArgoCDHost}/v1/account/{UserName}/token", tokenContent);
-                        if (tokenResponse.IsSuccessStatusCode)
-                        {
-                            string tokenStr = await tokenResponse.Content.ReadAsStringAsync();
-                            var session = JsonSerializer.Deserialize<Session>(tokenStr);
-                            Token= session.Token;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Request failed with status {sessionResponse.StatusCode}");
-                        if (attempt == maxRetries)
-                        {
-                            throw new Exception("Max retry attempts reached.");
-                        }
-                    }
+                        PropertyNameCaseInsensitive = true
+                    });
+                    Token = session.Token;
+                    break;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    Console.WriteLine(ex.Message);
 
                     if (attempt == maxRetries)
                     {
                         throw new Exception("Max retry attempts reached.");
                     }
                 }
-                Console.WriteLine($"Waiting {delay / 1000} seconds before retry...");
-                await Task.Delay(delay);
             }
         }
 
@@ -451,10 +442,10 @@ namespace ArgoCD.Client.Test.Utilities
                 await tcs.Task;
                 ;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 tcs.SetCanceled();
-                Console.WriteLine(e);
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -470,6 +461,7 @@ namespace ArgoCD.Client.Test.Utilities
                     {
                         _ = await kubernetes.ApiextensionsV1.DeleteCustomResourceDefinitionAsync(objectMeta.Name());
                     }
+
                     break;
 
                 case V1ClusterRole.KubeKind:
@@ -479,6 +471,7 @@ namespace ArgoCD.Client.Test.Utilities
                     {
                         _ = await kubernetes.RbacAuthorizationV1.DeleteClusterRoleAsync(objectMeta.Name());
                     }
+
                     break;
 
                 case V1ClusterRoleBinding.KubeKind:
@@ -488,6 +481,7 @@ namespace ArgoCD.Client.Test.Utilities
                     {
                         _ = await kubernetes.RbacAuthorizationV1.DeleteClusterRoleBindingAsync(objectMeta.Name());
                     }
+
                     break;
             }
         }
@@ -501,9 +495,9 @@ namespace ArgoCD.Client.Test.Utilities
                     Metadata = new V1ObjectMeta() { Name = NameSpace }
                 });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(ex.Message);
             }
         }
 

@@ -9,9 +9,13 @@ namespace ArgoCD.Client.Test.Utilities
 {
     internal static class ArgoCDApiHelper
     {
+        private static HttpClientHandler Handler = new HttpClientHandler()
+        {
+            ServerCertificateCustomValidationCallback = (msg, cert, chain, errors) => true
+        };
         public static IArgoCDHttpFacade GetFacadeWithUnauthorized()=>
             new DefaultArgoCDHttpFacade(() => {
-                return new HttpClient()
+                return new HttpClient(Handler)
                 {
                     BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost),
 
@@ -19,14 +23,24 @@ namespace ArgoCD.Client.Test.Utilities
 
 
         public static IArgoCDHttpFacade GetFacade()=>
-            new DefaultArgoCDHttpFacade(() => {
-                return new HttpClient()
+            new DefaultArgoCDHttpFacade(() => new(Handler)
+            {
+                BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost),
+                DefaultRequestHeaders =
                 {
-                    BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost),
-                    DefaultRequestHeaders =
-                    {
-                        Authorization =  new AuthenticationHeaderValue("Bearer", ArgoCDKubernetesFixture.Token),
-                    }
-                }; }, new RequestsJsonSerializer());
+                    Authorization = new AuthenticationHeaderValue("Bearer", ArgoCDKubernetesFixture.Token),
+                }
+            }, new RequestsJsonSerializer());
+
+        public static IArgoCDHttpFacade GetFacadeWithNotVersion()=>
+            new DefaultArgoCDHttpFacade(() => new(Handler)
+            {
+                BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost.TrimEnd(new []{'/','v','1','/'})+"/"),
+                DefaultRequestHeaders =
+                {
+                    Authorization = new AuthenticationHeaderValue("Bearer", ArgoCDKubernetesFixture.Token),
+                }
+            }, new RequestsJsonSerializer());
+
     }
 }
