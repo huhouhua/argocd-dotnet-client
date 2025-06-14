@@ -32,14 +32,13 @@ jobs:
 
       - run: dotnet tool install -g GitVersion.Tool
 
-#      - name: GitVersion
-#        run: dotnet gitversion /l console /output buildserver
-
-      - name: Build
+      - name: Run Build
         run: ./build.ps1
         shell: pwsh
 
-      - name: Test
+      - name: Run Tests
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: ./test.ps1
         shell: pwsh
 
