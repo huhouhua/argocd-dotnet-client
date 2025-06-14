@@ -27,12 +27,13 @@ jobs:
             sed -i 's/0.0.0.0/127.0.0.1/g' ~/.kube/config
             kubectl get nodes
 
-
       - name: Deploy argocd
         run: kubectl apply -f ./k8s/install.yaml
 
       - name: test port
-        run: curl -s https://localhost:30080/swagger.json
+        run: |
+           sleep 10
+           curl -s https://localhost:30080/swagger.json
 
 #    - name: build
 #      run: ./build.ps1
