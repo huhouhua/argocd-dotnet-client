@@ -29,9 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8FAC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{9E78A264-1247-4762-8405-10A6849924EB}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\ci.yml = .github\workflows\ci.yml
 		.github\workflows\drafter.yml = .github\workflows\drafter.yml
 		.github\workflows\format.yml = .github\workflows\format.yml
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{9269D26D-9863-4879-B778-DCA29A69A851}"
@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{9269D26D-986
 		k8s\install.yaml = k8s\install.yaml
 		k8s\swagger.json = k8s\swagger.json
 		k8s\kubeconfig.yaml = k8s\kubeconfig.yaml
+		k8s\cluster.yaml = k8s\cluster.yaml
 	EndProjectSection
 EndProject
 Global
