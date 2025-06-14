@@ -44,11 +44,20 @@ namespace ArgoCD.Client.Test.Utilities
             await StartKubernetesAsync();
         }
 
-        public async   Task DisposeAsync()
+        // public async   Task DisposeAsync()
+        // {
+        //     await UninstallAsync();
+        //     kubernetes?.Dispose();
+        //     resourceList?.Clear();
+        // }
+
+        public Task DisposeAsync()
         {
-            await UninstallAsync();
-            kubernetes?.Dispose();
-            resourceList?.Clear();
+            // await UninstallAsync();
+            // kubernetes?.Dispose();
+            // resourceList?.Clear();
+
+            return Task.CompletedTask;
         }
 
         private async Task StartKubernetesAsync()
