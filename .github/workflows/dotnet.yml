@@ -28,6 +28,12 @@ jobs:
         run: |
             sed -i 's/0.0.0.0/127.0.0.1/g' ~/.kube/config
             kubectl get nodes
+      - run: dotnet tool install -g Codecov.Tool
+
+      - run: dotnet tool install -g GitVersion.Tool
+
+      - name: GitVersion
+        run: dotnet gitversion /l console /output buildserver
 
       - name: Build
         run: ./build.ps1
