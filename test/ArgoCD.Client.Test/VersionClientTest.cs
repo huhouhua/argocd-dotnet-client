@@ -18,8 +18,7 @@ namespace ArgoCD.Client.Test
         [Fact]
         public async Task GetVersionInfoTest()
         {
-            var file = await _client.GetVersionAsync().
-                ConfigureAwait(false);
+            var file = await _client.GetVersionAsync();
             file.Should().NotBeNull();
         }
     }

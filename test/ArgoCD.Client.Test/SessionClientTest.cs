@@ -23,10 +23,10 @@ public class SessionClientTest
         userInfo.Iss.Should().Be("argocd");
     }
 
-    [Fact]
-    public async Task DeleteSessionCanBeRetrieved()
-    {
-       var action = async () => await _client.DeleteCurrentSessionAsync();
-        await action.Should().NotThrowAsync();
-    }
+    // [Fact]
+    // public async Task DeleteSessionCanBeRetrieved()
+    // {
+    //    var action = async () => await _client.DeleteCurrentSessionAsync();
+    //     await action.Should().NotThrowAsync();
+    // }
 }

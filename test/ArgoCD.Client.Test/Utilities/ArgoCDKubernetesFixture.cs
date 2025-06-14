@@ -44,7 +44,7 @@ namespace ArgoCD.Client.Test.Utilities
             await StartKubernetesAsync();
         }
 
-        public async Task DisposeAsync()
+        public async  Task DisposeAsync()
         {
             await UninstallAsync();
             kubernetes?.Dispose();
@@ -77,7 +77,6 @@ namespace ArgoCD.Client.Test.Utilities
                 var objectMeta = (IKubernetesObject<V1ObjectMeta>)item;
                 string fieldSelector = $"metadata.name={objectMeta.Name()},metadata.namespace={NameSpace}";
                 await ApplyForKubernetesAsync(objectMeta, item, fieldSelector);
-                Console.WriteLine($"{objectMeta.Kind} {objectMeta.Name()} ok");
             }
         }
 
@@ -419,7 +418,6 @@ namespace ArgoCD.Client.Test.Utilities
                 {
                     return;
                 }
-
                 await kubernetes.CoreV1.DeleteNamespaceAsync(NameSpace);
 
                 var watch = await kubernetes.CoreV1.ListNamespaceWithHttpMessagesAsync(
