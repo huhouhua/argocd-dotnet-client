@@ -1,8 +1,8 @@
 $dockerOSType = docker info --format "{{.OSType}}"
 if ($dockerOSType -ieq 'linux') {
-  & dotnet test --verbosity normal --settings coverletArgs.runsettings --no-build --no-restore
+  & dotnet test  --verbosity normal --settings coverletArgs.runsettings --no-build   --no-restore
 } else {
-  & dotnet test --filter Category!=LinuxIntegration --verbosity normal --settings coverletArgs.runsettings
+  & dotnet test --filter Category!=LinuxIntegration --verbosity normal --settings coverletArgs.runsettings  --no-build --no-restore
 }
 
 $exitWithError = $LastExitCode -ne 0

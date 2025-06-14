@@ -44,7 +44,7 @@ namespace ArgoCD.Client.Test.Utilities
             await StartKubernetesAsync();
         }
 
-        public async  Task DisposeAsync()
+        public async   Task DisposeAsync()
         {
             await UninstallAsync();
             kubernetes?.Dispose();
