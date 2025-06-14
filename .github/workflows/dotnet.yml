@@ -14,7 +14,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.x
+          dotnet-version: 6.x
 
       - name: Kubernetes Kind Cluster
         id: kind
@@ -29,11 +29,11 @@ jobs:
             sed -i 's/0.0.0.0/127.0.0.1/g' ~/.kube/config
             kubectl get nodes
 
-      - name: build
+      - name: Build
         run: ./build.ps1
         shell: pwsh
 
-      - name: test
+      - name: Test
         run: ./test.ps1
         shell: pwsh
 
