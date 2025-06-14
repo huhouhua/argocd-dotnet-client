@@ -114,15 +114,16 @@ namespace ArgoCD.Client.Internal.Http
 
         public async Task DeleteAsync(string url, CancellationToken cancellationToken = default)
         {
-            using HttpClient client = _clientFunc();
-            using var responseMessage = await client.DeleteAsync(url, cancellationToken).
-                ConfigureAwait(false);
-            await EnsureSuccessStatusCodeAsync(responseMessage);
+            await DeleteAsync(url,null,cancellationToken);
         }
         public async Task<T> DeleteAsync<T>(string url, CancellationToken cancellationToken = default)
         {
-            using HttpClient client = _clientFunc();
-            using var responseMessage = await client.DeleteAsync(url, cancellationToken).
+            using var client = _clientFunc();
+            using var request = new HttpRequestMessage(HttpMethod.Delete, url)
+            {
+                Content = SerializeToString(null),
+            };
+            var responseMessage = await client.SendAsync(request, cancellationToken).
                 ConfigureAwait(false);
             await EnsureSuccessStatusCodeAsync(responseMessage);
             return await ReadResponseAsync<T>(responseMessage);
@@ -130,10 +131,10 @@ namespace ArgoCD.Client.Internal.Http
 
         public async Task DeleteAsync(string url, object data, CancellationToken cancellationToken = default)
         {
-            using HttpClient client = _clientFunc();
+            using var client = _clientFunc();
             using var request = new HttpRequestMessage(HttpMethod.Delete, url)
             {
-                Content = SerializeToString(data)
+                Content = SerializeToString(data),
             };
             var responseMessage = await client.SendAsync(request, cancellationToken).
                 ConfigureAwait(false);
@@ -158,7 +159,7 @@ namespace ArgoCD.Client.Internal.Http
                 ConfigureAwait(false);
 
             var runtimeError = _jsonSerializer.Deserialize<RuntimeError>(errorResponse);
-                
+
 
             throw new ArgoCDException(responseMessage.StatusCode, errorResponse ?? "");
         }
@@ -179,7 +180,6 @@ namespace ArgoCD.Client.Internal.Http
             var content = data != null ?
                 new StringContent(serializedObject) :
                 new StringContent(string.Empty);
-
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             return content;
         }

@@ -45,8 +45,8 @@ namespace ArgoCD.Client.Impl
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<Session> DeleteCurrentSessionAsync(CancellationToken cancellationToken = default) =>
-             await _httpFacade.DeleteAsync<Session>("session", cancellationToken).
+        public async Task DeleteCurrentSessionAsync(CancellationToken cancellationToken = default) =>
+             await _httpFacade.DeleteAsync("session", cancellationToken).
             ConfigureAwait(false);
 
     }

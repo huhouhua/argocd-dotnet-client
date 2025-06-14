@@ -31,6 +31,6 @@ namespace ArgoCD.Client
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        Task<Session> DeleteCurrentSessionAsync(CancellationToken cancellationToken = default);
+        Task DeleteCurrentSessionAsync(CancellationToken cancellationToken = default);
     }
 }
