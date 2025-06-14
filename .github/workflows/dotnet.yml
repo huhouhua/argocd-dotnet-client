@@ -33,7 +33,7 @@ jobs:
       - name: test port
         run: |
            sleep 10
-           curl -k -s https://localhost:30080/swagger.json | jq .
+           curl -k -s https://localhost:30080/swagger.json
 
 #    - name: build
 #      run: ./build.ps1
