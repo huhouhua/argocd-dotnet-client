@@ -1,6 +1,7 @@
 # ArgoCD .NET Client
 ![workflow ci](https://github.com/huhouhua/argocd-dotnet-client/actions/workflows/dotnet.yml/badge.svg)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/huhouhua/argocd-dotnet-client/blob/main/LICENSE)
+[![Test Coverage](https://codecov.io/gh/huhouhua/argocd-dotnet-client/branch/main/graph/badge.svg)](https://codecov.io/gh/huhouhua/argocd-dotnet-client)
 
 > `argocd-dotnet-client` is a .NET REST client designed for ArgoCD API v1. It allows .NET applications to interact with ArgoCD instances,
 > performing various operations such as managing applications, clusters, projects, user sessions, and more. This client aims to simplify
