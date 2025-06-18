@@ -9,7 +9,7 @@ namespace ArgoCD.Client.Test.Utilities
 {
     internal static class ArgoCDApiHelper
     {
-        private static HttpClientHandler CreateHandler()
+        public static HttpClientHandler CreateHandler()
         {
             return new HttpClientHandler()
             {

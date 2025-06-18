@@ -45,12 +45,19 @@ namespace ArgoCD.Client.Test.Utilities
             await InitializeDataAsync();
         }
 
-        public async Task DisposeAsync()
+        public  Task DisposeAsync()
         {
-            await UninstallAsync();
+            //await UninstallAsync();
             kubernetes?.Dispose();
             resourceList?.Clear();
+            return Task.CompletedTask;
         }
+        //public async Task DisposeAsync()
+        //{
+        //    await UninstallAsync();
+        //    kubernetes?.Dispose();
+        //    resourceList?.Clear();
+        //}
 
 
         private async Task StartKubernetesAsync()
@@ -97,9 +104,9 @@ namespace ArgoCD.Client.Test.Utilities
         private async Task<string> FindPasswordAsync()
         {
 #if NET5_0 || NETSTANDARD2_0
-            var secretList = await kubernetes.ListNamespacedSecretAsync(NameSpace, null, null, null, $"metadata.name={AdminSecretName}");
+            var secretList = await kubernetes.ListNamespacedSecretAsync(NameSpace, fieldSelector: $"metadata.name={AdminSecretName}");
 #else
-  var secretList = await kubernetes.CoreV1.ListNamespacedSecretAsync(NameSpace, null, null, null, $"metadata.name={AdminSecretName}");
+  var secretList = await kubernetes.CoreV1.ListNamespacedSecretAsync(NameSpace, null, null, $"metadata.name={AdminSecretName}");
 #endif
 
             var adminSecret = secretList.Items.FirstOrDefault(q => q.Metadata.Name.Equals(AdminSecretName)) ?? throw new Exception($"{AdminSecretName} secret not found");
@@ -113,10 +120,11 @@ namespace ArgoCD.Client.Test.Utilities
         private async Task<int> FindPortAsync()
         {
 #if NET5_0 || NETSTANDARD2_0
-            var serviceList = await kubernetes.ListNamespacedServiceAsync(NameSpace, null, null, null, $"metadata.name={ServerName}");
+            var serviceList = await kubernetes.ListNamespacedServiceAsync(NameSpace, fieldSelector: $"metadata.name={ServerName}");
 #else
-     var serviceList = await kubernetes.CoreV1.ListNamespacedServiceAsync(NameSpace, null, null, null, $"metadata.name={ServerName}");
+     var serviceList = await kubernetes.CoreV1.ListNamespacedServiceAsync(NameSpace, null, null, $"metadata.name={ServerName}");
 #endif
+
             var service = serviceList.Items.FirstOrDefault(q => q.Metadata.Name.Equals(ServerName)) ?? throw new Exception($"{ServerName} service not found");
             Assert.Equal("NodePort", service.Spec.Type, true);
             return service.Spec.Ports.First(q => q.Name == "http").NodePort ?? default;
@@ -126,11 +134,8 @@ namespace ArgoCD.Client.Test.Utilities
         {
             int maxRetries = 10;
             int delay = 5000;
-            var handler = new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback = (msg, cert, chain, errors) => true
-            };
-            using var client = new HttpClient(handler);
+          
+            using var client = new HttpClient(ArgoCDApiHelper.CreateHandler());
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
                 try
@@ -186,7 +191,7 @@ namespace ArgoCD.Client.Test.Utilities
                     var newDefinition = (V1CustomResourceDefinition)resource;
 
                     var definitionList =
-                        await kubernetes.ListCustomResourceDefinitionAsync(null, null, fieldSelector,
+                        await kubernetes.ListCustomResourceDefinitionAsync(null,null,fieldSelector,
                             null);
                     if (!definitionList.Items.Any())
                     {
