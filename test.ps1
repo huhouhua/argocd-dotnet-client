@@ -7,10 +7,6 @@ if ($dockerOSType -ieq 'linux') {
 
 $exitWithError = $LastExitCode -ne 0
 
-Write-Host "CODECOV_TOKEN is: $env:CODECOV_TOKEN"
-
-Get-ChildItem Env:
-
 $openCoverFile = Get-ChildItem -Path "test/*/coverage.opencover.xml" -Recurse | Sort-Object LastWriteTime | Select-Object -last 1
 if (Test-Path "$openCoverFile") {
   Write-Host "Uploading coverage file"
