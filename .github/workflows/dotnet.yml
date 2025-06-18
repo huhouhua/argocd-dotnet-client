@@ -26,10 +26,20 @@ jobs:
         with:
           dotnet-version: 6.0
 
-      - name: Setup dotnet 8.x
+      - name: Setup dotnet 7
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.x
+          dotnet-version: 7.0
+
+      - name: Setup dotnet 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0
+
+      - name: Setup dotnet 9.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
 
       - name: Kubernetes Kind Cluster
         id: kind
@@ -43,6 +53,8 @@ jobs:
         run: |
             sed -i 's/0.0.0.0/127.0.0.1/g' ~/.kube/config
             kubectl get nodes
+            dotnet --info
+
       - run: dotnet tool install -g Codecov.Tool
 
       - run: dotnet tool install -g GitVersion.Tool
