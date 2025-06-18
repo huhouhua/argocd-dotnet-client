@@ -9,13 +9,16 @@ namespace ArgoCD.Client.Test.Utilities
 {
     internal static class ArgoCDApiHelper
     {
-        private static HttpClientHandler Handler = new HttpClientHandler()
+        private static HttpClientHandler CreateHandler()
         {
-            ServerCertificateCustomValidationCallback = (msg, cert, chain, errors) => true
-        };
+            return new HttpClientHandler()
+            {
+                ServerCertificateCustomValidationCallback = (msg, cert, chain, errors) => true
+            };
+        }
         public static IArgoCDHttpFacade GetFacadeWithUnauthorized()=>
             new DefaultArgoCDHttpFacade(() => {
-                return new HttpClient(Handler)
+                return new HttpClient(CreateHandler())
                 {
                     BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost),
 
@@ -23,7 +26,7 @@ namespace ArgoCD.Client.Test.Utilities
 
 
         public static IArgoCDHttpFacade GetFacade()=>
-            new DefaultArgoCDHttpFacade(() => new(Handler)
+            new DefaultArgoCDHttpFacade(() => new(CreateHandler())
             {
                 BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost),
                 DefaultRequestHeaders =
@@ -33,7 +36,7 @@ namespace ArgoCD.Client.Test.Utilities
             }, new RequestsJsonSerializer());
 
         public static IArgoCDHttpFacade GetFacadeWithNotVersion()=>
-            new DefaultArgoCDHttpFacade(() => new(Handler)
+            new DefaultArgoCDHttpFacade(() => new(CreateHandler())
             {
                 BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost.TrimEnd(new []{'/','v','1','/'})+"/"),
                 DefaultRequestHeaders =

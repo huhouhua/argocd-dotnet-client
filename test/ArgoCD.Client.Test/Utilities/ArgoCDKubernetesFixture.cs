@@ -42,23 +42,16 @@ namespace ArgoCD.Client.Test.Utilities
         public async Task InitializeAsync()
         {
             await StartKubernetesAsync();
+            await InitializeDataAsync();
         }
 
-        // public async   Task DisposeAsync()
-        // {
-        //     await UninstallAsync();
-        //     kubernetes?.Dispose();
-        //     resourceList?.Clear();
-        // }
-
-        public Task DisposeAsync()
+        public  async  Task DisposeAsync()
         {
-            // await UninstallAsync();
-            // kubernetes?.Dispose();
-            // resourceList?.Clear();
-
-            return Task.CompletedTask;
+            await UninstallAsync();
+            kubernetes?.Dispose();
+            resourceList?.Clear();
         }
+
 
         private async Task StartKubernetesAsync()
         {
@@ -72,10 +65,8 @@ namespace ArgoCD.Client.Test.Utilities
             kubernetes = new Kubernetes(config);
             resourceList = await KubernetesYaml.LoadAllFromFileAsync($"{SolutionRootFolder}/{InstallFilePath}");
             await RestartAsync();
-            int port = await FindPortAsync();
-            ArgoCDHost = $"https://localhost:{port}/api/v1/";
-            await LoadAsync();
         }
+
 
         private async Task RestartAsync()
         {
@@ -87,6 +78,13 @@ namespace ArgoCD.Client.Test.Utilities
                 string fieldSelector = $"metadata.name={objectMeta.Name()},metadata.namespace={NameSpace}";
                 await ApplyForKubernetesAsync(objectMeta, item, fieldSelector);
             }
+        }
+
+        private async Task InitializeDataAsync()
+        {
+            int port = await FindPortAsync();
+            ArgoCDHost = $"https://localhost:{port}/api/v1/";
+            await LoadAsync();
         }
 
         private async Task<string> FindPasswordAsync()
