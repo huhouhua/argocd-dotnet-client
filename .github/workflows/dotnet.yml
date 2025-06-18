@@ -59,7 +59,7 @@ jobs:
 
       - name: Install Codecov
         run: |
-          sudo apt-get install -y libssl3
+          sudo apt-get install -y libssl1.1
           dotnet tool install -g Codecov.Tool
 
       - run: dotnet tool install -g GitVersion.Tool
