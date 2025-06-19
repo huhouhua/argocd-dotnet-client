@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   unix-build:
-    name: Running tests on ${{ matrix.os }
+    name: Running tests on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     strategy:
