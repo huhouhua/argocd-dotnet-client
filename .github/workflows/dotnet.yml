@@ -4,27 +4,26 @@ on: [push, pull_request]
 
 jobs:
   unix-build-net5:
-    name: Running tests on ${{ matrix.os }} for .NET 5
+    name: Running tests on ${{ matrix.os }} for .NET ${{ matrix.dotnet }}
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     strategy:
       matrix:
         os: [ubuntu-latest]
-    env:
-        DOTNET_VERSION: '5.0'
+        dotnet: ['5.0', '6.0', '7.0', '8.0']
     steps:
       - uses: actions/checkout@v4
   
-      - name: Setup dotnet ${{ env.DOTNET_VERSION }}
+      - name: Setup dotnet ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ matrix.dotnet }}
 
       - name: Print dotnet info
         run: dotnet --info
 
       - name: Run Build
-        run: ./build.ps1 '${{ env.DOTNET_VERSION }}'
+        run: ./build.ps1 '${{ matrix.dotnet }}'
         shell: pwsh
 
       - name: Install GitVersion
@@ -49,7 +48,7 @@ jobs:
             kubectl get nodes
 
       - name: Run Tests
-        run: ./test.ps1 '${{ env.DOTNET_VERSION }}'
+        run: ./test.ps1 '${{ matrix.dotnet }}'
         shell: pwsh
 
       - name: Set Coverage env variable
