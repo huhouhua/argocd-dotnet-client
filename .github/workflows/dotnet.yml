@@ -48,8 +48,12 @@ jobs:
             sleep 10
             kubectl get nodes
 
-      - name: Run Tests
-        run: ./test.ps1
+      - name: Run Tests for .NET 8.0
+        run: ./test.ps1 8.0
+        shell: pwsh
+
+      - name: Run Tests for .NET 8.0
+        run: ./test.ps1 9.0
         shell: pwsh
 
       - name: Set Coverage env variable
