@@ -13,15 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
   
-      - name: Setup dotnet  8.0
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0
-
-      - name: Setup dotnet  9.0
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0
+          dotnet-version: |
+              8.0
+              9.x
 
       - name: Print dotnet info
         run: dotnet --info
