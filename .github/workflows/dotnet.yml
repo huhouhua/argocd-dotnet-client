@@ -24,12 +24,7 @@ jobs:
 
       - name: Create global.json
         run: |
-          echo '{
-            "sdk": {
-              "version": "$(dotnet --version)"
-            }
-          }' > global.json
-          cat global.json
+          echo "{\"sdk\": {\"version\": \"$(dotnet --version)\"}}" > global.json
 
       - name: Install GitVersion
         run: |
