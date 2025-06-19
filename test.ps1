@@ -5,8 +5,8 @@ param (
 $dockerOSType = docker info --format "{{.OSType}}"
 
 $testArgs = @(
-  "--verbosity normal"
-  "--settings coverletArgs.runsettings"
+  "--verbosity", "normal"
+  "--settings", "coverletArgs.runsettings"
   "--no-build"
   "--no-restore"
 )
