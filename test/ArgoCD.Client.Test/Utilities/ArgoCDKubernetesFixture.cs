@@ -71,7 +71,7 @@ namespace ArgoCD.Client.Test.Utilities
 
             kubernetes = new Kubernetes(config);
 
-#if NET5_0 || NETSTANDARD2_0
+#if NET5_0 || NETSTANDARD2_1
             resourceList = await k8s.Yaml.LoadAllFromFileAsync($"{SolutionRootFolder}/{InstallFilePath}");
 #else
                         resourceList = await KubernetesYaml.LoadAllFromFileAsync($"{SolutionRootFolder}/{InstallFilePath}");
@@ -103,7 +103,7 @@ namespace ArgoCD.Client.Test.Utilities
 
         private async Task<string> FindPasswordAsync()
         {
-#if NET5_0 || NETSTANDARD2_0
+#if NET5_0 || NETSTANDARD2_1
             var secretList = await kubernetes.ListNamespacedSecretAsync(NameSpace, fieldSelector: $"metadata.name={AdminSecretName}");
 #else
   var secretList = await kubernetes.CoreV1.ListNamespacedSecretAsync(NameSpace, null, null, $"metadata.name={AdminSecretName}");
@@ -119,7 +119,7 @@ namespace ArgoCD.Client.Test.Utilities
 
         private async Task<int> FindPortAsync()
         {
-#if NET5_0 || NETSTANDARD2_0
+#if NET5_0 || NETSTANDARD2_1
             var serviceList = await kubernetes.ListNamespacedServiceAsync(NameSpace, fieldSelector: $"metadata.name={ServerName}");
 #else
      var serviceList = await kubernetes.CoreV1.ListNamespacedServiceAsync(NameSpace, null, null, $"metadata.name={ServerName}");
@@ -181,7 +181,7 @@ namespace ArgoCD.Client.Test.Utilities
             }
         }
 
-#if NET5_0 || NETSTANDARD2_0
+#if NET5_0 || NETSTANDARD2_1
         private async Task ApplyForKubernetesAsync(IKubernetesObject<V1ObjectMeta> objectMeta, object resource,
        string fieldSelector)
         {
@@ -646,7 +646,7 @@ namespace ArgoCD.Client.Test.Utilities
 
             V1Namespace GetNamespace()
             {
-#if NET5_0 || NETSTANDARD2_0
+#if NET5_0 || NETSTANDARD2_1
                 V1NamespaceList nameSpaceList = kubernetes.ListNamespace(
                     pretty: "false",
                     allowWatchBookmarks: null,
@@ -669,7 +669,7 @@ namespace ArgoCD.Client.Test.Utilities
                 {
                     return;
                 }
-#if NET5_0 || NETSTANDARD2_0
+#if NET5_0 || NETSTANDARD2_1
                 await kubernetes.DeleteNamespaceAsync(NameSpace);
 
                 var watch = await kubernetes.ListNamespaceWithHttpMessagesAsync(
@@ -705,7 +705,7 @@ namespace ArgoCD.Client.Test.Utilities
             }
         }
 
-#if NET5_0 || NETSTANDARD2_0
+#if NET5_0 || NETSTANDARD2_1
         private async Task DeleteResourceAsync(IKubernetesObject<V1ObjectMeta> objectMeta, string fieldSelector)
         {
             switch (objectMeta.Kind)
@@ -785,7 +785,7 @@ namespace ArgoCD.Client.Test.Utilities
         {
             try
             {
-#if NET5_0 || NETSTANDARD2_0
+#if NET5_0 || NETSTANDARD2_1
                 await kubernetes.CreateNamespaceAsync(new V1Namespace()
                 {
                     Metadata = new V1ObjectMeta() { Name = NameSpace }
