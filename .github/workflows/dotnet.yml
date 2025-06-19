@@ -4,20 +4,21 @@ on: [push, pull_request]
 
 jobs:
   unix-build-net5:
-    name: Running tests on ${{ matrix.os }} for .NET ${{ matrix.dotnet }}
+    name: Running tests on ${{ matrix.os }
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     strategy:
       matrix:
         os: [ubuntu-latest]
-        dotnet: ['8.0']
     steps:
       - uses: actions/checkout@v4
   
-      - name: Setup dotnet ${{ matrix.dotnet }}
+      - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet }}
+          dotnet-version: |
+            8.0
+            9.x
 
       - name: Print dotnet info
         run: dotnet --info
@@ -35,7 +36,7 @@ jobs:
           gitversion -h || true
 
       - name: Run Build
-        run: ./build.ps1 '${{ matrix.dotnet }}'
+        run: ./build.ps1 
         shell: pwsh
 
       - name: Kubernetes Kind Cluster
@@ -52,7 +53,7 @@ jobs:
             kubectl get nodes
 
       - name: Run Tests
-        run: ./test.ps1 '${{ matrix.dotnet }}'
+        run: ./test.ps1
         shell: pwsh
 
       - name: Set Coverage env variable
