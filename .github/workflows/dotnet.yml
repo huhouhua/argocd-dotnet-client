@@ -19,7 +19,7 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet }}
 
-      - name: Print dotnet
+      - name: Print dotnet info
         run: dotnet --info
 
       - name: Install GitVersion
@@ -44,7 +44,7 @@ jobs:
             kubectl get nodes
 
       - name: Run Build
-        run: ./build.ps1'${{ matrix.dotnet }}'
+        run: ./build.ps1 '${{ matrix.dotnet }}'
         shell: pwsh
 
       - name: Run Tests
