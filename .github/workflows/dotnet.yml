@@ -45,14 +45,13 @@ jobs:
       - name: Validate kind is up
         run: |
             sed -i 's/0.0.0.0/127.0.0.1/g' ~/.kube/config
-            sleep 10
             kubectl get nodes
 
       - name: Run Tests for .NET 8.0
         run: ./test.ps1 8.0
         shell: pwsh
 
-      - name: Run Tests for .NET 8.0
+      - name: Run Tests for .NET 9.0
         run: ./test.ps1 9.0
         shell: pwsh
 
