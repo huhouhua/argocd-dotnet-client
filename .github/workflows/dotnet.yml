@@ -21,6 +21,12 @@ jobs:
       - name: Print dotnet
         run: dotnet --info
 
+      - name: Install libssl-dev
+        if: matrix.dotnet == '5.0'
+        run: |
+          sudo apt-get update && sudo apt-get install -y libssl-dev
+          dotnet tool install -g GitVersion.Tool
+
       - name: Kubernetes Kind Cluster
         id: kind
         uses: helm/kind-action@v1
@@ -33,8 +39,6 @@ jobs:
         run: |
             sed -i 's/0.0.0.0/127.0.0.1/g' ~/.kube/config
             kubectl get nodes
-
-      - run: dotnet tool install -g GitVersion.Tool --version 5.12.0
 
       - name: Run Build
         run: ./build.ps1
