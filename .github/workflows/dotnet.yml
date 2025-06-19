@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        dotnet: [5.0, 6.0, 7.0, 8.0]
+        dotnet: ['5.0', '6.0', '7.0', '8.0']
     steps:
       - uses: actions/checkout@v4
   
@@ -44,11 +44,11 @@ jobs:
             kubectl get nodes
 
       - name: Run Build
-        run: ./build.ps1 ${{ matrix.dotnet }}
+        run: ./build.ps1'${{ matrix.dotnet }}'
         shell: pwsh
 
       - name: Run Tests
-        run: ./test.ps1 ${{ matrix.dotnet }}
+        run: ./test.ps1 '${{ matrix.dotnet }}'
         shell: pwsh
 
       - name: Set Coverage env variable
