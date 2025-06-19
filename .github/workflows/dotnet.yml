@@ -27,7 +27,7 @@ jobs:
           tar -xzvf gitversion.tar.gz
           sudo mv gitversion /usr/local/bin/
           sudo chmod +x /usr/local/bin/gitversion
-          gitversion --help || true
+          gitversion -h || true
 
       - name: Kubernetes Kind Cluster
         id: kind
@@ -43,7 +43,7 @@ jobs:
             kubectl get nodes
 
       - name: Run Build
-        run: ./build.ps1
+        run: ./build.ps1 net${{ matrix.dotnet }}
         shell: pwsh
 
       - name: Run Tests

@@ -1,3 +1,15 @@
+param (
+  [string]$DotnetVersion
+)
+$args = @("")
+if (-not [string]::IsNullOrWhiteSpace($DotnetVersion)) {
+  $framework = "net$DotnetVersion"
+  $args += @("--framework", $framework)
+  Write-Host "🔍 Build specific framework: $framework"
+} else {
+  Write-Host "🔍 Build all target frameworks (no --framework specified)"
+}
+
 function Build()
 {
 	& dotnet restore | Write-Host
@@ -6,13 +18,13 @@ function Build()
 		exit 1
 	}
 
-	& dotnet build --no-restore | Write-Host
+	& dotnet build $args --no-restore | Write-Host
 	if ($LastExitCode -ne 0)
 	{
 		exit 1
 	}
 
-	& dotnet build -c Release --no-restore | Write-Host
+	& dotnet build $args -c Release --no-restore | Write-Host
 	if ($LastExitCode -ne 0)
 	{
 		exit 1
