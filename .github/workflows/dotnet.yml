@@ -22,6 +22,15 @@ jobs:
       - name: Print dotnet info
         run: dotnet --info
 
+      - name: Create global.json
+        run: |
+          echo '{
+            "sdk": {
+              "version": "$(dotnet --version)"
+            }
+          }' > global.json
+          cat global.json
+
       - name: Install GitVersion
         run: |
           curl -# -L -o gitversion.tar.gz https://github.com/GitTools/GitVersion/releases/download/6.3.0/gitversion-linux-x64-6.3.0.tar.gz

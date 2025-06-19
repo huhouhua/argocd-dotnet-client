@@ -25,5 +25,6 @@ if ($dockerOSType -ieq 'linux') {
 }
 
 if ($LastExitCode -ne 0) {
+  Write-Host "❌ dotnet test failed with exit code $LastExitCode"
   exit 1
 }
