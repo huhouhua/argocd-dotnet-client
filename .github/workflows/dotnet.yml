@@ -9,12 +9,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        dotnet: [net5.0, net6.0, net7.0, net8.0]
+        dotnet: [5.0, 6.0, 7.0, 8.0]
     steps:
       - uses: actions/checkout@v4
   
-      - name: Setup ${{ matrix.dotnet }}
-        uses: actions/setup-dotnet@v1
+      - name: Setup dotnet ${{ matrix.dotnet }}
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet }}
 
@@ -41,7 +41,7 @@ jobs:
         shell: pwsh
 
       - name: Run Tests
-        run: ./test.ps1 ${{ matrix.dotnet }}
+        run: ./test.ps1 net${{ matrix.dotnet }}
         shell: pwsh
 
       - name: Set Coverage env variable
