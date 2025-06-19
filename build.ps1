@@ -1,7 +1,8 @@
 param (
   [string]$DotnetVersion
 )
-$args = @("")
+
+$args = @()
 if (-not [string]::IsNullOrWhiteSpace($DotnetVersion)) {
   $framework = "net$DotnetVersion"
   $args += @("--framework", $framework)
@@ -10,40 +11,29 @@ if (-not [string]::IsNullOrWhiteSpace($DotnetVersion)) {
   Write-Host "🔍 Build all target frameworks (no --framework specified)"
 }
 
-function Build()
-{
-	& dotnet restore | Write-Host
-	if ($LastExitCode -ne 0)
-	{
-		exit 1
-	}
+function Build() {
+  Write-Host "🔧 Restoring..."
+  & dotnet restore
+  if ($LastExitCode -ne 0) { exit 1 }
 
-	& dotnet build $args --no-restore  | Write-Host
-	if ($LastExitCode -ne 0)
-	{
-		exit 1
-	}
+  Write-Host "🔨 Building (Debug)..."
+  & dotnet build @args --no-restore
+  if ($LastExitCode -ne 0) { exit 1 }
 
-	& dotnet build $args -c Release --no-restore | Write-Host
-	if ($LastExitCode -ne 0)
-	{
-		exit 1
-	}
+  Write-Host "🏗️ Building (Release)..."
+  & dotnet build @args -c Release --no-restore
+  if ($LastExitCode -ne 0) { exit 1 }
 }
 
-function Pack()
-{
-	& dotnet pack -c Release --no-restore --no-build | Write-Host
-	if ($LastExitCode -ne 0)
-	{
-		exit 1
-	}
+function Pack() {
+  Write-Host "📦 Packing..."
+  & dotnet pack -c Release --no-restore --no-build
+  if ($LastExitCode -ne 0) { exit 1 }
 }
 
-function Main()
-{
-	Build
-	Pack
+function Main() {
+  Build
+  Pack
 }
 
 Main
