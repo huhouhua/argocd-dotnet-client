@@ -44,11 +44,11 @@ jobs:
             kubectl get nodes
 
       - name: Run Build
-        run: ./build.ps1 net${{ matrix.dotnet }}
+        run: ./build.ps1 ${{ matrix.dotnet }}
         shell: pwsh
 
       - name: Run Tests
-        run: ./test.ps1 net${{ matrix.dotnet }}
+        run: ./test.ps1 ${{ matrix.dotnet }}
         shell: pwsh
 
       - name: Set Coverage env variable
