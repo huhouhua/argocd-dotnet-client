@@ -57,19 +57,6 @@ jobs:
             sed -i 's/0.0.0.0/127.0.0.1/g' ~/.kube/config
             kubectl get nodes
 
-      - name: Install Codecov
-        run: |
-            curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import # One-time step  
-             curl -Os https://cli.codecov.io/latest/linux/codecov
-             curl -Os https://cli.codecov.io/latest/linux/codecov.SHA256SUM
-             curl -Os https://cli.codecov.io/latest/linux/codecov.SHA256SUM.sig
-             gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
-
-             shasum -a 256 -c codecov.SHA256SUM
-             sudo chmod +x codecov
-             mv codecov /usr/local/bin/
-             codecov --help
-
       - run: dotnet tool install -g GitVersion.Tool
 
       - name: Run Build
@@ -82,6 +69,15 @@ jobs:
         run: ./test.ps1
         shell: pwsh
 
+      - name: Set Coverage env variable
+        run: COVER_FILE=$(find test -type f -name "coverage.opencover.xml" -exec stat -c "%Y %n" {} + 2>/dev/null | sort -n | tail -n 1 | cut -d' ' -f2-) >> $GITHUB_ENV
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: huhouhua/argocd-dotnet-client
+          files: ${{ env.COVER_FILE }}
 
 #  windows-build:
 #    runs-on: windows-latest
