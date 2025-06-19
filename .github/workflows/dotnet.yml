@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   unix-build-net5:
-    name: Running tests on ${{ matrix.os }} for .NET ${{ env.DOTNET_VERSION }}
+    name: Running tests on ${{ matrix.os }} for .NET 5
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     strategy:
