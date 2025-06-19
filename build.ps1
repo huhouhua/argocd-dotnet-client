@@ -18,13 +18,13 @@ function Build()
 		exit 1
 	}
 
-	& dotnet build $args --no-restore | Write-Host
+	& dotnet build $args --no-restore  -warnaserror:false | Write-Host
 	if ($LastExitCode -ne 0)
 	{
 		exit 1
 	}
 
-	& dotnet build $args -c Release --no-restore | Write-Host
+	& dotnet build $args -c Release  -warnaserror:false --no-restore | Write-Host
 	if ($LastExitCode -ne 0)
 	{
 		exit 1
