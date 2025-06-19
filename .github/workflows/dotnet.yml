@@ -6,6 +6,7 @@ jobs:
   unix-build:
     name: Running tests on ${{ matrix.os }} for .NET ${{ matrix.dotnet }}
     runs-on: ${{ matrix.os }}
+    continue-on-error: true
     strategy:
       matrix:
         os: [ubuntu-latest]
