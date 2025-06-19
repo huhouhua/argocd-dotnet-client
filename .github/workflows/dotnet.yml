@@ -21,11 +21,13 @@ jobs:
       - name: Print dotnet
         run: dotnet --info
 
-      - name: Install libssl-dev
-        if: matrix.dotnet == '5.0'
+      - name: Install GitVersion
         run: |
-          sudo apt-get update && sudo apt-get install -y libssl-dev
-          dotnet tool install -g GitVersion.Tool
+          curl -# -L -o gitversion.tar.gz https://github.com/GitTools/GitVersion/releases/download/6.3.0/gitversion-linux-x64-6.3.0.tar.gz
+          tar -xzvf gitversion.tar.gz
+          sudo mv gitversion /usr/local/bin/
+          sudo chmod +x /usr/local/bin/gitversion
+          gitversion --help || true
 
       - name: Kubernetes Kind Cluster
         id: kind
