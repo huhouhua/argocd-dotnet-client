@@ -22,10 +22,6 @@ jobs:
       - name: Print dotnet info
         run: dotnet --info
 
-      - name: Run Build
-        run: ./build.ps1 '${{ matrix.dotnet }}'
-        shell: pwsh
-
       - name: Install GitVersion
         run: |
           curl -# -L -o gitversion.tar.gz https://github.com/GitTools/GitVersion/releases/download/6.3.0/gitversion-linux-x64-6.3.0.tar.gz
@@ -33,6 +29,10 @@ jobs:
           sudo mv gitversion /usr/local/bin/
           sudo chmod +x /usr/local/bin/gitversion
           gitversion -h || true
+
+      - name: Run Build
+        run: ./build.ps1 '${{ matrix.dotnet }}'
+        shell: pwsh
 
       - name: Kubernetes Kind Cluster
         id: kind
