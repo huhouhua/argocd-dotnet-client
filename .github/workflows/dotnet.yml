@@ -22,9 +22,9 @@ jobs:
       - name: Print dotnet info
         run: dotnet --info
 
-      - name: Create global.json
-        run: |
-          echo "{\"sdk\": {\"version\": \"$(dotnet --version)\",\"rollForward\": \"latestMajor\"}}" > global.json
+      # - name: Create global.json
+      #   run: |
+      #     echo "{\"sdk\": {\"version\": \"$(dotnet --version)\",\"rollForward\": \"latestMajor\"}}" > global.json
 
       - name: Install GitVersion
         run: |
