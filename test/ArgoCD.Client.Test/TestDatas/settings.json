@@ -1,0 +1,48 @@
+{
+  "appLabelKey": "app.kubernetes.io/instance",
+  "resourceOverrides": {
+    "*/*": {
+      "ignoreDifferences": "jqPathExpressions: null\njsonPointers:\n- /status\nmanagedFieldsManagers: null\n",
+      "ignoreResourceUpdates": "jqPathExpressions: null\njsonPointers:\n- /status\nmanagedFieldsManagers: null\n"
+    },
+    "ConfigMap": {
+      "ignoreDifferences": "jqPathExpressions: null\njsonPointers: null\nmanagedFieldsManagers: null\n",
+      "ignoreResourceUpdates": "jqPathExpressions:\n- .metadata.annotations.\"cluster-autoscaler.kubernetes.io/last-updated\"\n- .metadata.annotations.\"control-plane.alpha.kubernetes.io/leader\"\njsonPointers: null\nmanagedFieldsManagers: null\n"
+    },
+    "Endpoints": {
+      "ignoreDifferences": "jqPathExpressions: null\njsonPointers: null\nmanagedFieldsManagers: null\n",
+      "ignoreResourceUpdates": "jqPathExpressions: null\njsonPointers:\n- /metadata\n- /subsets\nmanagedFieldsManagers: null\n"
+    },
+    "apps/ReplicaSet": {
+      "ignoreDifferences": "jqPathExpressions: null\njsonPointers: null\nmanagedFieldsManagers: null\n",
+      "ignoreResourceUpdates": "jqPathExpressions:\n- .metadata.annotations.\"deployment.kubernetes.io/desired-replicas\"\n- .metadata.annotations.\"deployment.kubernetes.io/max-replicas\"\n- .metadata.annotations.\"rollout.argoproj.io/desired-replicas\"\njsonPointers: null\nmanagedFieldsManagers: null\n"
+    },
+    "argoproj.io/Application": {
+      "ignoreDifferences": "jqPathExpressions: null\njsonPointers: null\nmanagedFieldsManagers: null\n",
+      "ignoreResourceUpdates": "jqPathExpressions:\n- .metadata.annotations.\"notified.notifications.argoproj.io\"\n- .metadata.annotations.\"argocd.argoproj.io/refresh\"\n- .metadata.annotations.\"argocd.argoproj.io/hydrate\"\n- .operation\njsonPointers: null\nmanagedFieldsManagers: null\n"
+    },
+    "argoproj.io/Rollout": {
+      "ignoreDifferences": "jqPathExpressions: null\njsonPointers: null\nmanagedFieldsManagers: null\n",
+      "ignoreResourceUpdates": "jqPathExpressions:\n- .metadata.annotations.\"notified.notifications.argoproj.io\"\njsonPointers: null\nmanagedFieldsManagers: null\n"
+    },
+    "autoscaling/HorizontalPodAutoscaler": {
+      "ignoreDifferences": "jqPathExpressions: null\njsonPointers: null\nmanagedFieldsManagers: null\n",
+      "ignoreResourceUpdates": "jqPathExpressions:\n- .metadata.annotations.\"autoscaling.alpha.kubernetes.io/behavior\"\n- .metadata.annotations.\"autoscaling.alpha.kubernetes.io/conditions\"\n- .metadata.annotations.\"autoscaling.alpha.kubernetes.io/metrics\"\n- .metadata.annotations.\"autoscaling.alpha.kubernetes.io/current-metrics\"\njsonPointers: null\nmanagedFieldsManagers: null\n"
+    },
+    "discovery.k8s.io/EndpointSlice": {
+      "ignoreDifferences": "jqPathExpressions: null\njsonPointers: null\nmanagedFieldsManagers: null\n",
+      "ignoreResourceUpdates": "jqPathExpressions: null\njsonPointers:\n- /metadata\n- /endpoints\n- /ports\nmanagedFieldsManagers: null\n"
+    }
+  },
+  "googleAnalytics": {
+    "anonymizeUsers": true
+  },
+  "kustomizeOptions": {
+    "BuildOptions": "",
+    "BinaryPath": ""
+  },
+  "help": {},
+  "trackingMethod": "annotation",
+  "passwordPattern": "^.{8,32}$",
+  "controllerNamespace": "argocd"
+}

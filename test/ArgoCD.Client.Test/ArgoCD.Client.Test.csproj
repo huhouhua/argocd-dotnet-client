@@ -33,8 +33,11 @@
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="TestDatas\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  
+
   <!--<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
     <PackageReference Include="KubernetesClient" Version="4.0.26" />
   </ItemGroup>-->
@@ -59,4 +62,5 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
     <PackageReference Include="KubernetesClient" Version="17.0.4" />
   </ItemGroup>
+  
 </Project>

@@ -11,6 +11,9 @@ namespace ArgoCD.Client.Models.Settings.Responses
         /// ConfigManagementPlugin contains config management plugin configuration
         /// </summary>
         public ConfigmanagementPlugin[] ConfigManagementPlugins { get; set; }
+
+        public string ControllerNamespace { get; set; }
+
         public ClusterDexConfig DexConfig { get; set; }
         public bool ExecEnabled { get; set; }
         public ClusterGoogleAnalyticsConfig GoogleAnalytics { get; set; }
@@ -24,7 +27,7 @@ namespace ArgoCD.Client.Models.Settings.Responses
         /// <summary>
         /// ResourceOverride holds configuration to customize resource diffing and health assessment
         /// </summary>
-        public V1alpha1ResourceOverride ResourceOverrides { get; set; }
+        public Dictionary<string,V1alpha1ResourceOverride> ResourceOverrides { get; set; }
         public bool StatusBadgeEnabled { get; set; }
         public string StatusBadgeRootUrl { get; set; }
         public string TrackingMethod { get; set; }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,6 +13,8 @@ namespace ArgoCD.Client.Test.Utilities
         public const string TestUserName = "admin";
 
         public const string TestIss = "argocd";
+
+        public static string TestDataBasePath = Path.Combine(Directory.GetCurrentDirectory(), "TestDatas");
 
         public static HttpClientHandler CreateHandler() => new ()
         {

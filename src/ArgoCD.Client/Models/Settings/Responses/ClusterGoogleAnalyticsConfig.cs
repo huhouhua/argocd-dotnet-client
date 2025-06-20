@@ -6,7 +6,7 @@ namespace ArgoCD.Client.Models.Settings.Responses
 {
     public sealed class ClusterGoogleAnalyticsConfig
     {
-        public bool AanonymizeUsers { get; set; }
+        public bool AnonymizeUsers { get; set; }
 
         public string TrackingID { get; set; }
     }
