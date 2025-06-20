@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ArgoCD.Client.Impl;
+using ArgoCD.Client.Internal.Http;
+using ArgoCD.Client.Internal.Http.Serialization;
+using ArgoCD.Client.Models.Session.Requests;
+using ArgoCD.Client.Models.Session.Responses;
+using ArgoCD.Client.Test.Utilities;
 using FluentAssertions;
 
 namespace ArgoCD.Client.Test
@@ -22,6 +27,15 @@ namespace ArgoCD.Client.Test
         }
 
         [Fact]
+        public void InvalidToke()
+        {
+            Action action = () => new ArgoCDClient(DefaultHost, "HelloWorld");
+            action.Should()
+                .Throw<ArgumentException>()
+                .WithMessage("Unsupported authentication token provide, please private an oauth or private token");
+        }
+
+        [Fact]
         public void CheckClients()
         {
             var sut = new ArgoCDClient(DefaultHost);
@@ -38,6 +52,51 @@ namespace ArgoCD.Client.Test
             sut.Project.Should().BeAssignableTo<ProjectClient>();
             sut.ApplicationSet.Should().BeAssignableTo<ApplicationSetClient>();
             sut.Application.Should().BeAssignableTo<ApplicationClient>();
+        }
+
+        [Trait("Category", "LinuxIntegration")]
+        [Collection("ArgoCDKubernetesFixture")]
+        public class Integration
+        {
+            [Fact]
+            public async void CanLogin()
+            {
+                var sut = new ArgoCDClient(ArgoCDKubernetesFixture.ArgoCDHost,
+                    httpMessageHandler: ArgoCDApiHelper.CreateHandler());
+                var sessionTokenResponse =
+                    await sut.LoginAsync(ArgoCDApiHelper.TestUserName, ArgoCDKubernetesFixture.Password);
+                sessionTokenResponse.Should().NotBeNull();
+                sessionTokenResponse.Token.Should().HaveLength(257);
+
+                var currentSession = await sut.Session.GetCurrentUserInfoAsync();
+                currentSession.Should().NotBeNull();
+                currentSession.Username.Should().Be(ArgoCDApiHelper.TestUserName);
+                currentSession.Iss.Should().Be(ArgoCDApiHelper.TestIss);
+                currentSession.LoggedIn.Should().BeTrue();
+
+                sut = new ArgoCDClient(ArgoCDKubernetesFixture.ArgoCDHost, sessionTokenResponse.Token, httpMessageHandler: ArgoCDApiHelper.CreateHandler());
+                currentSession = await sut.Session.GetCurrentUserInfoAsync();
+                currentSession.Username.Should().Be(ArgoCDApiHelper.TestUserName);
+
+                var facadeSut = new DefaultArgoCDHttpFacade(ArgoCDKubernetesFixture.ArgoCDHost, new RequestsJsonSerializer(),
+                    ArgoCDKubernetesFixture.Token,ArgoCDApiHelper.CreateHandler());
+
+                currentSession = await facadeSut.GetAsync<UserInfo>("session/userinfo");
+                currentSession.Username.Should().Be(ArgoCDApiHelper.TestUserName);
+                sessionTokenResponse = await facadeSut.LoginAsync(new CreateSessionRequest()
+                {
+                    UserName = ArgoCDApiHelper.TestUserName,
+                    Password = ArgoCDKubernetesFixture.Password,
+                });
+
+                currentSession = await facadeSut.GetAsync<UserInfo>("session/userinfo");
+                currentSession.Username.Should().Be(ArgoCDApiHelper.TestUserName);
+
+                facadeSut = new DefaultArgoCDHttpFacade(ArgoCDKubernetesFixture.ArgoCDHost, new RequestsJsonSerializer(),
+                    sessionTokenResponse.Token,ArgoCDApiHelper.CreateHandler());
+                currentSession = await facadeSut.GetAsync<UserInfo>("session/userinfo");
+                currentSession.Username.Should().Be(ArgoCDApiHelper.TestUserName);
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using ArgoCD.Client.Models.Session.Responses;
 
 namespace ArgoCD.Client
 {
@@ -80,7 +82,11 @@ namespace ArgoCD.Client
         /// </summary>
          IProjectClient Project { get;  }
 
-
         string HostUrl { get; }
+
+        /// <summary>
+        /// Authenticates with ArgoCD API using user credentials.
+        /// </summary>
+        Task<Session> LoginAsync(string username, string password);
     }
 }

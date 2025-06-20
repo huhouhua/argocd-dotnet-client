@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
+using ArgoCD.Client.Internal.Builders;
 using ArgoCD.Client.Internal.Http;
 using ArgoCD.Client.Internal.Http.Serialization;
-using ArgoCD.Client.Internal.Builders;
 using ArgoCD.Client.Internal.Utilities;
+using ArgoCD.Client.Models.Session.Requests;
+using ArgoCD.Client.Models.Session.Responses;
 
 namespace ArgoCD.Client.Impl
 {
@@ -16,32 +21,34 @@ namespace ArgoCD.Client.Impl
     {
         private  IArgoCDHttpFacade _httpFacade;
         private IArgoCDHttpFacade _httpFacadeFromApp;
+        private readonly RequestsJsonSerializer _jsonSerializer = new ();
 
         public ArgoCDClient(Func<HttpClient> clientFunc)
         {
             Guard.NotNull(clientFunc, nameof(clientFunc));
-            Setup(clientFunc);
+            CreateHttpFacade(clientFunc);
         }
 
         public ArgoCDClient(IHttpClientFactory clientFactory)
         {
             Guard.NotNull(clientFactory, nameof(clientFactory));
-            Setup(() => clientFactory.CreateClient());
+            CreateHttpFacade(() => clientFactory.CreateClient());
+            Setup();
         }
-
-
 
         public ArgoCDClient(IHttpClientFactory clientFactory, string clientName)
         {
             Guard.NotNull(clientFactory, nameof(clientFactory));
             Guard.NotNullOrDefault(clientName, nameof(clientName));
-            Setup(() => clientFactory.CreateClient(clientName));
+            CreateHttpFacade(() => clientFactory.CreateClient(clientName));
+            Setup();
         }
 
         public ArgoCDClient(HttpClient client)
         {
             Guard.NotNull(client, nameof(client));
-            Setup(() => client);
+            CreateHttpFacade(() => client);
+            Setup();
         }
 
         public ArgoCDClient(string hostUrl, string authenticationToken = "", HttpMessageHandler httpMessageHandler = null, TimeSpan? clientTimeout = null)
@@ -49,33 +56,43 @@ namespace ArgoCD.Client.Impl
             Guard.NotEmpty(hostUrl, nameof(hostUrl));
             Guard.NotNull(authenticationToken, nameof(authenticationToken));
             HostUrl = FixBaseUrl(hostUrl);
-            Setup(() =>
-            {
-                var client = new HttpClient(httpMessageHandler ?? new HttpClientHandler()) { BaseAddress = new Uri(hostUrl) };
-                if (clientTimeout.HasValue)
-                {
-                    client.Timeout = clientTimeout.Value;
-                }
-                return client;
-            });
+            _httpFacade = new DefaultArgoCDHttpFacade(
+                HostUrl,
+                _jsonSerializer,
+                authenticationToken,
+                httpMessageHandler,
+                clientTimeout);
+
+            _httpFacadeFromApp = new DefaultArgoCDHttpFacade(
+                HostUrl.TrimEnd(new []{'/','v','1'}),
+                _jsonSerializer,
+                authenticationToken,
+                httpMessageHandler,
+                clientTimeout);
+            Setup();
         }
 
-        private void Setup(Func<HttpClient> clientFunc)
+        private void CreateHttpFacade(Func<HttpClient> clientFunc)
         {
-            var jsonSerializer = new RequestsJsonSerializer();
             _httpFacade = new DefaultArgoCDHttpFacade(
-                 clientFunc,
-                 jsonSerializer);
-           
-            _httpFacadeFromApp = new DefaultArgoCDHttpFacade(
-              () =>
-              {
-                  var client = clientFunc();
-                  client.BaseAddress = new Uri("/api");
-                  return client;
-              },
-              jsonSerializer);
+                clientFunc,
+                _jsonSerializer);
 
+            _httpFacadeFromApp = new DefaultArgoCDHttpFacade(
+                () =>
+                {
+                    var client = clientFunc();
+                    if (client.BaseAddress is not null)
+                    {
+                        client.BaseAddress.ToString().TrimEnd(new[] { '/', 'v', '1' });
+                    }
+                    return client;
+                },
+                _jsonSerializer);
+        }
+
+        private void Setup()
+        {
             var upsertBuilder = new UpsertBuilder();
             var certificateQueryBuilder = new CertificateQueryBuilder();
             var gPKKeyDeleteBuilder = new GPKKeyDeleteBuilder();
@@ -208,6 +225,21 @@ namespace ArgoCD.Client.Impl
 
         public string HostUrl { get; }
 
+        /// <summary>
+        /// Authenticates with ArgoCD API using user credentials.
+        /// </summary>
+        public Task<Session> LoginAsync(string username, string password)
+        {
+            Guard.NotEmpty(username, nameof(username));
+            Guard.NotEmpty(password, nameof(password));
+            var createSessionRequest = new CreateSessionRequest
+            {
+                UserName = username,
+                Password = password,
+            };
+            return _httpFacade.LoginAsync(createSessionRequest);
+        }
+
         private static string FixBaseUrl(string url)
         {
             url = url.TrimEnd('/');
@@ -219,6 +251,6 @@ namespace ArgoCD.Client.Impl
             return $"{url}/";
         }
 
-        
+
     }
 }

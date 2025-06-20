@@ -8,16 +8,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CCF6BF5F-0D0E-47C9-9EF2-CD0101BFF093}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		build.ps1 = build.ps1
-		codecov.yml = codecov.yml
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		build.ps1 = build.ps1
+		codecov.yml = codecov.yml
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		coverletArgs.runsettings = coverletArgs.runsettings
 		GitVersion.yml = GitVersion.yml
 		LICENSE = LICENSE
 		README.md = README.md
 		test.ps1 = test.ps1
-		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
-		coverletArgs.runsettings = coverletArgs.runsettings
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgoCD.Client.Test", "test\ArgoCD.Client.Test\ArgoCD.Client.Test.csproj", "{7E9C4A09-A1BD-4DB0-B924-8E6850F325C5}"
@@ -29,17 +29,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8FAC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{9E78A264-1247-4762-8405-10A6849924EB}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		.github\workflows\drafter.yml = .github\workflows\drafter.yml
 		.github\workflows\format.yml = .github\workflows\format.yml
-		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{9269D26D-9863-4879-B778-DCA29A69A851}"
 	ProjectSection(SolutionItems) = preProject
-		k8s\install.yaml = k8s\install.yaml
-		k8s\swagger.json = k8s\swagger.json
-		k8s\kubeconfig.yaml = k8s\kubeconfig.yaml
 		k8s\cluster.yaml = k8s\cluster.yaml
+		k8s\install.yaml = k8s\install.yaml
+		k8s\kubeconfig.yaml = k8s\kubeconfig.yaml
+		k8s\swagger.json = k8s\swagger.json
 	EndProjectSection
 EndProject
 Global
@@ -60,12 +60,12 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B394566F-1FF1-41E4-BEC6-6D15159D584D}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8FAC650A-B12D-4749-8B60-777EA57748D6} = {CCF6BF5F-0D0E-47C9-9EF2-CD0101BFF093}
 		{9E78A264-1247-4762-8405-10A6849924EB} = {8FAC650A-B12D-4749-8B60-777EA57748D6}
 		{9269D26D-9863-4879-B778-DCA29A69A851} = {CCF6BF5F-0D0E-47C9-9EF2-CD0101BFF093}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B394566F-1FF1-41E4-BEC6-6D15159D584D}
 	EndGlobalSection
 EndGlobal

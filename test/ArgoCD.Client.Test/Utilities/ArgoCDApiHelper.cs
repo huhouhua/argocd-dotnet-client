@@ -9,13 +9,14 @@ namespace ArgoCD.Client.Test.Utilities
 {
     internal static class ArgoCDApiHelper
     {
-        public static HttpClientHandler CreateHandler()
+        public const string TestUserName = "admin";
+
+        public const string TestIss = "argocd";
+
+        public static HttpClientHandler CreateHandler() => new ()
         {
-            return new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback = (msg, cert, chain, errors) => true
-            };
-        }
+            ServerCertificateCustomValidationCallback = (msg, cert, chain, errors) => true
+        };
         public static IArgoCDHttpFacade GetFacadeWithUnauthorized()=>
             new DefaultArgoCDHttpFacade(() => {
                 return new HttpClient(CreateHandler())

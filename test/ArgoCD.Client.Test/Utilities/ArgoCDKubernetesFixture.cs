@@ -30,9 +30,7 @@ namespace ArgoCD.Client.Test.Utilities
         private const string NameSpace = "argocd";
 
         private static readonly TemplateString SolutionRootFolder = "${PWD}/../../../../..";
-        private const string UserName = "admin";
         public static string Password { get; private set; }
-
         public static string Token { get; private set; }
 
         public static string ArgoCDHost { get; private set; }
@@ -47,19 +45,10 @@ namespace ArgoCD.Client.Test.Utilities
 
         public  Task DisposeAsync()
         {
-            //await UninstallAsync();
             kubernetes?.Dispose();
             resourceList?.Clear();
             return Task.CompletedTask;
         }
-        //public async Task DisposeAsync()
-        //{
-        //    await UninstallAsync();
-        //    kubernetes?.Dispose();
-        //    resourceList?.Clear();
-        //}
-
-
         private async Task StartKubernetesAsync()
         {
             var config = KubernetesClientConfiguration.BuildDefaultConfig();
@@ -134,7 +123,7 @@ namespace ArgoCD.Client.Test.Utilities
         {
             int maxRetries = 10;
             int delay = 5000;
-          
+
             using var client = new HttpClient(ArgoCDApiHelper.CreateHandler());
             for (int attempt = 1; attempt <= maxRetries; attempt++)
             {
@@ -145,7 +134,7 @@ namespace ArgoCD.Client.Test.Utilities
 
                     Password = await FindPasswordAsync();
 
-                    string sessionJsonData = JsonSerializer.Serialize(new { username = UserName, password = Password });
+                    string sessionJsonData = JsonSerializer.Serialize(new { username = ArgoCDApiHelper.TestUserName, password = Password });
                     using HttpContent sessionContent = new StringContent(sessionJsonData);
                     sessionContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
@@ -158,7 +147,7 @@ namespace ArgoCD.Client.Test.Utilities
                     tokenContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                     var tokenResponse =
-                        await client.PostAsync($"{ArgoCDHost}account/{UserName}/token", tokenContent);
+                        await client.PostAsync($"{ArgoCDHost}account/{ArgoCDApiHelper.TestUserName}/token", tokenContent);
                     tokenResponse.EnsureSuccessStatusCode();
 
                     string tokenStr = await tokenResponse.Content.ReadAsStringAsync();

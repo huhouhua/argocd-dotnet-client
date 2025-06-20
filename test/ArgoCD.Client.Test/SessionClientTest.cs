@@ -19,8 +19,8 @@ public class SessionClientTest
     {
         var userInfo = await _client.GetCurrentUserInfoAsync();
         userInfo.LoggedIn.Should().BeTrue();
-        userInfo.Username.Should().Be("admin");
-        userInfo.Iss.Should().Be("argocd");
+        userInfo.Username.Should().Be(ArgoCDApiHelper.TestUserName);
+        userInfo.Iss.Should().Be(ArgoCDApiHelper.TestIss);
     }
 
     [Fact]
