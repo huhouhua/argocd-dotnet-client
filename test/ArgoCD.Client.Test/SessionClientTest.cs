@@ -5,6 +5,7 @@ using ArgoCD.Client.Models.Session.Responses;
 using ArgoCD.Client.Test.Utilities;
 using FluentAssertions;
 using Xunit.Abstractions;
+using static ArgoCD.Client.Test.Utilities.ArgoCDApiHelper;
 
 namespace ArgoCD.Client.Test;
 
@@ -12,15 +13,15 @@ namespace ArgoCD.Client.Test;
 [Collection("ArgoCDKubernetesFixture")]
 public class SessionClientTest
 {
-    private readonly ISessionClient _client = new SessionClient(ArgoCDApiHelper.GetFacade());
+    private readonly ISessionClient _client = new SessionClient(GetFacade());
 
     [Fact]
     public async Task CurrentUserSessionCanBeRetrieved()
     {
         var userInfo = await _client.GetCurrentUserInfoAsync();
         userInfo.LoggedIn.Should().BeTrue();
-        userInfo.Username.Should().Be(ArgoCDApiHelper.TestUserName);
-        userInfo.Iss.Should().Be(ArgoCDApiHelper.TestIss);
+        userInfo.Username.Should().Be(TestUserName);
+        userInfo.Iss.Should().Be(TestIss);
     }
 
     [Fact]

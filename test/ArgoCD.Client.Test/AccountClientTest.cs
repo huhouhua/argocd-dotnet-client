@@ -6,6 +6,7 @@ using ArgoCD.Client.Internal.Http.Serialization;
 using ArgoCD.Client.Models.Settings.Responses;
 using ArgoCD.Client.Test.Utilities;
 using FluentAssertions;
+using static ArgoCD.Client.Test.Utilities.ArgoCDApiHelper;
 
 namespace ArgoCD.Client.Test;
 
@@ -15,13 +16,12 @@ public class AccountClientTest
 {
     // private readonly IAccountClient _client = new AccountClient(ArgoCDApiHelper.GetFacade());
 
-    private readonly RequestsJsonSerializer _jsonSerializer = new();
 
     [Fact]
     public async Task Test()
     {
-        string data=  await File.ReadAllTextAsync(Path.Combine(ArgoCDApiHelper.TestDataBasePath,"settings.json"),Encoding.UTF8);
-        var clusterSettings = _jsonSerializer.Deserialize<ClusterSettings>(data);
+        string data=  await File.ReadAllTextAsync(Path.Combine(TestDataBasePath,"settings.json"),Encoding.UTF8);
+        var clusterSettings = JsonSerializer.Deserialize<ClusterSettings>(data);
         clusterSettings.Should().NotBeNull();
     }
 

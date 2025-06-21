@@ -63,4 +63,8 @@
     <PackageReference Include="KubernetesClient" Version="17.0.4" />
   </ItemGroup>
   
+  <ItemGroup>
+    <Folder Include="TestResults\" />
+  </ItemGroup>
+  
 </Project>

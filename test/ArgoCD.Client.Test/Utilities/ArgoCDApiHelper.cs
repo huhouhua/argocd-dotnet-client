@@ -16,6 +16,8 @@ namespace ArgoCD.Client.Test.Utilities
 
         public static string TestDataBasePath = Path.Combine(Directory.GetCurrentDirectory(), "TestDatas");
 
+        public static RequestsJsonSerializer JsonSerializer = new();
+
         public static HttpClientHandler CreateHandler() => new ()
         {
             ServerCertificateCustomValidationCallback = (msg, cert, chain, errors) => true
@@ -26,7 +28,7 @@ namespace ArgoCD.Client.Test.Utilities
                 {
                     BaseAddress = new Uri(ArgoCDKubernetesFixture.ArgoCDHost),
 
-                }; }, new RequestsJsonSerializer());
+                }; }, JsonSerializer);
 
 
         public static IArgoCDHttpFacade GetFacade()=>
@@ -37,7 +39,7 @@ namespace ArgoCD.Client.Test.Utilities
                 {
                     Authorization = new AuthenticationHeaderValue("Bearer", ArgoCDKubernetesFixture.Token),
                 }
-            }, new RequestsJsonSerializer());
+            }, JsonSerializer);
 
         public static IArgoCDHttpFacade GetFacadeWithNotVersion()=>
             new DefaultArgoCDHttpFacade(() => new(CreateHandler())
@@ -47,7 +49,7 @@ namespace ArgoCD.Client.Test.Utilities
                 {
                     Authorization = new AuthenticationHeaderValue("Bearer", ArgoCDKubernetesFixture.Token),
                 }
-            }, new RequestsJsonSerializer());
+            }, JsonSerializer);
 
     }
 }

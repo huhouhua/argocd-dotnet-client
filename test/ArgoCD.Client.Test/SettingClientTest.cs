@@ -6,6 +6,7 @@ using ArgoCD.Client.Internal.Http.Serialization;
 using ArgoCD.Client.Models.Settings.Responses;
 using ArgoCD.Client.Test.Utilities;
 using FluentAssertions;
+using static ArgoCD.Client.Test.Utilities.ArgoCDApiHelper;
 
 namespace ArgoCD.Client.Test;
 
@@ -13,8 +14,8 @@ namespace ArgoCD.Client.Test;
 [Collection("ArgoCDKubernetesFixture")]
 public class SettingClientTest
 {
-    private readonly ISettingsClient _client = new SettingsClient(ArgoCDApiHelper.GetFacade());
-    private readonly RequestsJsonSerializer _jsonSerializer = new();
+    private readonly ISettingsClient _client = new SettingsClient(GetFacade());
+
 
     [Fact]
     public async Task PluginsCanBeRetrieved()
@@ -28,8 +29,8 @@ public class SettingClientTest
     public async Task SettingsCanBeRetrieved()
     {
         string clusterSettings =
-            await File.ReadAllTextAsync(Path.Combine(ArgoCDApiHelper.TestDataBasePath, "settings.json"), Encoding.UTF8);
-        var expected = _jsonSerializer.Deserialize<ClusterSettings>(clusterSettings);
+            await File.ReadAllTextAsync(Path.Combine(TestDataBasePath, "settings.json"), Encoding.UTF8);
+        var expected = JsonSerializer.Deserialize<ClusterSettings>(clusterSettings);
         var actual = await _client.GetSettingsAsync();
         actual.Should().BeEquivalentTo(expected);
     }
