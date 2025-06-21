@@ -128,7 +128,7 @@ public class AccountClientTest : IAsyncLifetime
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Clear test data, skipping exceptions :{e.Message}");
+                Console.WriteLine($"Clear test data .... skipping exceptions :{e.Message}");
             }
     }
 }
