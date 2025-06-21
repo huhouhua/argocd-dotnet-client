@@ -9,7 +9,7 @@ namespace ArgoCD.Client.Models.Account.Requests
         /// <summary>
         /// expiresIn represents a duration in seconds
         /// </summary>
-        public string ExpiresIn { get; set; }
+        public long ExpiresIn { get; set; }
 
         public string Id { get; set; }
 

@@ -134,7 +134,7 @@ namespace ArgoCD.Client.Test.Utilities
 
                     Password = await FindPasswordAsync();
 
-                    string sessionJsonData = JsonSerializer.Serialize(new { username = ArgoCDApiHelper.TestUserName, password = Password });
+                    string sessionJsonData = JsonSerializer.Serialize(new { username = ArgoCDApiHelper.TestUserNameWithAdmin, password = Password });
                     using HttpContent sessionContent = new StringContent(sessionJsonData);
                     sessionContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
@@ -147,7 +147,7 @@ namespace ArgoCD.Client.Test.Utilities
                     tokenContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                     var tokenResponse =
-                        await client.PostAsync($"{ArgoCDHost}account/{ArgoCDApiHelper.TestUserName}/token", tokenContent);
+                        await client.PostAsync($"{ArgoCDHost}account/{ArgoCDApiHelper.TestUserNameWithAdmin}/token", tokenContent);
                     tokenResponse.EnsureSuccessStatusCode();
 
                     string tokenStr = await tokenResponse.Content.ReadAsStringAsync();

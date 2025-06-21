@@ -41,10 +41,10 @@ namespace ArgoCD.Client.Internal.Http
             {
                 case int i when i == 0:
                     break;
-                case int i when i >= 257:
+                case int i when i == 257:
                     _httpClient.DefaultRequestHeaders.Add("Cookie", $"argocd.token={authenticationToken}");
                     break;
-                case int i when i == 216:
+                case int i when i > 64:
                     _httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", authenticationToken);
                     break;

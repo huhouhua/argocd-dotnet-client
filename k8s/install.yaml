@@ -24522,6 +24522,9 @@ subjects:
 apiVersion: v1
 data:
   accounts.admin: apiKey
+  accounts.test: apiKey,login
+  accounts.test2: apiKey,login
+  accounts.test3: apiKey,login
   resource.customizations.ignoreResourceUpdates.ConfigMap: |
     jqPathExpressions:
       # Ignore the cluster-autoscaler status
@@ -24654,6 +24657,18 @@ metadata:
     app.kubernetes.io/name: argocd-rbac-cm
     app.kubernetes.io/part-of: argocd
   name: argocd-rbac-cm
+data:
+  policy.csv: |
+    p, role:admin, applications, *, *, allow
+    p, role:admin, projects, *, *, allow
+    p, role:admin, clusters, *, *, allow
+    p, role:admin, repositories, *, *, allow
+    p, role:admin, accounts, *, *, allow
+    g, test, role:admin
+    g, test2, role:admin
+    g, test3, role:admin
+  policy.default: role:admin
+
 ---
 apiVersion: v1
 data:

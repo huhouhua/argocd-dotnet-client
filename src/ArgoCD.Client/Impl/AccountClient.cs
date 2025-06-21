@@ -42,7 +42,7 @@ namespace ArgoCD.Client.Impl
         public async Task<CreateAccountToken> CreateAccountAsync(CreateAccountTokenRequest request, CancellationToken cancellationToken = default)
         {
             Guard.NotNull(request, nameof(request));
-            return await _httpFacade.PostAsync<CreateAccountToken>($"account/{request.Name}/token", cancellationToken).
+            return await _httpFacade.PostAsync<CreateAccountToken>($"account/{request.Name}/token", request, cancellationToken).
                 ConfigureAwait(false);
         }
 

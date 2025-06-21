@@ -65,38 +65,38 @@ namespace ArgoCD.Client.Test
                 var sut = new ArgoCDClient(ArgoCDKubernetesFixture.ArgoCDHost,
                     httpMessageHandler: CreateHandler());
                 var sessionTokenResponse =
-                    await sut.LoginAsync(TestUserName, ArgoCDKubernetesFixture.Password);
+                    await sut.LoginAsync(TestUserNameWithAdmin, ArgoCDKubernetesFixture.Password);
                 sessionTokenResponse.Should().NotBeNull();
                 sessionTokenResponse.Token.Should().HaveLength(257);
 
                 var currentSession = await sut.Session.GetCurrentUserInfoAsync();
                 currentSession.Should().NotBeNull();
-                currentSession.Username.Should().Be(TestUserName);
+                currentSession.Username.Should().Be(TestUserNameWithAdmin);
                 currentSession.Iss.Should().Be(TestIss);
                 currentSession.LoggedIn.Should().BeTrue();
 
                 sut = new ArgoCDClient(ArgoCDKubernetesFixture.ArgoCDHost, sessionTokenResponse.Token, httpMessageHandler: CreateHandler());
                 currentSession = await sut.Session.GetCurrentUserInfoAsync();
-                currentSession.Username.Should().Be(TestUserName);
+                currentSession.Username.Should().Be(TestUserNameWithAdmin);
 
                 var facadeSut = new DefaultArgoCDHttpFacade(ArgoCDKubernetesFixture.ArgoCDHost,JsonSerializer,
                     ArgoCDKubernetesFixture.Token,CreateHandler());
 
                 currentSession = await facadeSut.GetAsync<UserInfo>("session/userinfo");
-                currentSession.Username.Should().Be(TestUserName);
+                currentSession.Username.Should().Be(TestUserNameWithAdmin);
                 sessionTokenResponse = await facadeSut.LoginAsync(new CreateSessionRequest()
                 {
-                    UserName = TestUserName,
+                    UserName = TestUserNameWithAdmin,
                     Password = ArgoCDKubernetesFixture.Password,
                 });
 
                 currentSession = await facadeSut.GetAsync<UserInfo>("session/userinfo");
-                currentSession.Username.Should().Be(TestUserName);
+                currentSession.Username.Should().Be(TestUserNameWithAdmin);
 
                 facadeSut = new DefaultArgoCDHttpFacade(ArgoCDKubernetesFixture.ArgoCDHost, JsonSerializer,
                     sessionTokenResponse.Token,CreateHandler());
                 currentSession = await facadeSut.GetAsync<UserInfo>("session/userinfo");
-                currentSession.Username.Should().Be(TestUserName);
+                currentSession.Username.Should().Be(TestUserNameWithAdmin);
             }
         }
     }

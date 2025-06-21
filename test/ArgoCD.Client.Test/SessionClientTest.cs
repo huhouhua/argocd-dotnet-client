@@ -20,7 +20,7 @@ public class SessionClientTest
     {
         var userInfo = await _client.GetCurrentUserInfoAsync();
         userInfo.LoggedIn.Should().BeTrue();
-        userInfo.Username.Should().Be(TestUserName);
+        userInfo.Username.Should().Be(TestUserNameWithAdmin);
         userInfo.Iss.Should().Be(TestIss);
     }
 
