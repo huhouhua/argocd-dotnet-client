@@ -25780,6 +25780,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
   name: argocd-server
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: argocd-server
