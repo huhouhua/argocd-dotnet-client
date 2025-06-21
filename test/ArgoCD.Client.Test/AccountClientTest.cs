@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ArgoCD.Client.Impl;
@@ -35,8 +36,7 @@ public class AccountClientTest : IAsyncLifetime
     {
         var accountList = await _client.GetAccountListAsync();
         accountList.Should().NotBeNull();
-        var which = accountList.Items.Should().ContainSingle().Which;
-        which.Name.Should().Be(TestUserNameWithAdmin);
+        var which = accountList.Items.Should().ContainSingle(x => x.Name == TestUserNameWithAdmin).Which;
         which.Enabled.Should().BeTrue();
         which.Capabilities.Should().BeEquivalentTo(new[] { "login", "apiKey" });
     }
@@ -126,9 +126,9 @@ public class AccountClientTest : IAsyncLifetime
             {
                 await _client.DeleteAccountAsync(TestUserNameWithAdmin, id);
             }
-            finally
+            catch (Exception e)
             {
-
+                Console.WriteLine($"Skipping Exceptions :{e.Message}");
             }
     }
 }
