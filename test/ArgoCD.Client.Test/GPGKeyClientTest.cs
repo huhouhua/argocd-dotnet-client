@@ -113,7 +113,7 @@ public class GPGKeyClientTest : IAsyncLifetime
 
     public static IEnumerable<object[]> GPGKeyData()
     {
-        string keyDataWithRsa = File.ReadAllText(Path.Combine(TestDataBasePath, "testKey_rsa.txt"), Encoding.UTF8);
+        string keyDataWithRsa = File.ReadAllText(Path.Combine(TestDataBasePath, "testkey_rsa.txt"), Encoding.UTF8);
         string keyDataWithEcdsa = File.ReadAllText(Path.Combine(TestDataBasePath, "testkey_ecdsa.txt"), Encoding.UTF8);
         string keyDataWithEddsa = File.ReadAllText(Path.Combine(TestDataBasePath, "testkey_eddsa.txt"), Encoding.UTF8);
 
