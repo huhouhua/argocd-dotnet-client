@@ -12,14 +12,15 @@ using ArgoCD.Client.Models;
 
 namespace ArgoCD.Client
 {
-    public interface IGPKKeyClient
+    public interface IGPGKeyClient
     {
         /// <summary>
         /// List all available repository certificates
         /// </summary>
+        /// <param name="options">List GPG key options <see cref="DeleteGPGKeyOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        Task<GnuPGPublicKeyList> GetListAsync(CancellationToken cancellationToken = default);
+        Task<GnuPGPublicKeyList> GetListAsync(Action<GPGListQueryOptions> options, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get information about specified GPG public key from the server

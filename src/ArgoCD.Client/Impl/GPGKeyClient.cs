@@ -12,30 +12,40 @@ using ArgoCD.Client.Internal.Utilities;
 
 namespace ArgoCD.Client.Impl
 {
-    public class GPKKeyClient : IGPKKeyClient
+    public class GPGKeyClient : IGPGKeyClient
     {
         private readonly IArgoCDHttpFacade _httpFacade;
         private readonly UpsertBuilder _upsertBuilder;
-        private readonly GPKKeyDeleteBuilder _gPKKeyDeleteBuilder;
+        private readonly GPGKeyDeleteBuilder _gpgKeyDeleteBuilder;
+        private readonly GPGListQueryBuilder _gpgListQueryBuilder;
 
-        internal GPKKeyClient(IArgoCDHttpFacade httpFacade,
+        internal GPGKeyClient(IArgoCDHttpFacade httpFacade,
                UpsertBuilder upsertBuilder,
-                GPKKeyDeleteBuilder gPKKeyDeleteBuilder)
+                GPGKeyDeleteBuilder gpgKeyDeleteBuilder,
+                    GPGListQueryBuilder  gpgListQueryBuilder)
         {
             _httpFacade = httpFacade;
             _upsertBuilder = upsertBuilder;
-            _gPKKeyDeleteBuilder = gPKKeyDeleteBuilder;
+            _gpgKeyDeleteBuilder = gpgKeyDeleteBuilder;
+            _gpgListQueryBuilder = gpgListQueryBuilder;
         }
-
 
         /// <summary>
         /// List all available repository certificates
         /// </summary>
+        /// <param name="options">List GPG key options <see cref="DeleteGPGKeyOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<GnuPGPublicKeyList> GetListAsync(CancellationToken cancellationToken = default) =>
-             await _httpFacade.GetAsync<GnuPGPublicKeyList>("gpgkeys", cancellationToken).
-            ConfigureAwait(false);
+        public async Task<GnuPGPublicKeyList> GetListAsync(Action<GPGListQueryOptions> options,
+            CancellationToken cancellationToken = default)
+        {
+            var queryOptions = new GPGListQueryOptions();
+            options?.Invoke(queryOptions);
+
+            string url = _gpgListQueryBuilder.Build("gpgkeys", queryOptions);
+            return  await _httpFacade.GetAsync<GnuPGPublicKeyList>(url, cancellationToken).
+                ConfigureAwait(false);
+        }
 
         /// <summary>
         /// Get information about specified GPG public key from the server
@@ -49,7 +59,7 @@ namespace ArgoCD.Client.Impl
            return await _httpFacade.GetAsync<V1alpha1GnuPGPublicKey>($"gpgkeys/{keyID}", cancellationToken).
             ConfigureAwait(false);
         }
-      
+
 
         /// <summary>
         /// Create one or more GPG public keys in the server's configuration
@@ -62,10 +72,10 @@ namespace ArgoCD.Client.Impl
         {
             Guard.NotNull(request, nameof(request));
 
-            var queryOptions = new UpsertOptions();
-            options?.Invoke(queryOptions);
+            var createOptions = new UpsertOptions();
+            options?.Invoke(createOptions);
 
-            string url = _upsertBuilder.Build("gpgkeys", queryOptions);
+            string url = _upsertBuilder.Build("gpgkeys", createOptions);
             return await _httpFacade.PostAsync<GnuPGPublicKey>(url, request, cancellationToken).
                 ConfigureAwait(false);
         }
@@ -78,10 +88,10 @@ namespace ArgoCD.Client.Impl
         /// <returns></returns>
         public async Task DeleteGPKKeyAsync(Action<DeleteGPGKeyOptions> options, CancellationToken cancellationToken = default)
         {
-            var queryOptions = new DeleteGPGKeyOptions();
-            options?.Invoke(queryOptions);
+            var deleteOptions = new DeleteGPGKeyOptions();
+            options?.Invoke(deleteOptions);
 
-            string url = _gPKKeyDeleteBuilder.Build("gpgkeys", queryOptions);
+            string url = _gpgKeyDeleteBuilder.Build("gpgkeys", deleteOptions);
             await _httpFacade.DeleteAsync(url, cancellationToken).
                 ConfigureAwait(false);
 

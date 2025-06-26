@@ -95,7 +95,8 @@ namespace ArgoCD.Client.Impl
         {
             var upsertBuilder = new UpsertBuilder();
             var certificateQueryBuilder = new CertificateQueryBuilder();
-            var gPKKeyDeleteBuilder = new GPKKeyDeleteBuilder();
+            var gpgKeyDeleteBuilder = new GPGKeyDeleteBuilder();
+            var gpgListQueryBuilder = new GPGListQueryBuilder();
             var repoCredsListQueryBuilder = new RepoCredsListQueryBuilder();
             var clusterQueryBuilder = new ClusterQueryBuilder();
             var clusterUpdateBuilder = new ClusterUpdateBuilder();
@@ -132,7 +133,7 @@ namespace ArgoCD.Client.Impl
             Session = new SessionClient(_httpFacade);
             Account = new AccountClient(_httpFacade);
             Certificate = new CertificateClient(_httpFacade, upsertBuilder, certificateQueryBuilder);
-            GPKKey = new GPKKeyClient(_httpFacade, upsertBuilder, gPKKeyDeleteBuilder);
+            IGPGKey = new GPGKeyClient(_httpFacade, upsertBuilder, gpgKeyDeleteBuilder,gpgListQueryBuilder);
             RepoCreds = new RepoCredsClient(_httpFacade, repoCredsListQueryBuilder, upsertBuilder);
             Cluster = new ClusterClient(_httpFacade,clusterQueryBuilder,clusterUpdateBuilder, upsertBuilder);
             Repository = new RepositoryClient(_httpFacade,repositoryQueryBuilder,createRepositoryBuilder, repositoryRefreshBuilder, repositoryQueryAppBuilder, validateAccessBuilder);
@@ -194,7 +195,7 @@ namespace ArgoCD.Client.Impl
         /// <summary>
         ///  Access ArgoCD's GPKKey API.
         /// </summary>
-        public IGPKKeyClient GPKKey { get; private set; }
+        public Client.IGPGKeyClient IGPGKey { get; private set; }
 
 
         /// <summary>

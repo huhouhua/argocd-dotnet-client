@@ -46,7 +46,7 @@ namespace ArgoCD.Client.Test
             sut.Session.Should().BeAssignableTo<SessionClient>();
             sut.Account.Should().BeAssignableTo<AccountClient>();
             sut.Certificate.Should().BeAssignableTo<CertificateClient>();
-            sut.GPKKey.Should().BeAssignableTo<GPKKeyClient>();
+            sut.IGPGKey.Should().BeAssignableTo<GPGKeyClient>();
             sut.RepoCreds.Should().BeAssignableTo<RepoCredsClient>();
             sut.Cluster.Should().BeAssignableTo<ClusterClient>();
             sut.Repository.Should().BeAssignableTo<RepositoryClient>();

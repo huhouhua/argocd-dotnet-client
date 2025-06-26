@@ -52,7 +52,7 @@ namespace ArgoCD.Client
         /// <summary>
         ///  Access ArgoCD's GPKKey API.
         /// </summary>
-        IGPKKeyClient GPKKey { get; }
+        IGPGKeyClient IGPGKey { get; }
 
 
         /// <summary>
