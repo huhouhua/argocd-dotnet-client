@@ -21,6 +21,14 @@ namespace ArgoCD.Client.Test.Utilities
 
         public const string TestIss = "argocd";
 
+        public const string TestRsaKeyId = "9DC5CCDDE4372239";
+
+        public const string TestFingerprint = "F6B8C8218D43BBC6F4AE9CA89DC5CCDDE4372239";
+
+        public const string TestOwner = "ArgoCD Test <test@example.com>";
+
+        public const string TestTrust = "expired";
+
         public static string TestDataBasePath = Path.Combine(Directory.GetCurrentDirectory(), "TestDatas");
 
         public static RequestsJsonSerializer JsonSerializer = new();
