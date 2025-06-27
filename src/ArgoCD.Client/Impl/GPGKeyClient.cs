@@ -72,10 +72,10 @@ namespace ArgoCD.Client.Impl
         {
             Guard.NotNull(request, nameof(request));
 
-            var createOptions = new UpsertOptions();
-            options?.Invoke(createOptions);
+            var upsertOptions = new UpsertOptions();
+            options?.Invoke(upsertOptions);
 
-            string url = _upsertBuilder.Build("gpgkeys", createOptions);
+            string url = _upsertBuilder.Build("gpgkeys", upsertOptions);
             return await _httpFacade.PostAsync<GnuPGPublicKey>(url, request, cancellationToken).
                 ConfigureAwait(false);
         }

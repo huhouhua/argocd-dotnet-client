@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using ArgoCD.Client.Internal.Utilities;
+using ArgoCD.Client.Models.Certificate.Requests;
+
+namespace ArgoCD.Client.Internal.Builders
+{
+    internal class CertificateDeleteBuilder : QueryBuilder<DeleteCertificateOptions>
+    {
+        protected override void BuildCore(Query query, DeleteCertificateOptions options)
+        {
+
+            if (options.HostNamePattern.IsNotNullOrEmpty())
+                query.Add("hostNamePattern", options.HostNamePattern);
+
+            if (options.CertType.IsNotNullOrEmpty())
+                query.Add("certType", options.CertType);
+
+            if (options.CertSubType.IsNotNullOrEmpty())
+                query.Add("certSubType", options.CertSubType);
+
+        }
+    }
+}

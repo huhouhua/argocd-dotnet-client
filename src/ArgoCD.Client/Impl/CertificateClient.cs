@@ -17,14 +17,16 @@ namespace ArgoCD.Client.Impl
         private readonly IArgoCDHttpFacade _httpFacade;
         private readonly UpsertBuilder _upsertBuilder;
         private readonly CertificateQueryBuilder _certificateQueryBuilder;
-
+        private readonly CertificateDeleteBuilder _certificateDeleteBuilder;
         internal CertificateClient(IArgoCDHttpFacade httpFacade,
             UpsertBuilder upsertBuilder,
-            CertificateQueryBuilder certificateQueryBuilder)
+            CertificateQueryBuilder certificateQueryBuilder,
+            CertificateDeleteBuilder certificateDeleteBuilder)
         {
             _httpFacade = httpFacade;
             _upsertBuilder = upsertBuilder;
             _certificateQueryBuilder = certificateQueryBuilder;
+            _certificateDeleteBuilder = certificateDeleteBuilder;
         }
 
 
@@ -39,10 +41,10 @@ namespace ArgoCD.Client.Impl
         {
             Guard.NotNull(request, nameof(request));
 
-            var queryOptions = new UpsertOptions();
-            options?.Invoke(queryOptions);
+            var upsertOptions = new UpsertOptions();
+            options?.Invoke(upsertOptions);
 
-            string url = _upsertBuilder.Build("certificates", queryOptions);
+            string url = _upsertBuilder.Build("certificates", upsertOptions);
             return await _httpFacade.PostAsync<RepositoryCertificateList>(url, request, cancellationToken).
                 ConfigureAwait(false);
 
@@ -51,15 +53,15 @@ namespace ArgoCD.Client.Impl
         /// <summary>
         /// Delete the certificates that match the RepositoryCertificateQuery
         /// </summary>
-        /// <param name="options">Delete options <see cref="CertificateQueryOptions"/></param>
+        /// <param name="options">Delete options <see cref="DeleteCertificateOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<RepositoryCertificateList> DeleteRepositoryCertificateAsync(Action<CertificateQueryOptions> options, CancellationToken cancellationToken = default)
+        public async Task<RepositoryCertificateList> DeleteRepositoryCertificateAsync(Action<DeleteCertificateOptions> options, CancellationToken cancellationToken = default)
         {
-            var queryOptions = new CertificateQueryOptions();
-            options?.Invoke(queryOptions);
+            var deleteOptions = new DeleteCertificateOptions();
+            options?.Invoke(deleteOptions);
 
-            string url = _certificateQueryBuilder.Build("certificates", queryOptions);
+            string url = _certificateDeleteBuilder.Build("certificates", deleteOptions);
             return await _httpFacade.DeleteAsync<RepositoryCertificateList>(url, cancellationToken).
                 ConfigureAwait(false);
         }

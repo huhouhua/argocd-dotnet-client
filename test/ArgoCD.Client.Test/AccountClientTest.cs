@@ -89,7 +89,7 @@ public class AccountClientTest : IAsyncLifetime
     }
 
     [Theory]
-    [MemberData(nameof(InitPermissionData))]
+    [MemberData(nameof(TestPermissionCases))]
     public async Task CheckAccountCanBePermission(string resource, string action, string subresource,string wantValue)
     {
         var  actual = await  _client.CheckAccountPermissionAsync(resource, action, subresource);
@@ -97,7 +97,7 @@ public class AccountClientTest : IAsyncLifetime
         actual.Value.Should().Be(wantValue);
     }
 
-    public static IEnumerable<object[]> InitPermissionData()
+    public static IEnumerable<object[]> TestPermissionCases()
     {
         string[] resources = { "applications", "clusters", "projects", "repositories", "accounts" };
         string[] actions = { "get", "create", "update", "delete" };

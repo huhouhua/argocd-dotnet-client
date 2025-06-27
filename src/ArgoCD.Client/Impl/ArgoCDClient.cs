@@ -95,6 +95,7 @@ namespace ArgoCD.Client.Impl
         {
             var upsertBuilder = new UpsertBuilder();
             var certificateQueryBuilder = new CertificateQueryBuilder();
+            var certificateDeleteBuilder = new CertificateDeleteBuilder();
             var gpgKeyDeleteBuilder = new GPGKeyDeleteBuilder();
             var gpgListQueryBuilder = new GPGListQueryBuilder();
             var repoCredsListQueryBuilder = new RepoCredsListQueryBuilder();
@@ -132,7 +133,7 @@ namespace ArgoCD.Client.Impl
             Notification = new NotificationClient(_httpFacade);
             Session = new SessionClient(_httpFacade);
             Account = new AccountClient(_httpFacade);
-            Certificate = new CertificateClient(_httpFacade, upsertBuilder, certificateQueryBuilder);
+            Certificate = new CertificateClient(_httpFacade, upsertBuilder, certificateQueryBuilder,certificateDeleteBuilder);
             IGPGKey = new GPGKeyClient(_httpFacade, upsertBuilder, gpgKeyDeleteBuilder,gpgListQueryBuilder);
             RepoCreds = new RepoCredsClient(_httpFacade, repoCredsListQueryBuilder, upsertBuilder);
             Cluster = new ClusterClient(_httpFacade,clusterQueryBuilder,clusterUpdateBuilder, upsertBuilder);

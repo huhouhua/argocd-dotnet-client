@@ -33,9 +33,9 @@ namespace ArgoCD.Client
         /// <summary>
         /// Delete the certificates that match the RepositoryCertificateQuery
         /// </summary>
-        /// <param name="options">Delete options <see cref="CertificateQueryOptions"/></param>
+        /// <param name="options">Delete options <see cref="DeleteCertificateOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        Task<RepositoryCertificateList> DeleteRepositoryCertificateAsync(Action<CertificateQueryOptions> options, CancellationToken cancellationToken = default);
+        Task<RepositoryCertificateList> DeleteRepositoryCertificateAsync(Action<DeleteCertificateOptions> options, CancellationToken cancellationToken = default);
     }
 }

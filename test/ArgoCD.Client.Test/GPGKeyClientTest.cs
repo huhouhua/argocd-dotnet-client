@@ -57,7 +57,7 @@ public class GPGKeyClientTest : IAsyncLifetime
     }
 
     [Theory]
-    [MemberData(nameof(GPGKeyData))]
+    [MemberData(nameof(TestGPGKeyCases))]
     public async Task GPGKeyCreate(CreateGPGKeyRequest request,bool wantNull=false)
     {
         var gnuPgPublicKey = await _client.CreateGPKKeyAsync(request, (opt) =>
@@ -111,7 +111,7 @@ public class GPGKeyClientTest : IAsyncLifetime
     }
 
 
-    public static IEnumerable<object[]> GPGKeyData()
+    public static IEnumerable<object[]> TestGPGKeyCases()
     {
         string keyDataWithRsa = File.ReadAllText(Path.Combine(TestDataBasePath, "testkey_rsa.txt"), Encoding.UTF8);
         string keyDataWithEcdsa = File.ReadAllText(Path.Combine(TestDataBasePath, "testkey_ecdsa.txt"), Encoding.UTF8);
