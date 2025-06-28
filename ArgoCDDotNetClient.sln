@@ -34,12 +34,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\format.yml = .github\workflows\format.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{9269D26D-9863-4879-B778-DCA29A69A851}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testconfig", "testconfig", "{E36C4560-968F-4D0F-99EF-ACF082C615E3}"
 	ProjectSection(SolutionItems) = preProject
-		k8s\cluster.yaml = k8s\cluster.yaml
-		k8s\install.yaml = k8s\install.yaml
-		k8s\kubeconfig.yaml = k8s\kubeconfig.yaml
-		k8s\swagger.json = k8s\swagger.json
+		testconfig\cluster.yaml = testconfig\cluster.yaml
+		testconfig\install.yaml = testconfig\install.yaml
+		testconfig\kubeconfig.yaml = testconfig\kubeconfig.yaml
+		testconfig\swagger.json = testconfig\swagger.json
 	EndProjectSection
 EndProject
 Global
@@ -61,9 +61,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8FAC650A-B12D-4749-8B60-777EA57748D6} = {CCF6BF5F-0D0E-47C9-9EF2-CD0101BFF093}
 		{9E78A264-1247-4762-8405-10A6849924EB} = {8FAC650A-B12D-4749-8B60-777EA57748D6}
-		{9269D26D-9863-4879-B778-DCA29A69A851} = {CCF6BF5F-0D0E-47C9-9EF2-CD0101BFF093}
+		{E36C4560-968F-4D0F-99EF-ACF082C615E3} = {CCF6BF5F-0D0E-47C9-9EF2-CD0101BFF093}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B394566F-1FF1-41E4-BEC6-6D15159D584D}

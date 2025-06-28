@@ -37,8 +37,8 @@ namespace ArgoCD.Client.Test.Utilities
         private static JsonSerializerOptions serializerOptions =
             new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };
 
-        private const string InstallFilePath = "/k8s/install.yaml";
-        private const string kubeConfigFilePath = "/k8s/kubeconfig.yaml";
+        private const string InstallFilePath = "/testconfig/install.yaml";
+        private const string kubeConfigFilePath = "/testconfig/kubeconfig.yaml";
         private const string AdminSecretName = "argocd-initial-admin-secret";
         private const string ServerName = "argocd-server";
         private const string NameSpace = "argocd";
