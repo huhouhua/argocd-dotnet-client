@@ -40,7 +40,7 @@ jobs:
         with:
           version: v0.24.0
           kubectl_version: v1.30.4
-          config: ./k8s/cluster.yaml
+          config: ./testconfig/cluster.yaml
 
       - name: Validate kind is up
         run: |
