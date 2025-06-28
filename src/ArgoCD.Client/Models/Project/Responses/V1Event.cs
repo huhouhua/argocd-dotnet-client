@@ -32,12 +32,15 @@ namespace ArgoCD.Client.Models.Project.Responses
 
 
         /// <summary>
-        /// The number of times this event has occurred. +optional
+        /// The number of times this event has occurred
         /// </summary>
         public V1MicroTime EventTime { get; set; }
 
 
-        public V1Time FirstTimestamp { get; set; }
+        /// <summary>
+        /// Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
+        public DateTimeOffset FirstTimestamp { get; set; }
 
 
         /// <summary>
@@ -56,7 +59,10 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// </summary>
         public V1ObjectReference InvolvedObject { get; set; }
 
-        public V1Time LastTimestamp { get; set; }
+        /// <summary>
+        /// Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
+        public DateTimeOffset LastTimestamp { get; set; }
 
         /// <summary>
         /// A human-readable description of the status of this operation. TODO: decide on maximum length. +optional

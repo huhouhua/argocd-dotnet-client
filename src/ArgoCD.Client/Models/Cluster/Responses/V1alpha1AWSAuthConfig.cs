@@ -15,6 +15,11 @@ namespace ArgoCD.Client.Models.Cluster.Responses
         public string ClusterName { get; set; }
 
         /// <summary>
+        /// Profile contains optional role ARN. If set then AWS IAM Authenticator uses the profile to perform cluster operations instead of the default AWS credential provider chain.
+        /// </summary>
+        public string Profile { get; set; }
+
+        /// <summary>
         /// RoleARN contains optional role ARN.If set then AWS IAM Authenticator assume a role to perform cluster operations instead of the default AWS credential provider chain.
         /// </summary>
         public string RoleARN { get; set; }

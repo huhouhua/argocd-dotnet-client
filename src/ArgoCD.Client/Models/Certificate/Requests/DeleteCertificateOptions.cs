@@ -6,11 +6,6 @@ namespace ArgoCD.Client.Models.Certificate.Requests
 {
     public sealed class DeleteCertificateOptions
     {
-        public DeleteCertificateOptions()
-        {
-
-        }
-
         /// <summary>
         /// A file-glob pattern (not regular expression) the host name has to match.
         /// </summary>

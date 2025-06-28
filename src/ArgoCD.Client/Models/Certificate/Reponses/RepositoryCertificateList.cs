@@ -8,8 +8,5 @@ namespace ArgoCD.Client.Models.Certificate.Reponses
     {
         public V1alpha1RepositoryCertificate[] Items { get; set; }
         public V1ListMeta Metadata { get; set; }
-
-        
-
     }
 }

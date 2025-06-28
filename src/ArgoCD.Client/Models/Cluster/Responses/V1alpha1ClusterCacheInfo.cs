@@ -11,7 +11,10 @@ namespace ArgoCD.Client.Models.Cluster.Responses
         /// </summary>
         public string ApisCount { get; set; }
 
-        public V1Time LastCacheSyncTime { get; set; }
+        /// <summary>
+        ///Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
+        public DateTimeOffset LastCacheSyncTime { get; set; }
 
         /// <summary>
         /// ResourcesCount holds number of observed Kubernetes resources

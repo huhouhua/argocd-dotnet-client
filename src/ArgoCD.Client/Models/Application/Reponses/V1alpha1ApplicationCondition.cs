@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 
@@ -6,8 +7,10 @@ namespace ArgoCD.Client.Models.Application.Reponses
     public class V1alpha1ApplicationCondition
     {
 
-        public V1Time LastTransitionTime { get; set; }
-
+        /// <summary>
+        ///Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
+        public DateTimeOffset LastTransitionTime { get; set; }
 
         public string Message { get; set; }
 

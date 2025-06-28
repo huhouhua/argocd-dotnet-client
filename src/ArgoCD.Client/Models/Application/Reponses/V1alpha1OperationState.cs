@@ -1,9 +1,14 @@
+using System;
+
 namespace ArgoCD.Client.Models.Application.Reponses
 {
     public class V1alpha1OperationState
     {
 
-        public V1Time FinishedAt { get; set; }
+        /// <summary>
+        ///Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
+        public DateTimeOffset FinishedAt { get; set; }
 
         /// <summary>
         /// Message holds any pertinent messages when attempting to perform operation (typically errors).
@@ -18,7 +23,10 @@ namespace ArgoCD.Client.Models.Application.Reponses
         public string RetryCount { get; set; }
 
 
-        public V1Time StartedAt { get; set; }
+        /// <summary>
+        ///Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
+        public DateTimeOffset StartedAt { get; set; }
 
 
         public V1alpha1SyncOperationResult SyncResult { get; set; }

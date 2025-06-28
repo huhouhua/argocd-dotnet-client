@@ -13,7 +13,7 @@ namespace ArgoCD.Client.Models.GPKKey.Responses
         /// <summary>
         /// GnuPGPublicKeyList is a collection of GnuPGPublicKey objects
         /// </summary>
-        public GnuPGPublicKeyList Created { get; set; }
+        public V1alpha1GnuPGPublicKeyList Created { get; set; }
 
         /// <summary>
         /// List of key IDs that haven been skipped because they already exist on the server

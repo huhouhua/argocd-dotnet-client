@@ -9,14 +9,9 @@ namespace ArgoCD.Client.Models
         public V1alpha1ConnectionState() { }
 
         /// <summary>
-        /// Time is a wrapper around time.Time which supports correct
-        /// marshaling to YAML and JSON. Wrappers are provided for many
-        /// of the factory methods that the time package offers.
-        /// +protobuf.options.marshal= false
-        /// + protobuf.as= Timestamp
-        /// + protobuf.options.(gogoproto.goproto_stringer) = false
+        /// Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.  +protobuf.options.marshal&#x3D;false +protobuf.as&#x3D;Timestamp +protobuf.options.(gogoproto.goproto_stringer)&#x3D;false
         /// </summary>
-        public V1Time AttemptedAt { get; set; }
+        public DateTimeOffset AttemptedAt { get; set; }
 
         /// <summary>
         /// Message contains human readable information about the connection status

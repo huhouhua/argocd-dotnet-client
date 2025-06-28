@@ -9,11 +9,14 @@ namespace ArgoCD.Client.Models.Application.Reponses
     public class V1alpha1RevisionMetadata
     {
 
-      
+
         public string Author { get; set; }
 
+        /// <summary>
+        /// Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.  +protobuf.options.marshal&#x3D;false +protobuf.as&#x3D;Timestamp +protobuf.options.(gogoproto.goproto_stringer)&#x3D;false
+        /// </summary>
 
-        public V1Time Date { get; set; }
+        public DateTimeOffset Date { get; set; }
 
         /// <summary>
         /// Message contains the message associated with the revision, most likely the commit message.

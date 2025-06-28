@@ -10,7 +10,7 @@ namespace ArgoCD.Client.Models.Cluster.Responses
         /// <summary>
         /// Annotations for cluster secret metadata
         /// </summary>
-        public string[] Annotations { get; set; }
+        public Dictionary<string, string> Annotations { get; set; }
         /// <summary>
         /// Indicates if cluster level resources should be managed. This setting is used only if cluster is connected in a namespaced mode.
         /// </summary>
@@ -36,7 +36,7 @@ namespace ArgoCD.Client.Models.Cluster.Responses
         /// <summary>
         /// Labels for cluster secret metadata
         /// </summary>
-        public string[] Labels { get; set; }
+        public Dictionary<string, string> Labels { get; set; }
 
         /// <summary>
         /// Name of the cluster. If omitted, will use the server address
@@ -54,7 +54,10 @@ namespace ArgoCD.Client.Models.Cluster.Responses
         /// </summary>
         public string Project { get; set; }
 
-        public V1Time RefreshRequestedAt { get; set; }
+        /// <summary>
+        ///Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
+        public DateTimeOffset RefreshRequestedAt { get; set; }
 
         /// <summary>
         ///  Server is the API server URL of the Kubernetes cluster
@@ -69,6 +72,6 @@ namespace ArgoCD.Client.Models.Cluster.Responses
         /// <summary>
         /// Shard contains optional shard number. Calculated on the fly by the application controller if not specified.
         /// </summary>
-        public string Shard { get; set; }
+        public long Shard { get; set; }
     }
 }

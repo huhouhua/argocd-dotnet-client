@@ -18,10 +18,6 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// * who can access these applications(roles, OIDC group claims bindings)
         /// * and what they can do (RBAC policies)
         /// * automation access to these roles(JWT tokens)
-        /// +genclient
-        /// +genclient:noStatus
-        /// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-        /// +kubebuilder:resource:path=appprojects,shortName=appproj;appprojs
         /// </summary>
         public V1alpha1AppProject[] Items { get; set; }
 

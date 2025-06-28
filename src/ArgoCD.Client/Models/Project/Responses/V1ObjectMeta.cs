@@ -26,7 +26,7 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// queryable and should be preserved when modifying objects.
         /// More info: http://kubernetes.io/docs/user-guide/annotations +optional
         /// </summary>
-        public List<string> Annotations { get; set; }
+        public Dictionary<string, string> Annotations { get; set; }
 
         /// <summary>
         /// The name of the cluster which the object belongs to. This is used to distinguish resources with same name
@@ -35,17 +35,20 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// </summary>
         public string ClusterName { get; set; }
 
+        /// <summary>
+        /// Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.  +protobuf.options.marshal&#x3D;false +protobuf.as&#x3D;Timestamp +protobuf.options.(gogoproto.goproto_stringer)&#x3D;false
+        /// </summary>
 
-        public V1Time CreationTimestamp { get; set; }
+        public DateTimeOffset CreationTimestamp { get; set; }
 
         /// <summary>
         /// Number of seconds allowed for this object to gracefully terminate before it will be removed from the system.
         /// Only set when deletionTimestamp is also set. May only be shortened. Read-only. +optional
         /// </summary>
-        public string DeletionGracePeriodSeconds { get; set; }
+        public long DeletionGracePeriodSeconds { get; set; }
 
 
-        public V1Time DeletionTimestamp { get; set; }
+        public DateTimeOffset DeletionTimestamp { get; set; }
 
         /// <summary>
         /// Must be empty before the object is deleted from the registry. Each entry
@@ -83,7 +86,7 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// <summary>
         ///  A sequence number representing a specific generation of the desired state. Populated by the system. Read-only. +optional
         /// </summary>
-        public string Generation { get; set; }
+        public long Generation { get; set; }
 
         /// <summary>
         /// Map of string keys and values that can be used to organize and categorize

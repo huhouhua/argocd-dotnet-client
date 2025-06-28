@@ -1,3 +1,5 @@
+using System;
+
 namespace ArgoCD.Client.Models.Application.Reponses
 {
     public class V1alpha1ApplicationStatus
@@ -15,13 +17,19 @@ namespace ArgoCD.Client.Models.Application.Reponses
         public V1alpha1RevisionHistory[] History { get; set; }
 
 
-        public V1Time ObservedAt { get; set; }
+        /// <summary>
+        ///Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
+        public DateTimeOffset ObservedAt { get; set; }
 
-  
+
         public V1alpha1OperationState OperationState { get; set; }
 
+        /// <summary>
+        ///Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
 
-        public V1Time ReconciledAt { get; set; }
+        public DateTimeOffset ReconciledAt { get; set; }
 
 
         public string ResourceHealthSource { get; set; }
@@ -35,7 +43,7 @@ namespace ArgoCD.Client.Models.Application.Reponses
 
         public string[] SourceTypes { get; set; }
 
-  
+
         public V1alpha1ApplicationSummary Summary { get; set; }
 
 

@@ -2,11 +2,6 @@
 
 public sealed class GPGListQueryOptions
 {
-    public GPGListQueryOptions()
-    {
-
-    }
-
     /// <summary>
     /// The GPG key ID to query for.
     /// </summary>

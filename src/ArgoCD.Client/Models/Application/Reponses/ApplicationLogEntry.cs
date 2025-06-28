@@ -1,3 +1,5 @@
+using System;
+
 namespace ArgoCD.Client.Models.Application.Reponses
 {
     public class ApplicationLogEntry
@@ -11,8 +13,11 @@ namespace ArgoCD.Client.Models.Application.Reponses
 
         public string PodName { get; set; }
 
+        /// <summary>
+        ///Time is a wrapper around time.Time which supports correct marshaling to YAML and JSON.  Wrappers are provided for many of the factory methods that the time package offers.
+        /// </summary>
 
-        public V1Time TimeStamp { get; set; }
+        public DateTimeOffset TimeStamp { get; set; }
 
 
         public string TimeStampStr { get; set; }

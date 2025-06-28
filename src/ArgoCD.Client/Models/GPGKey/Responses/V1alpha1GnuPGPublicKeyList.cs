@@ -5,9 +5,9 @@ using System.Text;
 namespace ArgoCD.Client.Models.GPKKey.Responses
 {
     /// <summary>
-    /// GnuPGPublicKeyList is a collection of GnuPGPublicKey objects
+    /// V1alpha1GnuPGPublicKeyList is a collection of GnuPGPublicKey objects
     /// </summary>
-    public sealed class GnuPGPublicKeyList
+    public sealed class V1alpha1GnuPGPublicKeyList
     {
         /// <summary>
         /// GnuPGPublicKey is a representation of a GnuPG public key

@@ -18,12 +18,19 @@ namespace ArgoCD.Client.Models.Cluster.Responses
         public string BearerToken { get; set; }
 
         /// <summary>
+        /// DisableCompression bypasses automatic GZip compression requests to the server.
+        /// </summary>
+        public bool DisableCompression { get; set; }
+
+        /// <summary>
         /// ExecProviderConfig is config used to call an external command to perform cluster authentication
         /// See: https://godoc.org/k8s.io/client-go/tools/clientcmd/api#ExecConfig
         /// </summary>
         public V1alpha1ExecProviderConfig ExecProviderConfig { get; set; }
 
         public string Password { get; set; }
+
+        public string ProxyUrl { get; set; }
 
         /// <summary>
         /// TLSClientConfig contains settings to enable transport layer security

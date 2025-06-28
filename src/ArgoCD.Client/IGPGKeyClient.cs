@@ -20,7 +20,7 @@ namespace ArgoCD.Client
         /// <param name="options">List GPG key options <see cref="DeleteGPGKeyOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        Task<GnuPGPublicKeyList> GetListAsync(Action<GPGListQueryOptions> options, CancellationToken cancellationToken = default);
+        Task<V1alpha1GnuPGPublicKeyList> GetListAsync(Action<GPGListQueryOptions> options, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get information about specified GPG public key from the server
@@ -34,7 +34,7 @@ namespace ArgoCD.Client
         /// <summary>
         /// Create one or more GPG public keys in the server's configuration
         /// </summary>
-        /// <param name="request">Create GPKKey request</param>
+        /// <param name="request">Create GPK Key request</param>
         /// <param name="options">Create options <see cref="UpsertOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>

@@ -36,14 +36,14 @@ namespace ArgoCD.Client.Impl
         /// <param name="options">List GPG key options <see cref="DeleteGPGKeyOptions"/></param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive, notice of cancellation.</param>
         /// <returns></returns>
-        public async Task<GnuPGPublicKeyList> GetListAsync(Action<GPGListQueryOptions> options,
+        public async Task<V1alpha1GnuPGPublicKeyList> GetListAsync(Action<GPGListQueryOptions> options,
             CancellationToken cancellationToken = default)
         {
             var queryOptions = new GPGListQueryOptions();
             options?.Invoke(queryOptions);
 
             string url = _gpgListQueryBuilder.Build("gpgkeys", queryOptions);
-            return  await _httpFacade.GetAsync<GnuPGPublicKeyList>(url, cancellationToken).
+            return  await _httpFacade.GetAsync<V1alpha1GnuPGPublicKeyList>(url, cancellationToken).
                 ConfigureAwait(false);
         }
 

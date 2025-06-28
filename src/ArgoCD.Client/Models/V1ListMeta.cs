@@ -9,7 +9,7 @@ namespace ArgoCD.Client.Models
     public sealed class V1ListMeta
     {
         /// <summary>
-        /// string continue may be set if the user set a limit on the number of items returned, and indicates that
+        /// continue may be set if the user set a limit on the number of items returned, and indicates that
         /// the server has more data available.The value is opaque and may be used to issue another request
         /// to the endpoint that served this list to retrieve the next set of available objects.Continuing a
         /// consistent list may not be possible if the server configuration has changed or more than a few
@@ -25,7 +25,7 @@ namespace ArgoCD.Client.Models
         /// will be left unset and omitted during serialization.Servers older than v1.15 do not set this field.The intended use of the remainingItemCount
         /// is *estimating* the size of a collection.Clients should not rely on the remainingItemCount to be set or to be exact. +optional
         /// </summary>
-        public string RemainingItemCount { get; set; }
+        public long RemainingItemCount { get; set; }
 
         /// <summary>
         /// String that identifies the server's internal version of this object that can be used by clients to determine when objects have changed.

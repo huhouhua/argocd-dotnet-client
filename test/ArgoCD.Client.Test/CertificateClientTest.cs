@@ -25,7 +25,6 @@ public class CertificateClientTest:IAsyncLifetime
 
     private List<V1alpha1RepositoryCertificate> CertificatesToClean { get; } = new();
 
-
     [Fact]
     public async Task ListCertificatesRetrieved()
     {

@@ -26,6 +26,6 @@ namespace ArgoCD.Client.Models.Project.Responses
         /// 9999-12-31T23:59:59Z inclusive.
         /// </summary>
 
-        public string Seconds { get; set; }
+        public long Seconds { get; set; }
     }
 }
