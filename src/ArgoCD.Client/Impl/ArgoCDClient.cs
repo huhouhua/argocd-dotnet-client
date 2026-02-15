@@ -33,7 +33,7 @@ namespace ArgoCD.Client.Impl
     /// </summary>
     public sealed class ArgoCDClient: IArgoCDClient
     {
-        private  IArgoCDHttpFacade _httpFacade;
+        private IArgoCDHttpFacade _httpFacade;
         private IArgoCDHttpFacade _httpFacadeFromApp;
         private readonly RequestsJsonSerializer _jsonSerializer = new ();
 
@@ -46,7 +46,7 @@ namespace ArgoCD.Client.Impl
         public ArgoCDClient(IHttpClientFactory clientFactory)
         {
             Guard.NotNull(clientFactory, nameof(clientFactory));
-            CreateHttpFacade(() => clientFactory.CreateClient());
+            CreateHttpFacade(clientFactory.CreateClient);
             Setup();
         }
 
