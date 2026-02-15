@@ -25,6 +25,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{8FAC650A-B12D-4749-8B60-777EA57748D6}"
 	ProjectSection(SolutionItems) = preProject
 		.github\release-drafter.yml = .github\release-drafter.yml
+		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{9E78A264-1247-4762-8405-10A6849924EB}"
@@ -32,6 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		.github\workflows\drafter.yml = .github\workflows\drafter.yml
 		.github\workflows\format.yml = .github\workflows\format.yml
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testconfig", "testconfig", "{E36C4560-968F-4D0F-99EF-ACF082C615E3}"
